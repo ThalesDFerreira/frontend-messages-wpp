@@ -12,6 +12,8 @@ const Enviar = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isMessage, setIsMessage] = useState([]);
   const [existsIsMessage, setExistsIsMessage] = useState(false);
+  // const [btnDisable, setBtnDisable] = useState(false);
+
 
   console.log(listSelectedContacts);
 
@@ -51,11 +53,7 @@ const Enviar = () => {
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     if (!selectAll) {
-      const newArray = listContacts.map((contact) => [
-        contact.id,
-        contact.nome,
-        contact.telefone,
-      ]);
+      const newArray = listContacts.map((contact) => (contact.telefone));
       setListSelectedContacts(newArray);
       setIsChecked(true);
       setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
@@ -66,11 +64,27 @@ const Enviar = () => {
     }
   };
 
-  const handleChangeInput = ({ target }) => {
-    if (target.type === 'checkbox') {
-      target.checked = 'checked';
-    }
+  // const handleChangeInput = ({ target }) => {
+  //   if (target.type === 'checkbox') {
+  //     target.checked = true;
+  //   }
+  // };
+
+  const onInputChange = (event) => {
+    // const { name } = event.target;
+    // this.setState({ [name]: event.target.value }, () => this.buttonDisableEnable());
+    console.log(event.target);
   };
+
+  // buttonDisableEnable = () => {
+  //   const { login } = this.state;
+  //   const limitNumber = 3;
+  //   if (login.length >= limitNumber) {
+  //     this.setState({ button: false });
+  //   } else {
+  //     this.setState({ button: true });
+  //   }
+  // }
 
   // const handleSelectContact = (event) => {
   //   const name = event.target.name;
@@ -116,10 +130,11 @@ const Enviar = () => {
                     <td>
                       <input
                         id={contact.id}
+                        name={`checkbox-${contact.id}`}
                         type='checkbox'
                         value={contact.telefone}
                         checked={isChecked}
-                        onChange={(event) => handleChangeInput(event)}
+                        onChange={(event) => onInputChange(event)}
                       />
                     </td>
                     <td>
