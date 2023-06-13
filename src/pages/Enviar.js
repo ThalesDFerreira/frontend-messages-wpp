@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { requestData } from '../services/requests';
 import '../styles/pages/Enviar.css';
 
 const Enviar = () => {
+  const [selectAllText, setSelectAllText] = useState('Selecionar Todos');
   const [listContacts, setListContacts] = useState([]);
   const [listSelectedContacts, setListSelectedContacts] = useState([]);
   const [loadList, setLoadList] = useState(false);
@@ -23,7 +25,7 @@ const Enviar = () => {
         setLoadList(false);
       }
     } catch (error) {
-      setLoadList(false);
+      console.log(error);
     }
   };
 
@@ -37,15 +39,13 @@ const Enviar = () => {
         setExistsIsMessage(false);
       }
     } catch (error) {
-      setExistsIsMessage(false);
+      console.log(error);
     }
   };
 
   useEffect(() => {
     contacts();
     messages();
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelectAll = () => {
@@ -53,64 +53,86 @@ const Enviar = () => {
     if (!selectAll) {
       const newArray = listContacts.map((contact) => [
         contact.id,
+        contact.nome,
         contact.telefone,
       ]);
       setListSelectedContacts(newArray);
       setIsChecked(true);
+      setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
     } else {
       setListSelectedContacts([]);
       setIsChecked(false);
+      setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
     }
   };
 
-  const handleSelectContact = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    if (name === value) {
-      const teste = !event.target.checked;
-      return teste;
+  const handleChangeInput = ({ target }) => {
+    if (target.type === 'checkbox') {
+      target.checked = 'checked';
     }
-    //   setListSelectedContacts((prevSelectedContacts) => [
-    //     ...prevSelectedContacts,
-    //     contact,
-    //   ]);
-    // } else {
-    //   setListSelectedContacts((prevSelectedContacts) =>
-    //     prevSelectedContacts.filter(
-    //       (selectedContact) => selectedContact !== contact
-    //     )
-    //   );
-    // }
   };
+
+  // const handleSelectContact = (event) => {
+  //   const name = event.target.name;
+  //   const value = event.target.value;
+  //   if (name === value) {
+  //     const teste = !event.target.checked;
+  //     return teste;
+  //   }
+  //   setListSelectedContacts((prevSelectedContacts) => [
+  //     ...prevSelectedContacts,
+  //     contact,
+  //   ]);
+  // } else {
+  //   setListSelectedContacts((prevSelectedContacts) =>
+  //     prevSelectedContacts.filter(
+  //       (selectedContact) => selectedContact !== contact
+  //     )
+  //   );
+  // }
+  // };
 
   return (
     <>
       <h1>Formulário de Mensagens</h1>
       <section>
-        <label>Lista de contatos:</label>
+        <h3>Lista de contatos:</h3>
         {loadList ? (
-          <>
-            <input
-              id='select-all'
-              type='checkbox'
-              checked={selectAll}
-              onChange={handleSelectAll}
-            />
-            <label htmlFor='select-all'>Selecionar Todos</label>
-            {listContacts.map((contact) => (
-              <div key={contact.id}>
-                <input
-                  type='checkbox'
-                  name={contact.telefone}
-                  checked={isChecked}
-                  id={contact.id}
-                  value={contact.telefone}
-                  onChange={handleSelectContact}
-                />
-                <label htmlFor={contact.id}>{contact.telefone}</label>
-              </div>
-            ))}
-          </>
+          <div className='container-contats'>
+            <button type='button' name='select-all' onClick={handleSelectAll}>
+              {selectAllText}
+            </button>
+            <table className='table-contats'>
+              <thead>
+                <tr>
+                  <th>Selecionar</th>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listContacts.map((contact) => (
+                  <tr key={contact.id}>
+                    <td>
+                      <input
+                        id={contact.id}
+                        type='checkbox'
+                        value={contact.telefone}
+                        checked={isChecked}
+                        onChange={(event) => handleChangeInput(event)}
+                      />
+                    </td>
+                    <td>
+                      <label htmlFor={contact.id}>{contact.nome}</label>
+                    </td>
+                    <td>
+                      <label htmlFor={contact.id}>{contact.telefone}</label>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p>Adicione pelo menos um contato para continuar!</p>
         )}
