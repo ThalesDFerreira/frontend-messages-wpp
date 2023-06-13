@@ -45,7 +45,7 @@ const Enviar = () => {
     contacts();
     messages();
     return () => {};
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelectAll = () => {
@@ -116,45 +116,46 @@ const Enviar = () => {
         )}
       </section>
       <form>
-        { existsIsMessage ? (
+        {existsIsMessage ? (
           isMessage.map((msn) => (
-          <div>
-            <label>
-              <input
-                type="radio"
-                name={'radioGroup'}
-                value={msn.menssagem}
-                // checked={selectedOption === 'option1'}
-                // onChange={handleOptionChange}
-              />
-              {msn.menssagem}
-          </label>
-        </div>
-        ))) : (
+            <div>
+              <label>
+                <input
+                  type='radio'
+                  name={'radioGroup'}
+                  value={msn.menssagem}
+                  // checked={selectedOption === 'option1'}
+                  // onChange={handleOptionChange}
+                />
+                {msn.menssagem}
+              </label>
+            </div>
+          ))
+        ) : (
           <p>Nenhuma mensagem cadastrada!</p>
         )}
-         
-      <div>
-        <label>
-          <input
-            type="radio"
-            name="option"
-            value="option2"
-            // checked={selectedOption === 'option2'}
-            // onChange={handleOptionChange}
+
+        <div>
+          <label>
+            <input
+              type='radio'
+              name='option'
+              value='option2'
+              // checked={selectedOption === 'option2'}
+              // onChange={handleOptionChange}
+            />
+            Opção 2
+          </label>
+        </div>
+        <div>
+          <textarea
+            // value={message}
+            // onChange={handleMessageChange}
+            placeholder='Digite sua mensagem...'
           />
-          Opção 2
-        </label>
-      </div>
-      <div>
-        <textarea
-          // value={message}
-          // onChange={handleMessageChange}
-          placeholder="Digite sua mensagem..."
-        />
-      </div>
-      <button type="submit">Enviar</button>
-    </form>
+        </div>
+        <button type='submit'>Enviar</button>
+      </form>
     </>
   );
 };

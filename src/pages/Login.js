@@ -26,7 +26,7 @@ const Login = () => {
       verifyApiKeyAuthorization();
       const token = await requestLogin('/login', { usuario, senha });
       setToken(token);
-      localStorage.setItem('token',  token);
+      localStorage.setItem('token', token);
       setIsLogged(true);
       toast.success('Usuário Logado com Sucesso!');
     } catch (error) {

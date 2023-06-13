@@ -9,12 +9,12 @@ import './styles/App.css';
 function App() {
   return (
     <>
-      <Toaster position='top-center' reverseOrder={false} />
+      <Toaster position='top-right' reverseOrder={false} />
       <Routes>
-        <Route path="/cadastro" element={ <Cadastro /> } />
-        <Route path="/enviar" element={ <Enviar /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route exact path="/" element={ <Navigate to="/login" /> } />
+        <Route path='/cadastro' element={<Cadastro />} />
+        <Route path='/enviar' element={<Enviar />} />
+        <Route path='/login' element={<Login />} />
+        <Route exact path='/' element={<Navigate to='/login' />} />
       </Routes>
     </>
   );
