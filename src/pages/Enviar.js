@@ -14,7 +14,6 @@ const Enviar = () => {
   const [existsIsMessage, setExistsIsMessage] = useState(false);
   // const [btnDisable, setBtnDisable] = useState(false);
 
-
   console.log(listSelectedContacts);
 
   const contacts = async () => {
@@ -34,7 +33,7 @@ const Enviar = () => {
   const messages = async () => {
     try {
       const stringMessage = await requestData('/mensagens');
-      if (isMessage.length !== 0) {
+      if (stringMessage.length !== 0) {
         setExistsIsMessage(true);
         setIsMessage(stringMessage);
       } else {
@@ -53,7 +52,7 @@ const Enviar = () => {
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     if (!selectAll) {
-      const newArray = listContacts.map((contact) => (contact.telefone));
+      const newArray = listContacts.map((contact) => contact.telefone);
       setListSelectedContacts(newArray);
       setIsChecked(true);
       setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
@@ -126,10 +125,10 @@ const Enviar = () => {
               </thead>
               <tbody>
                 {listContacts.map((contact) => (
-                  <tr key={contact.id}>
+                  <tr key={`check-table-${contact.id}`}>
                     <td>
                       <input
-                        id={contact.id}
+                        id={`check-${contact.id}`}
                         name={`checkbox-${contact.id}`}
                         type='checkbox'
                         value={contact.telefone}
@@ -138,10 +137,10 @@ const Enviar = () => {
                       />
                     </td>
                     <td>
-                      <label htmlFor={contact.id}>{contact.nome}</label>
+                      <label htmlFor={`check-${contact.id}`}>{contact.nome}</label>
                     </td>
                     <td>
-                      <label htmlFor={contact.id}>{contact.telefone}</label>
+                      <label htmlFor={`check-${contact.id}`}>{contact.telefone}</label>
                     </td>
                   </tr>
                 ))}
@@ -155,41 +154,37 @@ const Enviar = () => {
       <form>
         {existsIsMessage ? (
           isMessage.map((msn) => (
-            <div>
-              <label>
-                <input
-                  type='radio'
-                  name={'radioGroup'}
-                  value={msn.menssagem}
-                  // checked={selectedOption === 'option1'}
-                  // onChange={handleOptionChange}
-                />
-                {msn.menssagem}
-              </label>
+            <div key={`radio-form-${msn.id}`}>
+              <input
+                id={`radio-${msn.id}`}
+                type='radio'
+                name='radioGroup'
+                value={msn.menssagem}
+                // checked={selectedOption === 'option1'}
+                // onChange={handleOptionChange}
+              />
+              <label htmlFor={`radio-${msn.id}`}>{msn.menssagem}</label>
             </div>
           ))
         ) : (
           <p>Nenhuma mensagem cadastrada!</p>
         )}
-
         <div>
-          <label>
-            <input
-              type='radio'
-              name='option'
-              value='option2'
-              // checked={selectedOption === 'option2'}
-              // onChange={handleOptionChange}
-            />
-            Opção 2
-          </label>
-        </div>
-        <div>
+          <input
+            id='radio-message'
+            type='radio'
+            name='radioGroup'
+            value='option2'
+            // checked={selectedOption === 'option2'}
+            // onChange={handleOptionChange}
+          />
+          <label htmlFor='radio-message'>
           <textarea
             // value={message}
             // onChange={handleMessageChange}
             placeholder='Digite sua mensagem...'
           />
+          </label>
         </div>
         <button type='submit'>Enviar</button>
       </form>
