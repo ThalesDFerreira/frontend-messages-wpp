@@ -85,7 +85,6 @@ const Enviar = () => {
 
   return (
     <>
-      <button type='button' onClick={console.log(messages);messages()}>TESTE</button>
       <h1>Formulário de Mensagens</h1>
       <section>
         <label>Lista de contatos:</label>
