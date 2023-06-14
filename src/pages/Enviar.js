@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { requestData } from '../services/requests';
+import toast from 'react-hot-toast';
 import '../styles/pages/Enviar.css';
 
 const Enviar = () => {
@@ -12,9 +13,10 @@ const Enviar = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isMessage, setIsMessage] = useState([]);
   const [existsIsMessage, setExistsIsMessage] = useState(false);
-  // const [btnDisable, setBtnDisable] = useState(false);
+  const [messageSelected, setMessageSelected] = useState('');
 
   console.log(listSelectedContacts);
+  console.log(messageSelected);
 
   const contacts = async () => {
     try {
@@ -69,21 +71,11 @@ const Enviar = () => {
   //   }
   // };
 
-  const onInputChange = (event) => {
+  const handleChangeInput = (event) => {
     // const { name } = event.target;
     // this.setState({ [name]: event.target.value }, () => this.buttonDisableEnable());
-    console.log(event.target);
+    // console.log(event.target);
   };
-
-  // buttonDisableEnable = () => {
-  //   const { login } = this.state;
-  //   const limitNumber = 3;
-  //   if (login.length >= limitNumber) {
-  //     this.setState({ button: false });
-  //   } else {
-  //     this.setState({ button: true });
-  //   }
-  // }
 
   // const handleSelectContact = (event) => {
   //   const name = event.target.name;
@@ -105,6 +97,22 @@ const Enviar = () => {
   // }
   // };
 
+  const handleRadioChange = ({ target }) => {
+    if (target.value.length !== 0 || target.value !== 'on') {
+      const result = target.value;
+      setMessageSelected(result);
+    }
+  };
+
+  const handleEnviarClick = () => {
+    if (listSelectedContacts.length !== 0 && messageSelected.length !== 0) {
+      
+      console.log("deu certo");
+    } else {
+      toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
+    }
+  };
+
   return (
     <>
       <h1>Formulário de Mensagens</h1>
@@ -112,7 +120,12 @@ const Enviar = () => {
         <h3>Lista de contatos:</h3>
         {loadList ? (
           <div className='container-contats'>
-            <button type='button' name='select-all' onClick={handleSelectAll}>
+            <button
+              type='button'
+              id='select-all'
+              name='select-all'
+              onClick={handleSelectAll}
+            >
               {selectAllText}
             </button>
             <table className='table-contats'>
@@ -133,14 +146,18 @@ const Enviar = () => {
                         type='checkbox'
                         value={contact.telefone}
                         checked={isChecked}
-                        onChange={(event) => onInputChange(event)}
+                        onChange={(event) => handleChangeInput(event)}
                       />
                     </td>
                     <td>
-                      <label htmlFor={`check-${contact.id}`}>{contact.nome}</label>
+                      <label htmlFor={`check-${contact.id}`}>
+                        {contact.nome}
+                      </label>
                     </td>
                     <td>
-                      <label htmlFor={`check-${contact.id}`}>{contact.telefone}</label>
+                      <label htmlFor={`check-${contact.id}`}>
+                        {contact.telefone}
+                      </label>
                     </td>
                   </tr>
                 ))}
@@ -151,7 +168,7 @@ const Enviar = () => {
           <p>Adicione pelo menos um contato para continuar!</p>
         )}
       </section>
-      <form>
+      <section>
         {existsIsMessage ? (
           isMessage.map((msn) => (
             <div key={`radio-form-${msn.id}`}>
@@ -160,8 +177,7 @@ const Enviar = () => {
                 type='radio'
                 name='radioGroup'
                 value={msn.menssagem}
-                // checked={selectedOption === 'option1'}
-                // onChange={handleOptionChange}
+                onChange={handleRadioChange}
               />
               <label htmlFor={`radio-${msn.id}`}>{msn.menssagem}</label>
             </div>
@@ -170,24 +186,26 @@ const Enviar = () => {
           <p>Nenhuma mensagem cadastrada!</p>
         )}
         <div>
-          <input
-            id='radio-message'
-            type='radio'
-            name='radioGroup'
-            value='option2'
-            // checked={selectedOption === 'option2'}
-            // onChange={handleOptionChange}
-          />
           <label htmlFor='radio-message'>
-          <textarea
-            // value={message}
-            // onChange={handleMessageChange}
-            placeholder='Digite sua mensagem...'
-          />
+            <input
+              id='radio-message'
+              type='radio'
+              name='radioGroup'
+              onChange={handleRadioChange}
+            />
+            <textarea
+              onChange={handleRadioChange}
+              placeholder='Digite sua mensagem...'
+            />
           </label>
         </div>
-        <button type='submit'>Enviar</button>
-      </form>
+      </section>
+      <button
+        type='button'
+        onClick={handleEnviarClick}
+      >
+        Enviar
+      </button>
     </>
   );
 };

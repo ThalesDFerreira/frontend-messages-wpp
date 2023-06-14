@@ -16,7 +16,6 @@ const Login = () => {
   const [senha, setSenha] = useState('');
   const [isLogged, setIsLogged] = useState(false);
   const [failedTryLogin, setFailedTryLogin] = useState(false);
-  const [redirecionarCadastro, setRedirecionarCadastro] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const login = async (event) => {
@@ -36,10 +35,6 @@ const Login = () => {
     }
   };
 
-  const handleCadastroClick = () => {
-    setRedirecionarCadastro(true);
-  };
-
   const handleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
@@ -49,7 +44,6 @@ const Login = () => {
   }, [usuario, senha]);
 
   if (isLogged) return <Navigate to='/enviar' />;
-  if (redirecionarCadastro) return <Navigate to='/cadastro' />;
 
   return (
     <>
@@ -102,13 +96,6 @@ const Login = () => {
             onClick={(event) => login(event)}
           >
             Entrar
-          </button>
-          <button
-            className='btn-cadastrar'
-            type='submit'
-            onClick={handleCadastroClick}
-          >
-            Cadastre-se
           </button>
           {failedTryLogin ? (
             <>
