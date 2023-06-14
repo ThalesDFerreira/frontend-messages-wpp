@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { requestData } from '../services/requests';
 import toast from 'react-hot-toast';
+import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
 
 const Enviar = () => {
@@ -106,8 +107,7 @@ const Enviar = () => {
 
   const handleEnviarClick = () => {
     if (listSelectedContacts.length !== 0 && messageSelected.length !== 0) {
-      
-      console.log("deu certo");
+      console.log('deu certo');
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }
@@ -115,6 +115,7 @@ const Enviar = () => {
 
   return (
     <>
+      <Header />
       <h1>Formulário de Mensagens</h1>
       <section>
         <h3>Lista de contatos:</h3>
@@ -200,10 +201,7 @@ const Enviar = () => {
           </label>
         </div>
       </section>
-      <button
-        type='button'
-        onClick={handleEnviarClick}
-      >
+      <button type='button' onClick={handleEnviarClick}>
         Enviar
       </button>
     </>
