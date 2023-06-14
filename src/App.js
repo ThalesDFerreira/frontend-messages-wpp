@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
 import CadastroTelefone from './pages/CadastroTelefone';
 import CadastroMensagem from './pages/CadastroMensagem';
 import Enviar from './pages/Enviar';
@@ -10,7 +10,6 @@ import './styles/App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  console.log(isAuthenticated);
 
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
@@ -23,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     verifyUserLogin();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -31,7 +30,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route path='/login' element={<Login />} />
-        <Route path='*' element={<ErroLogin />} />
+        <Route path='not-found' element={<ErroLogin />} />
         {isAuthenticated ? (
           <>
             <Route path='/cadastro-mensagem' element={<CadastroMensagem />} />

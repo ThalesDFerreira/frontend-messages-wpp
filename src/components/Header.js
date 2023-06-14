@@ -9,7 +9,7 @@ import Home from '../assets/home.png';
 
 const Header = () => {
   const onClickChange = () => {
-    <Navigate to='/enviar'/>
+    <Navigate to='/enviar' />;
   };
 
   return (

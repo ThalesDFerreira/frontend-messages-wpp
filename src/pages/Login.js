@@ -20,16 +20,37 @@ const Login = () => {
 
   const login = async (event) => {
     event.preventDefault();
-
     try {
       verifyApiKeyAuthorization();
       const token = await requestLogin('/login', { usuario, senha });
       setToken(token);
       localStorage.setItem('token', token);
+      showLoading(3);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showLoading = (seconds) => {
+    // Exibir indicador de carga
+    console.log('Loading...');
+    // Definir o tempo de espera em milissegundos
+    const milliseconds = seconds * 1000;
+    // Aguardar o tempo especificado antes de executar o código
+    setTimeout(() => {
+      // Código a ser executado após o tempo de espera
+      console.log('Loading Completo');
+      verifyLogin();
+      // Outras ações após o carregamento (se necessário)
+    }, milliseconds);
+  }
+
+  const verifyLogin = () => {
+    const token = localStorage.getItem('token');
+    if (token !== null) {
       setIsLogged(true);
       toast.success('Usuário Logado com Sucesso!');
-    } catch (error) {
-      setFailedTryLogin(true);
+    } else {
       setIsLogged(false);
       toast.error('Por favor, tente novamente!');
     }
@@ -55,7 +76,6 @@ const Login = () => {
               id='usuario-input'
               className='login__login_input'
               type='text'
-              value={usuario}
               onChange={({ target: { value } }) => setUsuario(value)}
               placeholder='Usuário'
             />
@@ -65,7 +85,6 @@ const Login = () => {
               <input
                 id='senha-input'
                 type={mostrarSenha ? 'text' : 'password'}
-                value={senha}
                 onChange={({ target: { value } }) => setSenha(value)}
                 placeholder='Senha'
               />
