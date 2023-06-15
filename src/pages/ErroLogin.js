@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Alert from '../assets/alert.png';
 import Home from '../assets/home.png';
 import '../styles/pages/ErroLogin.css';
 
 const ErroLogin = () => {
-  const [isRedirect, setIsRedirect] = useState(false);
+  const navigate = useNavigate();
 
   const onClickChange = () => {
-    setIsRedirect(true);
+    navigate('/login');
   };
-
-  if (isRedirect) return <Navigate to='/login' />;
 
   return (
     <>

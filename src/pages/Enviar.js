@@ -29,7 +29,12 @@ const Enviar = () => {
         setLoadList(false);
       }
     } catch (error) {
-      console.log(error);
+      toast(
+        'Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        {
+          duration: 4000,
+        }
+      );
     }
   };
 
@@ -43,7 +48,12 @@ const Enviar = () => {
         setExistsIsMessage(false);
       }
     } catch (error) {
-      console.log(error);
+      toast(
+        'Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        {
+          duration: 4000,
+        }
+      );
     }
   };
 
@@ -107,7 +117,7 @@ const Enviar = () => {
 
   const handleEnviarClick = () => {
     if (listSelectedContacts.length !== 0 && messageSelected.length !== 0) {
-      console.log('deu certo');
+      // FAZER REQUST DE ENVIO DE DADOS
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }

@@ -14,6 +14,7 @@ const Login = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [isFailAutenticated, setIsFailAutenticated] = useState(false);
 
   const login = async (event) => {
     event.preventDefault();
@@ -21,9 +22,11 @@ const Login = () => {
       const token = await requestLogin('/login', { usuario, senha });
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
+      setIsFailAutenticated(false);
       toast.success('Usuário Logado com Sucesso!');
     } catch (error) {
       setIsAuthenticated(false);
+      setIsFailAutenticated(true);
       toast.error('Por favor, tente novamente!');
     }
   };
@@ -84,7 +87,7 @@ const Login = () => {
           >
             Entrar
           </button>
-          {isAuthenticated === false ? (
+          {isFailAutenticated ? (
             <>
               <p>O nome de Usuário ou a senha não estão corretos.</p>
               <p>Por favor, tente novamente.</p>

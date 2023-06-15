@@ -1,5 +1,5 @@
 import axios from 'axios';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import 'dotenv/config';
 
 const API_KEY = process.env.API_KEY;
@@ -16,17 +16,17 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_PORT,
 });
 
-export const setToken = (token) => {
-  api.defaults.headers.common.Authorization = token;
-};
+// export const setToken = (token) => {
+//   api.defaults.headers.common.Authorization = token;
+// };
 
-export const verifyApiKeyAuthorization = () => {
-  const message = 'Não autorizado';
-  const apiKey = api.defaults.headers.common.apikey;
-  const authorization = api.defaults.headers.common.authorization;
-  if (apiKey !== API_KEY) return toast.error(message);
-  if (authorization !== API_AUTH) return toast.error(message);
-};
+// export const verifyApiKeyAuthorization = () => {
+//   const message = 'Não autorizado';
+//   const apiKey = api.defaults.headers.common.apikey;
+//   const authorization = api.defaults.headers.common.authorization;
+//   if (apiKey !== API_KEY) return toast.error(message);
+//   if (authorization !== API_AUTH) return toast.error(message);
+// };
 
 export const requestData = async (endpoint) => {
   const { data } = await api.get(endpoint, CONFIG);
