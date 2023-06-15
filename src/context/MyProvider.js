@@ -4,10 +4,10 @@ import MyContext from './MyContext';
 const MyProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  console.log(isAuthenticated);
+
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
-    console.log(localStorage.getItem('token'));
-    console.log(token !== null);
     if (token !== null) {
       setIsAuthenticated(true);
     } else {
@@ -17,10 +17,11 @@ const MyProvider = ({ children }) => {
 
   useEffect(() => {
     verifyUserLogin();
-  }, []);
+  }, [isAuthenticated]);
 
   const state = {
     isAuthenticated,
+    setIsAuthenticated,
   };
 
   return <MyContext.Provider value={state}>{children}</MyContext.Provider>;

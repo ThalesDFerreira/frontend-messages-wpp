@@ -1,28 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CadastroTelefone from './pages/CadastroTelefone';
 import CadastroMensagem from './pages/CadastroMensagem';
 import Enviar from './pages/Enviar';
 import Login from './pages/Login';
 import ErroLogin from './pages/ErroLogin';
+import MyContext from './context/MyContext';
 import { Toaster } from 'react-hot-toast';
 import './styles/App.css';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const verifyUserLogin = () => {
-    const token = localStorage.getItem('token');
-    if (token !== null) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  };
-
-  useEffect(() => {
-    verifyUserLogin();
-  }, [isAuthenticated]);
+  const { isAuthenticated } = useContext(MyContext);
 
   return (
     <>
@@ -30,7 +18,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route path='/login' element={<Login />} />
-        <Route path='not-found' element={<ErroLogin />} />
+        <Route path='*' element={<ErroLogin />} />
         {isAuthenticated ? (
           <>
             <Route path='/cadastro-mensagem' element={<CadastroMensagem />} />

@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import {
-  requestLogin,
-  setToken,
-  verifyApiKeyAuthorization,
-} from '../services/requests';
+import { requestLogin } from '../services/requests';
+import MyContext from '../context/MyContext';
 import toast from 'react-hot-toast';
 import mostrar from '../assets/mostrar.png';
 import ocultar from '../assets/ocultar.png';
@@ -12,46 +9,23 @@ import '../styles/pages/Login.css';
 import 'dotenv/config';
 
 const Login = () => {
+  const { isAuthenticated, setIsAuthenticated } = useContext(MyContext);
+
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
-  const [isLogged, setIsLogged] = useState(false);
-  const [failedTryLogin, setFailedTryLogin] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const login = async (event) => {
     event.preventDefault();
     try {
-      verifyApiKeyAuthorization();
       const token = await requestLogin('/login', { usuario, senha });
-      setToken(token);
       localStorage.setItem('token', token);
-      showLoading(3);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const showLoading = (seconds) => {
-    // Exibir indicador de carga
-    console.log('Loading...');
-    // Definir o tempo de espera em milissegundos
-    const milliseconds = seconds * 1000;
-    // Aguardar o tempo especificado antes de executar o código
-    setTimeout(() => {
-      // Código a ser executado após o tempo de espera
-      console.log('Loading Completo');
-      verifyLogin();
-      // Outras ações após o carregamento (se necessário)
-    }, milliseconds);
-  }
-
-  const verifyLogin = () => {
-    const token = localStorage.getItem('token');
-    if (token !== null) {
-      setIsLogged(true);
+      localStorage.setItem('isAuthenticated', 'true');
+      setIsAuthenticated(true);
       toast.success('Usuário Logado com Sucesso!');
-    } else {
-      setIsLogged(false);
+    } catch (error) {
+      localStorage.setItem('isAuthenticated', 'false');
+      setIsAuthenticated(false);
       toast.error('Por favor, tente novamente!');
     }
   };
@@ -60,11 +34,7 @@ const Login = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  useEffect(() => {
-    setFailedTryLogin(false);
-  }, [usuario, senha]);
-
-  if (isLogged) return <Navigate to='/enviar' />;
+  if (isAuthenticated) return <Navigate to='/enviar' />;
 
   return (
     <>
@@ -116,7 +86,7 @@ const Login = () => {
           >
             Entrar
           </button>
-          {failedTryLogin ? (
+          {isAuthenticated === false ? (
             <>
               <p>O nome de Usuário ou a senha não estão corretos.</p>
               <p>Por favor, tente novamente.</p>
