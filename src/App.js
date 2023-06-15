@@ -17,16 +17,26 @@ const App = () => {
       <Toaster position='top-right' reverseOrder={false} />
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='*' element={<ErroLogin />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='*' element={<ErroLogin />} />
         {isAuthenticated ? (
           <>
-            <Route path='/cadastro-mensagem' element={<CadastroMensagem />} />
-            <Route path='/cadastro-telefone' element={<CadastroTelefone />} />
-            <Route path='/enviar' element={<Enviar />} />
+            <Route
+              exact
+              path='/cadastro-mensagem'
+              element={<CadastroMensagem />}
+            />
+            <Route
+              exact
+              path='/cadastro-telefone'
+              element={<CadastroTelefone />}
+            />
+            <Route exact path='/enviar' element={<Enviar />} />
           </>
         ) : (
-          <Route path='*' element={<Navigate to='/not-found' />} />
+          <>
+            <Route exact path='*' element={<ErroLogin />} />
+          </>
         )}
       </Routes>
     </>
