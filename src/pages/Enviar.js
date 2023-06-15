@@ -4,6 +4,7 @@ import { requestData } from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
+import Footer from '../components/Footer';
 
 const Enviar = () => {
   const [selectAllText, setSelectAllText] = useState('Selecionar Todos');
@@ -30,7 +31,7 @@ const Enviar = () => {
       }
     } catch (error) {
       toast(
-        'Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 4000,
         }
@@ -49,7 +50,7 @@ const Enviar = () => {
       }
     } catch (error) {
       toast(
-        'Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 4000,
         }
@@ -124,13 +125,13 @@ const Enviar = () => {
   };
 
   return (
-    <>
+    <div>
       <Header />
       <h1>Formulário de Mensagens</h1>
-      <section>
+      <div>
         <h3>Lista de contatos:</h3>
         {loadList ? (
-          <div className='container-contats'>
+          <section className='container-contats'>
             <button
               type='button'
               id='select-all'
@@ -144,7 +145,7 @@ const Enviar = () => {
                 <tr>
                   <th>Selecionar</th>
                   <th>Nome</th>
-                  <th>Telefone</th>
+                  <th>Telefones</th>
                 </tr>
               </thead>
               <tbody>
@@ -174,28 +175,49 @@ const Enviar = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </section>
         ) : (
           <p>Adicione pelo menos um contato para continuar!</p>
         )}
-      </section>
+      </div>
       <section>
-        {existsIsMessage ? (
-          isMessage.map((msn) => (
-            <div key={`radio-form-${msn.id}`}>
-              <input
-                id={`radio-${msn.id}`}
-                type='radio'
-                name='radioGroup'
-                value={msn.menssagem}
-                onChange={handleRadioChange}
-              />
-              <label htmlFor={`radio-${msn.id}`}>{msn.menssagem}</label>
-            </div>
-          ))
-        ) : (
-          <p>Nenhuma mensagem cadastrada!</p>
-        )}
+        <h3>Lista de mensagens:</h3>
+        <table className='table-mensages'>
+          <thead>
+            <tr>
+              <th>Selecionar</th>
+              <th>Nome</th>
+              <th>Mensagens</th>
+            </tr>
+          </thead>
+          <tbody>
+            {existsIsMessage ? (
+              isMessage.map((msn) => (
+                <tr key={`radio-form-${msn.id}`}>
+                  <td>
+                    <input
+                      id={`radio-${msn.id}`}
+                      type='radio'
+                      name='radioGroup'
+                      value={msn.menssagem}
+                      onChange={handleRadioChange}
+                    />
+                  </td>
+                  <td>
+                    <label htmlFor={`radio-${msn.id}`}>{msn.nome}</label>
+                  </td>
+                  <td>
+                    <label htmlFor={`radio-${msn.id}`}>{msn.menssagem}</label>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td>Nenhuma mensagem cadastrada!</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
         <div>
           <label htmlFor='radio-message'>
             <input
@@ -214,7 +236,8 @@ const Enviar = () => {
       <button type='button' onClick={handleEnviarClick}>
         Enviar
       </button>
-    </>
+      <Footer />
+    </div>
   );
 };
 

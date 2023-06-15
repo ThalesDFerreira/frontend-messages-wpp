@@ -6,9 +6,12 @@ import Home from '../assets/home.png';
 import Telefone from '../assets/add_contacts.png';
 import Message from '../assets/message.png';
 import Sair from '../assets/logout.png';
+// import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+  // const location = useLocation();
+  // const verifyRouteLogin = location.pathname === '/login';
 
   const { setIsAuthenticated } = useContext(MyContext);
 

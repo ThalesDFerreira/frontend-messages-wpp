@@ -7,6 +7,7 @@ import mostrar from '../assets/mostrar.png';
 import ocultar from '../assets/ocultar.png';
 import '../styles/pages/Login.css';
 import 'dotenv/config';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(MyContext);
@@ -95,6 +96,7 @@ const Login = () => {
           ) : null}
         </form>
       </section>
+      <Footer />
     </>
   );
 };

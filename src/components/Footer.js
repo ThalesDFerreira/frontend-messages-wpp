@@ -1,13 +1,21 @@
 import React from 'react';
-// import { requestData } from '../services/requests';
-// import toast from 'react-hot-toast';
 import '../styles/components/Footer.css';
 
 const Footer = () => {
+  const empresa = {
+    nome: 'Minha Empresa',
+    email: 'contato@minhaempresa.com',
+    telefone: '(00) 1234-5678'
+  };
+
   return (
-    <>
-      <p>Page Footer</p>
-    </>
+    <footer>
+      <div>
+        <h3>{empresa.nome}</h3>
+        <p>Email: {empresa.email}</p>
+        <p>Telefone: {empresa.telefone}</p>
+      </div>
+    </footer>
   );
 };
 

@@ -3,12 +3,14 @@ import React from 'react';
 // import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/CadastroTelefone.css';
+import Footer from '../components/Footer';
 
 const CadastroTelefone = () => {
   return (
     <>
       <Header />
       <p>Page Cadastro Telefone</p>
+      <Footer />
     </>
   );
 };
