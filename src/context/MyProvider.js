@@ -3,8 +3,9 @@ import MyContext from './MyContext';
 
 const MyProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  console.log(isAuthenticated);
+  const [redirectBtnHome, setRedirectBtnHome] = useState(false);
+  const [redirectBtnTelefone, setRedirectBtnTelefone] = useState(false);
+  const [redirectBtnMensagem, setRedirectBtnMensagem] = useState(false);
 
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
@@ -22,6 +23,12 @@ const MyProvider = ({ children }) => {
   const state = {
     isAuthenticated,
     setIsAuthenticated,
+    redirectBtnHome,
+    setRedirectBtnHome,
+    redirectBtnTelefone,
+    setRedirectBtnTelefone,
+    redirectBtnMensagem,
+    setRedirectBtnMensagem,
   };
 
   return <MyContext.Provider value={state}>{children}</MyContext.Provider>;

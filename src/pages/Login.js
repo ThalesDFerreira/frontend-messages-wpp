@@ -20,11 +20,9 @@ const Login = () => {
     try {
       const token = await requestLogin('/login', { usuario, senha });
       localStorage.setItem('token', token);
-      localStorage.setItem('isAuthenticated', 'true');
       setIsAuthenticated(true);
       toast.success('Usuário Logado com Sucesso!');
     } catch (error) {
-      localStorage.setItem('isAuthenticated', 'false');
       setIsAuthenticated(false);
       toast.error('Por favor, tente novamente!');
     }
