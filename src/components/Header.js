@@ -10,8 +10,6 @@ import Sair from '../assets/logout.png';
 
 const Header = () => {
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const verifyRouteLogin = location.pathname === '/login';
 
   const { setIsAuthenticated } = useContext(MyContext);
 
