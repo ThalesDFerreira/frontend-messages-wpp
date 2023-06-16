@@ -34,14 +34,8 @@ const CadastroMensagem = () => {
 
   const btnRequestInsertMessages = async () => {
     try {
-      if (
-        listMessages.some(
-          (msn) =>
-            (msn.nome === nome && msn.menssagem === menssagem) ||
-            msn.menssagem === menssagem
-        )
-      ) {
-        toast.error('Mensagem já existente!');
+      if (listMessages.some((msn) => msn.menssagem === menssagem)) {
+        return toast.error('Mensagem já existente!');
       } else {
         await requestInsert('/mensagens', { nome, menssagem });
         requestDataMessages();
@@ -157,6 +151,7 @@ const CadastroMensagem = () => {
                   type='text'
                   onChange={({ target: { value } }) => setNome(value)}
                   value={nome}
+                  placeholder='Digite aqui ...'
                 />
               </td>
               <td>
@@ -164,6 +159,7 @@ const CadastroMensagem = () => {
                   type='text'
                   onChange={({ target: { value } }) => setMenssagem(value)}
                   value={menssagem}
+                  placeholder='Digite aqui ...'
                 />
               </td>
               <td>
@@ -247,6 +243,7 @@ const CadastroMensagem = () => {
                     type='text'
                     onChange={({ target: { value } }) => setNomeUpdate(value)}
                     value={nomeUpdate}
+                    placeholder='Digite aqui ...'
                   />
                 </td>
                 <td>
@@ -256,6 +253,7 @@ const CadastroMensagem = () => {
                       setMenssagemUpdate(value)
                     }
                     value={menssagemUpdate}
+                    placeholder='Digite aqui ...'
                   />
                 </td>
                 <td>
