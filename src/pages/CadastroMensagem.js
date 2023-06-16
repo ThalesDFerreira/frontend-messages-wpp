@@ -114,7 +114,7 @@ const CadastroMensagem = () => {
 
   const btnRequestDeleteMessages = () => {
     try {
-      console.log(messageSelectedDelete);
+      console.log(Number(messageSelectedDelete));
       // await requestInsert('/mensagens', { nome, menssagem });
       // requestDataMessages();
       toast.success('Mensagem excluída com Sucesso!');
