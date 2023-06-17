@@ -5,15 +5,15 @@ const Footer = () => {
   const empresa = {
     nome: 'Minha Empresa',
     email: 'contato@minhaempresa.com',
-    telefone: '(00) 1234-5678'
+    telefone: '(00) 1234-5678',
   };
 
   return (
-    <footer>
-      <div>
-        <h3>{empresa.nome}</h3>
-        <p>Email: {empresa.email}</p>
-        <p>Telefone: {empresa.telefone}</p>
+    <footer className=''>
+      <div className=''>
+        <h3 className=''>{empresa.nome}</h3>
+        <p className=''>Email: {empresa.email}</p>
+        <p className=''>Telefone: {empresa.telefone}</p>
       </div>
     </footer>
   );
