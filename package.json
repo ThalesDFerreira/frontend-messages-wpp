@@ -42,8 +42,10 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "eslint-plugin-sonarjs": "0.10.0",
     "jest": "26.6.0",
+    "postcss": "^8.4.24",
     "stylelint": "13.8.0",
     "stylelint-order": "4.1.0",
     "tailwindcss": "^3.3.2"
