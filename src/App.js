@@ -19,7 +19,8 @@ const App = () => {
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='*' element={<ErroLogin />} />
-        {isAuthenticated ? (
+        {/* MUDAR PARA "isFailAutenticated" */}
+        {true ? (
           <>
             <Route
               exact

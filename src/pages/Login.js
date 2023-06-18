@@ -39,7 +39,7 @@ const Login = () => {
   if (isAuthenticated) return <Navigate to='/enviar' />;
 
   return (
-    <>
+    <div className='container-login'>
       <section className='user-login-area w-full h-12 flex justify-center items-center text-slate-100'>
         <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-90'>
           <h1 className='text-4xl mb-6 text-center font-bold'>Área do usuário</h1>
@@ -47,7 +47,7 @@ const Login = () => {
             Usuário:{' '}
             <input
               id='usuario-input'
-              className='login__login_input p-1 w-56'
+              className='login__login_input p-1 w-36'
               type='text'
               onChange={({ target: { value } }) => setUsuario(value)}
               placeholder='Digite seu usuário...'
@@ -57,7 +57,7 @@ const Login = () => {
             <label htmlFor='senha-input'>
               Senha:{' '}
               <input
-                className='login__login_input p-1 w-56'
+                className='login__login_input p-1 w-36'
                 id='senha-input'
                 type={mostrarSenha ? 'text' : 'password'}
                 onChange={({ target: { value } }) => setSenha(value)}
@@ -95,16 +95,20 @@ const Login = () => {
           </div>
           {isFailAutenticated ? (
             <>
-              <p className='text-red-600'>
-                O nome de Usuário ou a senha não estão corretos.
+              <p className='text-red-600 text-center'>
+                O nome de Usuário ou
               </p>
-              <p className='text-red-600'>Por favor, tente novamente.</p>
+              <p className='text-red-600 text-center'>
+                a senha não estão corretos.
+              </p>
+              <br/>
+              <p className='text-red-600 text-center'>Por favor, tente novamente.</p>
             </>
           ) : null}
         </form>
       </section>
       <Footer />
-    </>
+    </div>
   );
 };
 
