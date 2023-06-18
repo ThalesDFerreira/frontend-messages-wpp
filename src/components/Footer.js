@@ -9,14 +9,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className='bg-red-600 text-white text-center py-6'>
-      <div className='container mx-auto flex justify-end'>
-        <h3 className=''>{empresa.nome}</h3>
-        <p className=''>Email: {empresa.email}</p>
-        <p className='text-white'>
-          WhatsApp:{' '}
+    <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-end py-3 p-4'>
+      <div className='container mx-auto text-sm inset-y-0 right-0'>
+        <h3>{empresa.nome}</h3>
+        <p>{empresa.email}</p>
+        <p>
           <a
-            className=''
+          
             href='https://api.whatsapp.com/send?phone=5516992746725'
             target='_blank'
             rel='noopener noreferrer'

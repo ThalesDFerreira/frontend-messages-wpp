@@ -40,58 +40,65 @@ const Login = () => {
 
   return (
     <>
-      <section className='user-login-area'>
-        <form>
-          <h1>Área do usuário</h1>
+      <section className='user-login-area w-full h-12 flex justify-center items-center text-slate-100'>
+        <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-90'>
+          <h1 className='text-4xl mb-6 text-center font-bold'>Área do usuário</h1>
           <label htmlFor='usuario-input'>
+            Usuário:{' '}
             <input
               id='usuario-input'
-              className='login__login_input'
+              className='login__login_input p-1 w-56'
               type='text'
               onChange={({ target: { value } }) => setUsuario(value)}
-              placeholder='Usuário'
+              placeholder='Digite seu usuário...'
             />
           </label>
-          <div className='senha-input-wrapper'>
+          <div className='senha-input-wrapper flex p-3'>
             <label htmlFor='senha-input'>
+              Senha:{' '}
               <input
+                className='login__login_input p-1 w-56'
                 id='senha-input'
                 type={mostrarSenha ? 'text' : 'password'}
                 onChange={({ target: { value } }) => setSenha(value)}
-                placeholder='Senha'
+                placeholder='Digite sua senha...'
               />
             </label>
             <button
               type='button'
-              className='mostrar-senha-button'
+              className='mostrar-senha-button bg-white rounded-2xl w-6 h-6 ml-2 mt-1 bg-opacity-90'
               onClick={handleMostrarSenha}
             >
               {mostrarSenha ? (
                 <img
-                  className='mostrar-ocultar-senha'
+                  className='mostrar-ocultar-senha w-6 h-6 p-1'
                   src={mostrar}
                   alt='Mostrar'
                 ></img>
               ) : (
                 <img
-                  className='mostrar-ocultar-senha'
+                  className='mostrar-ocultar-senha w-6 h-6 p-1'
                   src={ocultar}
                   alt='Ocultar'
                 ></img>
               )}
             </button>
           </div>
-          <button
-            className='btn-entrar'
-            type='submit'
-            onClick={(event) => login(event)}
-          >
-            Entrar
-          </button>
+          <div className='flex justify-center'>
+            <button
+              className='btn-entrar text-center mb-2 bg-blue-400 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
+              type='submit'
+              onClick={(event) => login(event)}
+            >
+              Entrar
+            </button>
+          </div>
           {isFailAutenticated ? (
             <>
-              <p>O nome de Usuário ou a senha não estão corretos.</p>
-              <p>Por favor, tente novamente.</p>
+              <p className='text-red-600'>
+                O nome de Usuário ou a senha não estão corretos.
+              </p>
+              <p className='text-red-600'>Por favor, tente novamente.</p>
             </>
           ) : null}
         </form>

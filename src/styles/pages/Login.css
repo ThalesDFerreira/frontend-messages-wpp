@@ -96,3 +96,11 @@ p {
   height: 25px;
   color: white;
 } */
+.user-login-area {
+  background-image: url(../../assets/tumb.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 84.1vh;
+  width: 100%;
+}
