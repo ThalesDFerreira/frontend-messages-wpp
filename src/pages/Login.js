@@ -49,7 +49,7 @@ const Login = () => {
             Usuário:{' '}
             <input
               id='usuario-input'
-              className='login__login_input p-1 w-36 text-black'
+              className='login__login_input p-1 w-36 text-black rounded-md'
               type='text'
               onChange={({ target: { value } }) => setUsuario(value)}
               placeholder='Digite seu usuário...'
@@ -59,7 +59,7 @@ const Login = () => {
             <label htmlFor='senha-input'>
               Senha:{' '}
               <input
-                className='login__login_input p-1 w-36 text-black'
+                className='login__login_input p-1 w-36 text-black rounded-md'
                 id='senha-input'
                 type={mostrarSenha ? 'text' : 'password'}
                 onChange={({ target: { value } }) => setSenha(value)}
