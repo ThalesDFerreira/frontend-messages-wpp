@@ -11,7 +11,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-3 p-4'>
+    <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4'>
       <div className='container mx-auto text-sm inset-y-0 right-0'>
         <h3 className='flex justify-end'>{empresa.nome}</h3>
         <div className='flex justify-end'>
