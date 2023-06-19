@@ -127,16 +127,26 @@ const Enviar = () => {
   return (
     <div className='container-enviar'>
       <Header />
-      <div className='container-form'>
+      <div className='container-form p-2'>
         <h1 className='flex justify-center text-2xl mb-3'>
           Formulário de Envio
         </h1>
-        <div className='flex justify-between'>
-          <div>
-            <h3>Lista de contatos:</h3>
+        <div className='flex justify-center p-1 mb-6'>
+          <button
+            className='md:text-base rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+            type='button'
+            onClick={handleEnviarClick}
+          >
+            Enviar Mensagem
+          </button>
+        </div>
+        <div className='flex-col ml-5 mr-5 md:flex justify-between'>
+          <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-96'>
+            <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
             {loadList ? (
               <section className='container-contats'>
                 <button
+                  className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
                   type='button'
                   id='select-all'
                   name='select-all'
@@ -148,7 +158,7 @@ const Enviar = () => {
                   <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
                     <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                       <div className='overflow-hidden'>
-                        <table className='table-contats min-w-full text-center text-sm font-light'>
+                        <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
                           <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                             <tr>
                               <th scope='col' className='px-6 py-4'>
@@ -200,68 +210,95 @@ const Enviar = () => {
                 </div>
               </section>
             ) : (
-              <p>Adicione pelo menos um contato para continuar!</p>
+              <div className='flex justify-center mt-10'>
+                <p>Adicione pelo menos um contato para continuar!</p>
+              </div>
             )}
           </div>
-          <section>
-            <h3>Lista de mensagens:</h3>
-            <table className='table-mensages'>
-              <thead>
-                <tr>
-                  <th>Selecionar</th>
-                  <th>Nome</th>
-                  <th>Mensagens</th>
-                </tr>
-              </thead>
-              <tbody>
-                {existsIsMessage ? (
-                  isMessage.map((msn) => (
-                    <tr key={`radio-form-${msn.id}`}>
-                      <td>
-                        <input
-                          id={`radio-${msn.id}`}
-                          type='radio'
-                          name='radioGroup'
-                          value={msn.menssagem}
-                          onChange={handleRadioChange}
-                        />
-                      </td>
-                      <td>
-                        <label htmlFor={`radio-${msn.id}`}>{msn.nome}</label>
-                      </td>
-                      <td>
-                        <label htmlFor={`radio-${msn.id}`}>
-                          {msn.menssagem}
-                        </label>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td>Nenhuma mensagem cadastrada!</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            <div>
+          <section className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 overflow-auto h-96'>
+            <h3 className='flex justify-center'>Lista de mensagens:</h3>
+            <div className='flex flex-col'>
+              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                  <div className='overflow-hidden'>
+                    <table className='table-mensages min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                        <tr>
+                          <th scope='col' className='px-6 py-4'>
+                            Selecionar
+                          </th>
+                          <th scope='col' className='px-6 py-4'>
+                            Nome
+                          </th>
+                          <th scope='col' className='px-6 py-4'>
+                            Mensagens
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {existsIsMessage ? (
+                          isMessage.map((msn) => (
+                            <tr
+                              className='border-b dark:border-neutral-500'
+                              key={`radio-form-${msn.id}`}
+                            >
+                              <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                                <input
+                                  id={`radio-${msn.id}`}
+                                  type='radio'
+                                  name='radioGroup'
+                                  value={msn.menssagem}
+                                  onChange={handleRadioChange}
+                                />
+                              </td>
+                              <td className='whitespace-nowrap  px-6 py-4'>
+                                <label htmlFor={`radio-${msn.id}`}>
+                                  {msn.nome}
+                                </label>
+                              </td>
+                              <td className='whitespace-nowrap  px-6 py-4'>
+                                <label htmlFor={`radio-${msn.id}`}>
+                                  {msn.menssagem}
+                                </label>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr className='border-b dark:border-neutral-500'>
+                            <td className='whitespace-nowrap  px-6 py-4 font-medium'>Nenhuma mensagem cadastrada!</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='flex justify-between mb-5'>
+              <div className='flex justify-center items-center ml-12'>
               <label htmlFor='radio-message'>
                 <input
+                  className='p-2 flex justify-center items-center'
                   id='radio-message'
                   type='radio'
                   name='radioGroup'
                   onChange={handleRadioChange}
                 />
+                </label>
+                </div>
+                <div className='flex justify-center items-center'>
+                  <p className='p-2'>Escreva sua mensagem</p>
+                </div>
+                <div className='flex justify-center items-center w-72'>
                 <textarea
+                  className='p-2 w-full h-20'
                   onChange={handleRadioChange}
                   placeholder='Digite sua mensagem...'
                 />
-              </label>
+                </div>
             </div>
           </section>
         </div>
-        <button type='button' onClick={handleEnviarClick}>
-          Enviar
-        </button>
       </div>
       <Footer />
     </div>

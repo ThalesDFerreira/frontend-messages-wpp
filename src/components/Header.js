@@ -32,8 +32,8 @@ const Header = () => {
   };
 
   return (
-    <div className='flex justify-between bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4 text-xs h-20'>
-      <nav>
+    <div className='flex justify-between bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4 text-xs h-24'>
+      <nav className='mt-2'>
         <div>
           <button type='button' onClick={onClickHome}>
             <img
@@ -45,12 +45,12 @@ const Header = () => {
           </button>
         </div>
       </nav>
-      <div>
-        <h1 className='w-42 h-14 flex items-center text-slate-100 text-2xl font-bold'>
+      <div className='mt-2'>
+        <h1 className='w-42 h-14 flex items-center text-slate-100 text-base font-bold md:text-xl'>
           WhatsApp Send
         </h1>
       </div>
-      <nav className='flex justify-between gap-4'>
+      <nav className='flex justify-between gap-4 mt-2'>
         <div>
           <button type='button' onClick={onClickTelefone}>
             <img
