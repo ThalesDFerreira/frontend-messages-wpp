@@ -125,117 +125,144 @@ const Enviar = () => {
   };
 
   return (
-    <div>
+    <div className='container-enviar'>
       <Header />
-      <h1>Formulário de Mensagens</h1>
-      <div>
-        <h3>Lista de contatos:</h3>
-        {loadList ? (
-          <section className='container-contats'>
-            <button
-              type='button'
-              id='select-all'
-              name='select-all'
-              onClick={handleSelectAll}
-            >
-              {selectAllText}
-            </button>
-            <table className='table-contats'>
+      <div className='container-form'>
+        <h1 className='flex justify-center text-2xl mb-3'>
+          Formulário de Envio
+        </h1>
+        <div className='flex justify-between'>
+          <div>
+            <h3>Lista de contatos:</h3>
+            {loadList ? (
+              <section className='container-contats'>
+                <button
+                  type='button'
+                  id='select-all'
+                  name='select-all'
+                  onClick={handleSelectAll}
+                >
+                  {selectAllText}
+                </button>
+                <div className='flex flex-col'>
+                  <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                    <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                      <div className='overflow-hidden'>
+                        <table className='table-contats min-w-full text-center text-sm font-light'>
+                          <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                            <tr>
+                              <th scope='col' className='px-6 py-4'>
+                                Selecionar
+                              </th>
+                              <th scope='col' className=' px-6 py-4'>
+                                Nome
+                              </th>
+                              <th scope='col' className=' px-6 py-4'>
+                                Telefones
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {listContacts.map((contact) => (
+                              <tr
+                                className='border-b dark:border-neutral-500'
+                                key={`check-table-${contact.id}`}
+                              >
+                                <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                                  <input
+                                    id={`check-${contact.id}`}
+                                    name={`checkbox-${contact.id}`}
+                                    type='checkbox'
+                                    value={contact.telefone}
+                                    checked={isChecked}
+                                    onChange={(event) =>
+                                      handleChangeInput(event)
+                                    }
+                                  />
+                                </td>
+                                <td className='whitespace-nowrap  px-6 py-4'>
+                                  <label htmlFor={`check-${contact.id}`}>
+                                    {contact.nome}
+                                  </label>
+                                </td>
+                                <td className='whitespace-nowrap  px-6 py-4'>
+                                  <label htmlFor={`check-${contact.id}`}>
+                                    {contact.telefone}
+                                  </label>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            ) : (
+              <p>Adicione pelo menos um contato para continuar!</p>
+            )}
+          </div>
+          <section>
+            <h3>Lista de mensagens:</h3>
+            <table className='table-mensages'>
               <thead>
                 <tr>
                   <th>Selecionar</th>
                   <th>Nome</th>
-                  <th>Telefones</th>
+                  <th>Mensagens</th>
                 </tr>
               </thead>
               <tbody>
-                {listContacts.map((contact) => (
-                  <tr key={`check-table-${contact.id}`}>
-                    <td>
-                      <input
-                        id={`check-${contact.id}`}
-                        name={`checkbox-${contact.id}`}
-                        type='checkbox'
-                        value={contact.telefone}
-                        checked={isChecked}
-                        onChange={(event) => handleChangeInput(event)}
-                      />
-                    </td>
-                    <td>
-                      <label htmlFor={`check-${contact.id}`}>
-                        {contact.nome}
-                      </label>
-                    </td>
-                    <td>
-                      <label htmlFor={`check-${contact.id}`}>
-                        {contact.telefone}
-                      </label>
-                    </td>
+                {existsIsMessage ? (
+                  isMessage.map((msn) => (
+                    <tr key={`radio-form-${msn.id}`}>
+                      <td>
+                        <input
+                          id={`radio-${msn.id}`}
+                          type='radio'
+                          name='radioGroup'
+                          value={msn.menssagem}
+                          onChange={handleRadioChange}
+                        />
+                      </td>
+                      <td>
+                        <label htmlFor={`radio-${msn.id}`}>{msn.nome}</label>
+                      </td>
+                      <td>
+                        <label htmlFor={`radio-${msn.id}`}>
+                          {msn.menssagem}
+                        </label>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td>Nenhuma mensagem cadastrada!</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
+            <div>
+              <label htmlFor='radio-message'>
+                <input
+                  id='radio-message'
+                  type='radio'
+                  name='radioGroup'
+                  onChange={handleRadioChange}
+                />
+                <textarea
+                  onChange={handleRadioChange}
+                  placeholder='Digite sua mensagem...'
+                />
+              </label>
+            </div>
           </section>
-        ) : (
-          <p>Adicione pelo menos um contato para continuar!</p>
-        )}
-      </div>
-      <section>
-        <h3>Lista de mensagens:</h3>
-        <table className='table-mensages'>
-          <thead>
-            <tr>
-              <th>Selecionar</th>
-              <th>Nome</th>
-              <th>Mensagens</th>
-            </tr>
-          </thead>
-          <tbody>
-            {existsIsMessage ? (
-              isMessage.map((msn) => (
-                <tr key={`radio-form-${msn.id}`}>
-                  <td>
-                    <input
-                      id={`radio-${msn.id}`}
-                      type='radio'
-                      name='radioGroup'
-                      value={msn.menssagem}
-                      onChange={handleRadioChange}
-                    />
-                  </td>
-                  <td>
-                    <label htmlFor={`radio-${msn.id}`}>{msn.nome}</label>
-                  </td>
-                  <td>
-                    <label htmlFor={`radio-${msn.id}`}>{msn.menssagem}</label>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td>Nenhuma mensagem cadastrada!</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <div>
-          <label htmlFor='radio-message'>
-            <input
-              id='radio-message'
-              type='radio'
-              name='radioGroup'
-              onChange={handleRadioChange}
-            />
-            <textarea
-              onChange={handleRadioChange}
-              placeholder='Digite sua mensagem...'
-            />
-          </label>
         </div>
-      </section>
-      <button type='button' onClick={handleEnviarClick}>
-        Enviar
-      </button>
+        <button type='button' onClick={handleEnviarClick}>
+          Enviar
+        </button>
+      </div>
       <Footer />
     </div>
   );

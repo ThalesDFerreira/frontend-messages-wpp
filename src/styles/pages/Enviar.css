@@ -1,0 +1,18 @@
+.container-enviar {
+  height: 88.9vh;
+}
+
+/* .container-form {
+  background-image: url(../../assets/tumb.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+} */
+
+.container-form {
+  background-color: rgb(229 231 235);
+  height: 100%;
+  width: 100%;
+}

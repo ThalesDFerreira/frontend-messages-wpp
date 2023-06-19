@@ -34,10 +34,10 @@ const Header = () => {
   return (
     <div className='flex justify-between bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4 text-xs h-20'>
       <nav>
-        <div className=''>
-          <button className='' type='button' onClick={onClickHome}>
+        <div>
+          <button type='button' onClick={onClickHome}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-gray-500 hover:bg-gray-700 p-1'
+              className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-400 p-1'
               src={Home}
               alt='Home'
             />
@@ -45,9 +45,14 @@ const Header = () => {
           </button>
         </div>
       </nav>
+      <div>
+        <h1 className='w-42 h-14 flex items-center text-slate-100 text-2xl font-bold'>
+          WhatsApp Send
+        </h1>
+      </div>
       <nav className='flex justify-between gap-4'>
-        <div className=''>
-          <button className='' type='button' onClick={onClickTelefone}>
+        <div>
+          <button type='button' onClick={onClickTelefone}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-green-500 hover:bg-green-900 p-1'
               src={Telefone}
@@ -56,7 +61,7 @@ const Header = () => {
             <p className='mt-1 flex justify-center'>Add Tel</p>
           </button>
         </div>
-        <div className=''>
+        <div>
           <button type='button' onClick={onClickMensagem}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-sky-500 hover:bg-sky-900 p-1'
@@ -66,7 +71,7 @@ const Header = () => {
             <p className='mt-1 flex justify-center'>Add Msn</p>
           </button>
         </div>
-        <div className=''>
+        <div>
           <button name='sair' type='button' onClick={onClickSair}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-red-500 hover:bg-red-900 p-1'

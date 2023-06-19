@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CadastroTelefone from './pages/CadastroTelefone';
 import CadastroMensagem from './pages/CadastroMensagem';
 import Enviar from './pages/Enviar';
 import Login from './pages/Login';
 import ErroLogin from './pages/ErroLogin';
-import MyContext from './context/MyContext';
+// import MyContext from './context/MyContext';
 import { Toaster } from 'react-hot-toast';
 import './styles/App.css';
 
 const App = () => {
-  const { isAuthenticated } = useContext(MyContext);
+  // const { isAuthenticated } = useContext(MyContext);
 
   return (
     <>
@@ -19,7 +19,8 @@ const App = () => {
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='*' element={<ErroLogin />} />
-        {isAuthenticated ? (
+        {/* TROCAR O "TRUE" ABAIXO POR "isAuthenticated" */}
+        {true ? (
           <>
             <Route
               exact
