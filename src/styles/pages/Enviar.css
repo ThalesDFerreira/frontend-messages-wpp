@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .container-form {
   background-color: rgb(229 231 235);
   height: 100%;

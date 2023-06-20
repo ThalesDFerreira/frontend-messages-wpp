@@ -1,9 +1,11 @@
 import axios from 'axios';
 // import toast from 'react-hot-toast';
-import 'dotenv/config';
 
-const API_KEY = process.env.API_KEY;
-const API_AUTH = process.env.API_AUTH;
+const API_KEY = process.env.REACT_APP_API_KEY;
+const API_AUTH = process.env.REACT_APP_API_AUTH;
+const BASE_URL = process.env.REACT_APP_API_PORT;
+
+console.log(BASE_URL, API_AUTH, API_KEY);
 
 const CONFIG = {
   headers: {
@@ -13,7 +15,7 @@ const CONFIG = {
 };
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_PORT,
+  baseURL: BASE_URL,
 });
 
 // export const setToken = (token) => {

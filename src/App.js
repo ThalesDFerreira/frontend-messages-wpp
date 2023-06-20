@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import ErroLogin from './pages/ErroLogin';
 import MyContext from './context/MyContext';
 import { Toaster } from 'react-hot-toast';
-import './styles/App.css';
+import './App.css';
 
 const App = () => {
   const { isAuthenticated } = useContext(MyContext);

@@ -4,12 +4,13 @@ import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Modal from 'react-bootstrap/Modal';
-// import Button from 'react-bootstrap/Button';
 import Confirmar from '../assets/check.png';
 import Cancelar from '../assets/close.png';
 import Editar from '../assets/edit.png';
 import Deletar from '../assets/delete.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal';
+// import Button from 'react-bootstrap/Button';
 
 const CadastroMensagem = () => {
   const [nome, setNome] = useState('');
