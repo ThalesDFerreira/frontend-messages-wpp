@@ -4,11 +4,13 @@ import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Modal from 'react-modal';
 import Confirmar from '../assets/check.png';
 import Cancelar from '../assets/close.png';
 import Editar from '../assets/edit.png';
 import Deletar from '../assets/delete.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const CadastroTelefone = () => {
   const [nome, setNome] = useState('');
@@ -218,14 +220,8 @@ const CadastroTelefone = () => {
         </table>
       </section>
       <div>
-        <Modal
-          isOpen={openModalEdit}
-          onRequestClose={handleCloseModalEdit}
-          contentLabel='edit'
-          className='modal-edit'
-          overlayClassName='modal-edit-overlay'
-          ariaHideApp={false}
-        >
+        <Modal show={openModalEdit} onHide={handleCloseModalEdit}>
+          <Modal.Body>
           <table>
             <thead>
               <tr>
@@ -256,36 +252,44 @@ const CadastroTelefone = () => {
                   />
                 </td>
                 <td>
-                  <button onClick={handleCloseModalEdit}>
+                  <Button onClick={handleCloseModalEdit}>
                     <img src={Cancelar} alt='Cancelar' />
-                  </button>
+                  </Button>
                 </td>
                 <td>
-                  <button onClick={btnRequestEditTelefone}>
+                  <Button onClick={btnRequestEditTelefone}>
                     <img src={Confirmar} alt='Confirmar' />
-                  </button>
+                  </Button>
                 </td>
               </tr>
             </tbody>
           </table>
+          </Modal.Body>
         </Modal>
       </div>
       <div>
         <Modal
-          isOpen={openModalDelete}
-          onRequestClose={handleCloseModalDelete}
-          contentLabel='delete'
-          className='modal-delete'
-          overlayClassName='modal-delete-overlay'
+          isOpen={openModalEdit}
+          onRequestClose={handleCloseModalEdit}
+          contentLabel='edit'
+          className='modal-edit'
+          overlayClassName='modal-edit-overlay'
           ariaHideApp={false}
         >
-          <p>Tem certeza que deseja excluir esse contato?</p>
-          <button type='button' onClick={handleCloseModalDelete}>
-            Não
-          </button>
-          <button type='button' onClick={btnRequestDeleteTelefone}>
-            Sim
-          </button>
+          
+        </Modal>
+      </div>
+      <div>
+        <Modal show={openModalDelete} onHide={handleCloseModalDelete}>
+          <Modal.Body>Tem certeza que deseja excluir esse contato?</Modal.Body>
+          <Modal.Footer>
+            <Button type='button' onClick={handleCloseModalDelete}>
+              Não
+            </Button>
+            <Button type='button' onClick={btnRequestDeleteTelefone}>
+              Sim
+            </Button>
+          </Modal.Footer>
         </Modal>
       </div>
       <Footer />

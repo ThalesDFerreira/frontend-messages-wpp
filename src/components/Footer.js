@@ -11,15 +11,17 @@ const Footer = () => {
   };
 
   return (
-    <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4'>
-      <div className='container mx-auto text-sm inset-y-0 right-0'>
-        <h3 className='flex justify-end font-bold'>{empresa.nome}</h3>
-        <div className='flex justify-end'>
-          <img className='w-6 h-6 mr-1' src={Email} alt='Email' />
-          <p>{empresa.email}</p>
+    <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3'>
+      <div className='container text-xs flex-col'>
+        <div className='flex justify-end items-center'>
+          <h3 className='text-xs text-center'>{empresa.nome}</h3>
         </div>
-        <div className='flex justify-end'>
-          <img className='w-6 h-6 mr-1' src={WhatsApp} alt='WhatsApp' />
+        <div className='flex justify-end items-center'>
+          <img className='w-5 h-5 mr-2' src={Email} alt='Email' />
+          <p className='text-xs'>{empresa.email}</p>
+        </div>
+        <div className='flex justify-end items-center'>
+          <img className='w-5 h-5 mr-2' src={WhatsApp} alt='WhatsApp' />
           <a
             href='https://api.whatsapp.com/send?phone=5516992746725'
             target='_blank'
