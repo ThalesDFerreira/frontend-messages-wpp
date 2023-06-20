@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import mostrar from '../assets/mostrar.png';
 import ocultar from '../assets/ocultar.png';
 import '../styles/pages/Login.css';
-import 'dotenv/config';
 import Footer from '../components/Footer';
 
 const Login = () => {
