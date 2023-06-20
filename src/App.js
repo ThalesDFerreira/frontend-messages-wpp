@@ -32,6 +32,7 @@ const App = () => {
               element={<CadastroTelefone />}
             />
             <Route exact path='/enviar' element={<Enviar />} />
+            {/* { ADICIONAR LOGICA PARA CASO O USUARIO LOGADO FOR "ROLE:ADMIN LIBERAR ROTA"} */}
           </>
         ) : (
           <>

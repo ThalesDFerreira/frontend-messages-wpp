@@ -44,55 +44,59 @@ const Login = () => {
           <h1 className='text-4xl mb-6 text-center font-bold'>
             Área do usuário
           </h1>
-          <label htmlFor='usuario-input'>
-            Usuário:{' '}
-            <input
-              id='usuario-input'
-              className='login__login_input p-1 w-36 text-black rounded-md'
-              type='text'
-              onChange={({ target: { value } }) => setUsuario(value)}
-              placeholder='Digite seu usuário...'
-            />
-          </label>
-          <div className='senha-input-wrapper flex p-3'>
-            <label htmlFor='senha-input'>
-              Senha:{' '}
+          <div>
+            <div className='flex-col'>
+              <label htmlFor='usuario-input'>Usuário:</label>
               <input
-                className='login__login_input p-1 w-36 text-black rounded-md'
-                id='senha-input'
-                type={mostrarSenha ? 'text' : 'password'}
-                onChange={({ target: { value } }) => setSenha(value)}
-                placeholder='Digite sua senha...'
+                id='usuario-input'
+                className='login__login_input p-1 w-full text-black rounded-md'
+                type='text'
+                onChange={({ target: { value } }) => setUsuario(value)}
+                placeholder='Digite seu usuário...'
               />
-            </label>
-            <button
-              type='button'
-              className='mostrar-senha-button bg-white rounded-2xl w-6 h-6 ml-2 mt-1 bg-opacity-90'
-              onClick={handleMostrarSenha}
-            >
-              {mostrarSenha ? (
-                <img
-                  className='mostrar-ocultar-senha w-6 h-6 p-1'
-                  src={mostrar}
-                  alt='Mostrar'
-                ></img>
-              ) : (
-                <img
-                  className='mostrar-ocultar-senha w-6 h-6 p-1'
-                  src={ocultar}
-                  alt='Ocultar'
-                ></img>
-              )}
-            </button>
-          </div>
-          <div className='flex justify-center'>
-            <button
-              className='btn-entrar text-center mb-2 bg-blue-400 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
-              type='submit'
-              onClick={(event) => login(event)}
-            >
-              Entrar
-            </button>
+            </div>
+            <div className='senha-input-wrapper flex-col mt-3'>
+              <label htmlFor='senha-input'>Senha:</label>
+              <div className='flex'>
+                <input
+                  className='login__login_input p-1 w-full text-black rounded-md'
+                  id='senha-input'
+                  type={mostrarSenha ? 'text' : 'password'}
+                  onChange={({ target: { value } }) => setSenha(value)}
+                  placeholder='Digite sua senha...'
+                />
+                <div>
+                  <button
+                    type='button'
+                    className='mostrar-senha-button bg-white rounded-2xl w-6 h-6 ml-2 mt-1 bg-opacity-90'
+                    onClick={handleMostrarSenha}
+                  >
+                    {mostrarSenha ? (
+                      <img
+                        className='mostrar-ocultar-senha w-6 h-6 p-1'
+                        src={mostrar}
+                        alt='Mostrar'
+                      ></img>
+                    ) : (
+                      <img
+                        className='mostrar-ocultar-senha w-6 h-6 p-1'
+                        src={ocultar}
+                        alt='Ocultar'
+                      ></img>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className='flex justify-center mt-3'>
+              <button
+                className='btn-entrar text-center mb-2 bg-blue-400 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
+                type='submit'
+                onClick={(event) => login(event)}
+              >
+                Entrar
+              </button>
+            </div>
           </div>
           {isFailAutenticated ? (
             <>
