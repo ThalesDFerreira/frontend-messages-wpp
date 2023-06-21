@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className='container-login flex flex-col min-h-screen'>
       <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-100 flex-grow'>
-        <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-90'>
+        <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-60'>
           <h1 className='text-4xl mb-6 text-center font-bold'>
             Área do usuário
           </h1>

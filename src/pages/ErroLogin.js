@@ -12,30 +12,38 @@ const ErroLogin = () => {
   };
 
   return (
-    <div className='container-error'>
-      <section className='container-error-area w-full h-56 flex justify-center items-center text-slate-100'>
-        <div className='bg-black p-8 flex-col auto-cols-max bg-opacity-90'>
-          <img
-            className='bg-yellow-200 flex justify-center ml-36'
-            src={Alert}
-            alt='Alerta'
-          />
-          <h2 className='flex justify-center mt-2'>
-            Ops... Ocorreu algum problema!
-          </h2>
-          <h2 className='flex justify-center mt-2'>
-            Clique no botão abaixo e tente realizar o Login!
-          </h2>
-          <button className='' type='button' onClick={onClickChange}>
+    <div className='container-error flex flex-col min-h-screen'>
+      <main className='container-error-area w-full h-56 flex justify-center items-center text-slate-100 flex-grow'>
+        <div className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-60'>
+          <div className='flex justify-center'>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-400 p-1 mt-2 ml-36'
-              src={Home}
-              alt='Home'
+              className='bg-yellow-200'
+              src={Alert}
+              alt='Alerta'
             />
-            <p className='mt-1 flex-col justify-center ml-36'>Início</p>
-          </button>
+          </div>
+          <div className='flex justify-center'>
+            <h2 className='mt-2 text-center'>
+              Ops... Ocorreu algum problema!
+            </h2>
+          </div>
+          <div className='flex justify-center'>
+            <h2 className='mt-2 text-center'>
+              Clique no botão abaixo e tente realizar o Login!
+            </h2>
+          </div>
+          <div className='flex justify-center'>
+            <button type='button' onClick={onClickChange}>
+              <img
+                className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-400 p-1 mt-2'
+                src={Home}
+                alt='Home'
+              />
+              <p className='mt-1 flex-col justify-center'>Início</p>
+            </button>
+          </div>
         </div>
-      </section>
+      </main>
     </div>
   );
 };
