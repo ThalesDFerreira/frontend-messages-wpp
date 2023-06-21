@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert } from '../services/requests';
+import { requestData, requestInsert, requestEdit } from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
@@ -77,9 +77,8 @@ const CadastroTelefone = () => {
             tel.telefone !== telefoneUpdate
         )
       ) {
-        console.log(Number(telefoneSelectedEdit), nomeUpdate, telefoneUpdate);
-        // await requestInsert('/telefones', { nome, telefone });
-        // requestDataTelefone();
+        await requestEdit('/telefones', { id: Number(telefoneSelectedEdit), nome: nomeUpdate, telefone: telefoneUpdate });
+        requestDataTelefone();
         setNomeUpdate('');
         setTelefoneUpdate('');
         toast.success('Contato alterado com Sucesso!');
@@ -110,7 +109,7 @@ const CadastroTelefone = () => {
   const btnRequestDeleteTelefone = () => {
     try {
       console.log(Number(messageSelectedDelete));
-      // await requestInsert('/telefones', { nome, menssagem });
+      // await requestEdit('/telefones', { nome, menssagem });
       // requestDataMessages();
       toast.success('Contato excluído com Sucesso!');
       handleCloseModalDelete();

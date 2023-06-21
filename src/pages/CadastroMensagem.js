@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert } from '../services/requests';
+import { requestData, requestInsert, requestEdit } from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
@@ -78,9 +78,8 @@ const CadastroMensagem = () => {
             msn.menssagem !== menssagemUpdate
         )
       ) {
-        console.log(Number(messageSelectedEdit), nomeUpdate, menssagemUpdate);
-        // await requestInsert('/mensagens', { nome, menssagem });
-        // requestDataMessages();
+        await requestEdit('/mensagens', { id: Number(messageSelectedEdit), nome: nomeUpdate, menssagem: menssagemUpdate });
+        requestDataMessages();
         setNomeUpdate('');
         setMenssagemUpdate('');
         toast.success('Mensagem alterada com Sucesso!');

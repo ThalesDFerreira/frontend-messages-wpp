@@ -38,6 +38,11 @@ export const requestInsert = async (endpoint, body) => {
   return data;
 };
 
+export const requestEdit = async (endpoint, body) => {
+  const { data } = await api.put(endpoint, body, CONFIG);
+  return data;
+};
+
 export const requestLogin = async (endpoint, body) => {
   const { data } = await api.post(endpoint, body, CONFIG);
   return data;

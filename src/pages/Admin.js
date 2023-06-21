@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert } from '../services/requests';
+import { requestData, requestInsert, requestEdit } from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -38,7 +38,7 @@ const Admin = () => {
 
   const btnRequestInsertUser = async () => {
     try {
-      if (listUsuarios.some((user) => user.nome === usuario)) {
+      if (listUsuarios.some((user) => user.usuario === usuario)) {
         return toast.error('Usuário já existente!');
       } else {
         await requestInsert('/usuarios', { usuario, senha, role });
@@ -46,7 +46,7 @@ const Admin = () => {
         setUsuario('');
         setSenha('');
         setRole('user');
-        toast.success('Mensagem inserida com Sucesso!');
+        toast.success('Usuário inserido com Sucesso!');
       }
     } catch (error) {
       toast(
@@ -64,9 +64,9 @@ const Admin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOpenModalEdit = (id, nome, senha, role) => {
+  const handleOpenModalEdit = (id, usuario, senha, role) => {
     setUserSelectedEdit(id);
-    setUsuarioUpdate(nome);
+    setUsuarioUpdate(usuario);
     setSenhaUpdate(senha);
     setRoleUpdate(role);
     setOpenModalEdit(true);
@@ -85,23 +85,62 @@ const Admin = () => {
     setOpenModalDelete(false);
   };
 
+  // if (
+  //   listMessages.some(
+  //     (msn) => msn.nome === nomeUpdate && msn.menssagem === menssagemUpdate
+  //   )
+  // ) {
+  //   toast.error('Mensagem não alterada!');
+  //   return;
+  // }
+  // if (
+  //   listMessages.some(
+  //     (msn) =>
+  //       (msn.nome !== nomeUpdate && msn.menssagem === menssagemUpdate) ||
+  //       msn.menssagem !== menssagemUpdate
+  //   )
+  // ) {
+
   const btnRequestEditUsers = async () => {
     try {
+      const filterUser = listUsuarios.filter(
+        (user) => user.id === Number(userSelectedEdit)
+      );
       if (
-        listUsuarios.some(
-          (user) => user.nome === usuarioUpdate && user.senha === senhaUpdate && user.role === roleUpdate
-        )
+        filterUser[0].usuario === usuarioUpdate &&
+        filterUser[0].senha === senhaUpdate &&
+        filterUser[0].role === roleUpdate
       ) {
         toast.error('Usuário não alterado!');
-      } else {
-        console.log(Number(userSelectedEdit), usuarioUpdate, senhaUpdate, roleUpdate);
-        // await requestInsert('/mensagens', { nome, menssagem });
-        // requestDataMessages();
+        return;
+      }
+      if (
+        (filterUser[0].usuario === usuarioUpdate &&
+          filterUser[0].senha === senhaUpdate &&
+          filterUser[0].role !== roleUpdate) ||
+        (filterUser[0].usuario === usuarioUpdate &&
+          filterUser[0].senha !== senhaUpdate &&
+          filterUser[0].role === roleUpdate) ||
+        (filterUser[0].usuario !== usuarioUpdate &&
+          filterUser[0].senha === senhaUpdate &&
+          filterUser[0].role === roleUpdate) ||
+        (filterUser[0].usuario !== usuarioUpdate &&
+          filterUser[0].senha !== senhaUpdate &&
+          filterUser[0].role !== roleUpdate)
+      ) {
+        await requestEdit('/usuarios', {
+          id: Number(userSelectedEdit),
+          usuario: usuarioUpdate,
+          senha: senhaUpdate,
+          role: roleUpdate,
+        });
+        requestDataUsers();
         setUsuarioUpdate('');
         setSenhaUpdate('');
-        setRoleUpdate('user');
-        toast.success('Mensagem alterada com Sucesso!');
+        setRoleUpdate('');
+        toast.success('Usuário alterado com Sucesso!');
         handleCloseModalEdit();
+        return;
       }
     } catch (error) {
       toast(
@@ -116,7 +155,7 @@ const Admin = () => {
   const btnRequestDeleteUsers = () => {
     try {
       console.log(Number(userSelectedDelete));
-      // await requestInsert('/mensagens', { nome, menssagem });
+      // await requestInsert('/mensagens', { usuario, menssagem });
       // requestDataMessages();
       toast.success('Mensagem excluída com Sucesso!');
       handleCloseModalDelete();
@@ -146,13 +185,13 @@ const Admin = () => {
                     <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                       <tr>
                         <th scope='col' className='px-2 py-2'>
-                          Nome
+                          Usuário
                         </th>
                         <th scope='col' className='px-2 py-2'>
                           Senha
                         </th>
                         <th scope='col' className='px-2 py-2'>
-                          Role
+                          Permissão
                         </th>
                         <th scope='col' className='px-2 py-2'>
                           Cadastrar
@@ -165,7 +204,9 @@ const Admin = () => {
                           <input
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
-                            onChange={({ target: { value } }) => setUsuario(value)}
+                            onChange={({ target: { value } }) =>
+                              setUsuario(value)
+                            }
                             value={usuario}
                             placeholder='Digite aqui ...'
                           />
@@ -185,9 +226,7 @@ const Admin = () => {
                           <input
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
-                            onChange={({ target: { value } }) =>
-                              setRole(value)
-                            }
+                            onChange={({ target: { value } }) => setRole(value)}
                             value={role}
                             placeholder='Digite aqui ...'
                           />
@@ -220,14 +259,14 @@ const Admin = () => {
                   <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
                     <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                       <tr>
-                      <th scope='col' className='px-2 py-2'>
-                          Nome
+                        <th scope='col' className='px-2 py-2'>
+                          Usuário
                         </th>
                         <th scope='col' className='px-2 py-2'>
                           Senha
                         </th>
                         <th scope='col' className='px-2 py-2'>
-                          Role
+                          Permissão
                         </th>
                         <th scope='col' className='px-2 py-2'>
                           Editar
@@ -245,7 +284,7 @@ const Admin = () => {
                             key={`user-${user.id}`}
                           >
                             <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                              {user.nome}
+                              {user.usuario}
                             </td>
                             <td className='whitespace-nowrap px-2 py-2'>
                               {user.senha}
@@ -260,9 +299,9 @@ const Admin = () => {
                                 onClick={() =>
                                   handleOpenModalEdit(
                                     user.id,
-                                    user.nome,
+                                    user.usuario,
                                     user.senha,
-                                    user.role,
+                                    user.role
                                   )
                                 }
                               >
@@ -302,9 +341,9 @@ const Admin = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>Nome</th>
+                    <th>Usuário</th>
                     <th>Senha</th>
-                    <th>Role</th>
+                    <th>Permissão</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -325,7 +364,7 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                        setSenhaUpdate(value)
+                          setSenhaUpdate(value)
                         }
                         value={senhaUpdate}
                         placeholder='Digite aqui ...'
@@ -336,7 +375,7 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                        setRoleUpdate(value)
+                          setRoleUpdate(value)
                         }
                         value={roleUpdate}
                         placeholder='Digite aqui ...'
@@ -359,7 +398,7 @@ const Admin = () => {
         <div>
           <Modal show={openModalDelete} onHide={handleCloseModalDelete}>
             <Modal.Body>
-              Tem certeza que deseja excluir esse contato?
+              Tem certeza que deseja excluir esse usuário?
             </Modal.Body>
             <Modal.Footer>
               <Button type='button' onClick={handleCloseModalDelete}>
@@ -376,7 +415,11 @@ const Admin = () => {
             <h1>QR Code</h1>
           </div>
           <div className='flex justify-center'>
-            <img className='w-52 h-52' src='http://placehold.it/' alt='placeholder' />
+            <img
+              className='w-52 h-52'
+              src='http://placehold.it/'
+              alt='placeholder'
+            />
           </div>
         </section>
       </main>
