@@ -11,18 +11,16 @@ import { Toaster } from 'react-hot-toast';
 import './App.css';
 
 const App = () => {
-  const { isAuthenticated, isAdmin } = useContext(MyContext);
-
+  const { isAuthenticated, isAdmin  } = useContext(MyContext);
   return (
     <>
       <Toaster position='top-right' reverseOrder={false} />
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route exact path='/login' element={<Login />} />
-        {isAdmin && <Route exact path='/admin' element={<Admin />} />}
-        <Route exact path='*' element={<ErroLogin />} />
         {isAuthenticated && (
           <>
+            {isAdmin && <Route exact path='/admin' element={<Admin />} />}
             <Route
               exact
               path='/cadastro-mensagem'
@@ -36,6 +34,7 @@ const App = () => {
             <Route exact path='/enviar' element={<Enviar />} />
           </>
         )}
+        <Route exact path='*' element={<ErroLogin />} />
       </Routes>
     </>
   );

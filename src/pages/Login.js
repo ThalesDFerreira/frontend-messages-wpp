@@ -9,7 +9,7 @@ import '../styles/pages/Login.css';
 import Footer from '../components/Footer';
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated, setIsAdmin } = useContext(MyContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(MyContext);
 
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -21,7 +21,7 @@ const Login = () => {
     try {
       const token = await requestLogin('/login', { usuario, senha });
       localStorage.setItem('token', token);
-      verifyIsAdmin();
+      await verifyIsAdmin();
       setIsAuthenticated(true);
       setIsFailAutenticated(false);
       toast.success('Usuário Logado com Sucesso!');
@@ -35,11 +35,7 @@ const Login = () => {
   const verifyIsAdmin = async () => {
     const users = await requestData('/usuarios');
     const findUserLogin = users.filter((user) => user.usuario === usuario);
-    if (findUserLogin[0].role === 'admin') {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
+    localStorage.setItem('role', findUserLogin[0].role);
   }
 
   const handleMostrarSenha = () => {

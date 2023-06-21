@@ -7,7 +7,6 @@ const MyProvider = ({ children }) => {
   const [redirectBtnTelefone, setRedirectBtnTelefone] = useState(false);
   const [redirectBtnMensagem, setRedirectBtnMensagem] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [usuarioCtx, setUsuarioCtx] = useState('');
 
 
   const verifyUserLogin = () => {
@@ -19,8 +18,21 @@ const MyProvider = ({ children }) => {
     }
   };
 
+  const verifyUserRole = () => {
+    const role = localStorage.getItem('role');
+    if (role !== 'admin') {
+      setIsAdmin(false);
+    } else {
+      setIsAdmin(true);
+    }
+  };
+
   useEffect(() => {
     verifyUserLogin();
+  }, []);
+
+  useEffect(() => {
+    verifyUserRole();
   }, [isAuthenticated]);
 
   const state = {
@@ -32,8 +44,6 @@ const MyProvider = ({ children }) => {
     setRedirectBtnTelefone,
     redirectBtnMensagem,
     setRedirectBtnMensagem,
-    setUsuarioCtx,
-    usuarioCtx,
     setIsAdmin,
     isAdmin,
   };
