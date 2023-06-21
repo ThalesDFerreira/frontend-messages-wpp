@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { requestLogin } from '../services/requests';
+import { requestLogin, requestData } from '../services/requests';
 import MyContext from '../context/MyContext';
 import toast from 'react-hot-toast';
 import mostrar from '../assets/mostrar.png';
@@ -9,7 +9,7 @@ import '../styles/pages/Login.css';
 import Footer from '../components/Footer';
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(MyContext);
+  const { isAuthenticated, setIsAuthenticated, setIsAdmin } = useContext(MyContext);
 
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -21,6 +21,7 @@ const Login = () => {
     try {
       const token = await requestLogin('/login', { usuario, senha });
       localStorage.setItem('token', token);
+      verifyIsAdmin();
       setIsAuthenticated(true);
       setIsFailAutenticated(false);
       toast.success('Usuário Logado com Sucesso!');
@@ -30,6 +31,16 @@ const Login = () => {
       toast.error('Por favor, tente novamente!');
     }
   };
+
+  const verifyIsAdmin = async () => {
+    const users = await requestData('/usuarios');
+    const findUserLogin = users.filter((user) => user.usuario === usuario);
+    if (findUserLogin[0].role === 'admin') {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }
 
   const handleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);

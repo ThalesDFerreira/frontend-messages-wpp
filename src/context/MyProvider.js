@@ -6,6 +6,9 @@ const MyProvider = ({ children }) => {
   const [redirectBtnHome, setRedirectBtnHome] = useState(false);
   const [redirectBtnTelefone, setRedirectBtnTelefone] = useState(false);
   const [redirectBtnMensagem, setRedirectBtnMensagem] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [usuarioCtx, setUsuarioCtx] = useState('');
+
 
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
@@ -29,6 +32,10 @@ const MyProvider = ({ children }) => {
     setRedirectBtnTelefone,
     redirectBtnMensagem,
     setRedirectBtnMensagem,
+    setUsuarioCtx,
+    usuarioCtx,
+    setIsAdmin,
+    isAdmin,
   };
 
   return <MyContext.Provider value={state}>{children}</MyContext.Provider>;

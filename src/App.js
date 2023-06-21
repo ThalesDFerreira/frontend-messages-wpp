@@ -5,12 +5,13 @@ import CadastroMensagem from './pages/CadastroMensagem';
 import Enviar from './pages/Enviar';
 import Login from './pages/Login';
 import ErroLogin from './pages/ErroLogin';
+import Admin from './pages/Admin';
 import MyContext from './context/MyContext';
 import { Toaster } from 'react-hot-toast';
 import './App.css';
 
 const App = () => {
-  const { isAuthenticated } = useContext(MyContext);
+  const { isAuthenticated, isAdmin } = useContext(MyContext);
 
   return (
     <>
@@ -18,8 +19,9 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
         <Route exact path='/login' element={<Login />} />
+        {isAdmin && <Route exact path='/admin' element={<Admin />} />}
         <Route exact path='*' element={<ErroLogin />} />
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <>
             <Route
               exact
@@ -32,11 +34,6 @@ const App = () => {
               element={<CadastroTelefone />}
             />
             <Route exact path='/enviar' element={<Enviar />} />
-            {/* { ADICIONAR LOGICA PARA CASO O USUARIO LOGADO FOR "ROLE:ADMIN LIBERAR ROTA"} */}
-          </>
-        ) : (
-          <>
-            <Route exact path='*' element={<ErroLogin />} />
           </>
         )}
       </Routes>

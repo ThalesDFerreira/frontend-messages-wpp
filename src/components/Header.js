@@ -10,7 +10,7 @@ import Sair from '../assets/logout.png';
 const Header = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated } = useContext(MyContext);
+  const { setIsAuthenticated, setIsAdmin } = useContext(MyContext);
 
   const onClickHome = () => {
     navigate('/enviar');
@@ -28,6 +28,7 @@ const Header = () => {
     setIsAuthenticated(false);
     localStorage.clear();
     navigate('/login');
+    setIsAdmin(false);
   };
 
   return (
