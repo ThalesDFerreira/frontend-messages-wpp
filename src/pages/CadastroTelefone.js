@@ -326,16 +326,6 @@ const CadastroTelefone = () => {
           </Modal>
         </div>
         <div>
-          <Modal
-            isOpen={openModalEdit}
-            onRequestClose={handleCloseModalEdit}
-            contentLabel='edit'
-            className='modal-edit'
-            overlayClassName='modal-edit-overlay'
-            ariaHideApp={false}
-          ></Modal>
-        </div>
-        <div>
           <Modal show={openModalDelete} onHide={handleCloseModalDelete}>
             <Modal.Body>
               Tem certeza que deseja excluir esse contato?
