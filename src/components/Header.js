@@ -6,11 +6,12 @@ import Home from '../assets/home.png';
 import Telefone from '../assets/add_contacts.png';
 import Message from '../assets/message.png';
 import Sair from '../assets/logout.png';
+import Admin from '../assets/admin.png';
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated, setIsAdmin } = useContext(MyContext);
+  const { setIsAuthenticated, setIsAdmin, isAdmin } = useContext(MyContext);
 
   const onClickHome = () => {
     navigate('/enviar');
@@ -29,6 +30,10 @@ const Header = () => {
     localStorage.clear();
     navigate('/login');
     setIsAdmin(false);
+  };
+
+  const onClickAdmin = () => {
+    navigate('/admin');
   };
 
   return (
@@ -51,7 +56,17 @@ const Header = () => {
         </h1>
       </div>
       <nav className='flex justify-between gap-4 mt-2'>
-        {/* {ADICIONAR LOGICA PARA APARECER O BOTAO "PAINEL ADMIN"} */}
+        {isAdmin && <div>
+          <button type='button' onClick={onClickAdmin}>
+            <img
+              className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
+              src={Admin}
+              alt='Painel Admin'
+            />
+            <p className='mt-1 flex justify-center'>Admin</p>
+          </button>
+        </div>}
+        
         <div>
           <button type='button' onClick={onClickTelefone}>
             <img
