@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <footer className='bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100'>
-      <div className='container flex-col p-2 justify-center items-center'>
+      <div className='container flex-col justify-center items-center p-4'>
         <div className='flex justify-end items-center h-5'>
           <h3 className='text-xs text-center'>{empresa.nome}</h3>
         </div>

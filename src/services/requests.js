@@ -5,8 +5,6 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const API_AUTH = process.env.REACT_APP_API_AUTH;
 const BASE_URL = process.env.REACT_APP_API_PORT;
 
-console.log(BASE_URL, API_AUTH, API_KEY);
-
 const CONFIG = {
   headers: {
     apikey: API_KEY,

@@ -38,8 +38,8 @@ const Login = () => {
   if (isAuthenticated) return <Navigate to='/enviar' />;
 
   return (
-    <div className='container-login'>
-      <section className='user-login-area w-full h-12 flex justify-center items-center text-slate-100'>
+    <div className='container-login flex flex-col min-h-screen'>
+      <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-100 flex-grow'>
         <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-90'>
           <h1 className='text-4xl mb-6 text-center font-bold'>
             Área do usuário
@@ -90,7 +90,7 @@ const Login = () => {
             </div>
             <div className='flex justify-center mt-3'>
               <button
-                className='btn-entrar text-center mb-2 bg-blue-400 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
+                className='btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
                 type='submit'
                 onClick={(event) => login(event)}
               >
@@ -111,7 +111,7 @@ const Login = () => {
             </>
           ) : null}
         </form>
-      </section>
+      </main>
       <Footer />
     </div>
   );

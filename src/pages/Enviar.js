@@ -125,9 +125,9 @@ const Enviar = () => {
   };
 
   return (
-    <div className='container-enviar'>
+    <div className='container-enviar flex flex-col min-h-screen'>
       <Header />
-      <div className='container-form p-2'>
+      <main className='container-form p-2 flex-grow bg-rgb-212-212-212'>
         <h1 className='flex justify-center text-2xl mb-3'>
           Formulário de Envio
         </h1>
@@ -274,7 +274,7 @@ const Enviar = () => {
                 </div>
               </div>
             </div>
-            <div className='flex justify-between mb-5'>
+            <div className='flex justify-between mb-3'>
               <div className='flex justify-center items-center ml-12'>
               <label htmlFor='radio-message'>
                 <input
@@ -291,7 +291,7 @@ const Enviar = () => {
                 </div>
                 <div className='flex justify-center items-center w-72'>
                 <textarea
-                  className='p-2 w-full h-20'
+                  className='p-2 w-full h-20 text-black'
                   onChange={handleRadioChange}
                   placeholder='Digite sua mensagem...'
                 />
@@ -299,7 +299,7 @@ const Enviar = () => {
             </div>
           </section>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
