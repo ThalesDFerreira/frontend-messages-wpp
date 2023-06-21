@@ -275,7 +275,7 @@ const Enviar = () => {
               </div>
             </div>
             <div className='flex justify-between mb-3'>
-              <div className='flex justify-center items-center ml-12'>
+              <div className='flex justify-center items-center ml-12 lg:ml-48'>
               <label htmlFor='radio-message'>
                 <input
                   className='p-2 flex justify-center items-center'
@@ -289,7 +289,7 @@ const Enviar = () => {
                 <div className='flex justify-center items-center'>
                   <p className='p-2'>Escreva sua mensagem</p>
                 </div>
-                <div className='flex justify-center items-center w-72'>
+                <div className='flex justify-center items-center w-72 lg:w-96'>
                 <textarea
                   className='p-2 w-full h-20 text-black'
                   onChange={handleRadioChange}
