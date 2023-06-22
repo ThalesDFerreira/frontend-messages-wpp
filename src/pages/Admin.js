@@ -106,27 +106,11 @@ const Admin = () => {
       const filterUser = listUsuarios.filter(
         (user) => user.id === Number(userSelectedEdit)
       );
+      
       if (
-        filterUser[0].usuario === usuarioUpdate &&
-        filterUser[0].senha === senhaUpdate &&
-        filterUser[0].role === roleUpdate
-      ) {
-        toast.error('Usuário não alterado!');
-        return;
-      }
-      if (
-        (filterUser[0].usuario === usuarioUpdate &&
-          filterUser[0].senha === senhaUpdate &&
-          filterUser[0].role !== roleUpdate) ||
-        (filterUser[0].usuario === usuarioUpdate &&
-          filterUser[0].senha !== senhaUpdate &&
-          filterUser[0].role === roleUpdate) ||
-        (filterUser[0].usuario !== usuarioUpdate &&
-          filterUser[0].senha === senhaUpdate &&
-          filterUser[0].role === roleUpdate) ||
-        (filterUser[0].usuario !== usuarioUpdate &&
-          filterUser[0].senha !== senhaUpdate &&
-          filterUser[0].role !== roleUpdate)
+        filterUser[0].usuario !== usuarioUpdate ||
+        filterUser[0].senha !== senhaUpdate ||
+        filterUser[0].role !== roleUpdate
       ) {
         await requestEdit('/usuarios', {
           id: Number(userSelectedEdit),
@@ -140,7 +124,8 @@ const Admin = () => {
         setRoleUpdate('');
         toast.success('Usuário alterado com Sucesso!');
         handleCloseModalEdit();
-        return;
+      } else {
+        toast.error('Usuário não alterado!');
       }
     } catch (error) {
       toast(
