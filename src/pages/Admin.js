@@ -417,7 +417,7 @@ const Admin = () => {
           <div className='flex justify-center'>
             <img
               className='w-52 h-52'
-              src='http://placehold.it/'
+              src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
               alt='placeholder'
             />
           </div>
