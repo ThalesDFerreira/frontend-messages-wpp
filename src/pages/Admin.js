@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert, requestEdit } from '../services/requests';
+import { requestData, requestInsert, requestEdit, requestDelete } from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -85,22 +85,6 @@ const Admin = () => {
     setOpenModalDelete(false);
   };
 
-  // if (
-  //   listMessages.some(
-  //     (msn) => msn.nome === nomeUpdate && msn.menssagem === menssagemUpdate
-  //   )
-  // ) {
-  //   toast.error('Mensagem não alterada!');
-  //   return;
-  // }
-  // if (
-  //   listMessages.some(
-  //     (msn) =>
-  //       (msn.nome !== nomeUpdate && msn.menssagem === menssagemUpdate) ||
-  //       msn.menssagem !== menssagemUpdate
-  //   )
-  // ) {
-
   const btnRequestEditUsers = async () => {
     try {
       const filterUser = listUsuarios.filter(
@@ -137,11 +121,11 @@ const Admin = () => {
     }
   };
 
-  const btnRequestDeleteUsers = () => {
+  const btnRequestDeleteUsers = async () => {
     try {
-      console.log(Number(userSelectedDelete));
-      // await requestInsert('/mensagens', { usuario, menssagem });
-      // requestDataMessages();
+      const idUser = Number(userSelectedDelete);
+      await requestDelete('/usuarios', { id: idUser });
+      requestDataUsers();
       toast.success('Mensagem excluída com Sucesso!');
       handleCloseModalDelete();
     } catch (error) {

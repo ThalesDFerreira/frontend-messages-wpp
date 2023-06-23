@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert, requestEdit } from '../services/requests';
+import { requestData, requestInsert, requestEdit, requestDelete } from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
@@ -107,11 +107,12 @@ const CadastroMensagem = () => {
     setOpenModalEdit(false);
   };
 
-  const btnRequestDeleteMessages = () => {
+  const btnRequestDeleteMessages = async () => {
     try {
-      console.log(Number(messageSelectedDelete));
-      // await requestInsert('/mensagens', { nome, menssagem });
-      // requestDataMessages();
+      const idMenssage = Number(messageSelectedDelete);
+      console.log({ id: idMenssage});
+      await requestDelete('/mensagens', { id: idMenssage });
+      requestDataMessages();
       toast.success('Mensagem excluída com Sucesso!');
       handleCloseModalDelete();
     } catch (error) {

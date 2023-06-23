@@ -43,6 +43,11 @@ export const requestEdit = async (endpoint, body) => {
   return data;
 };
 
+export const requestDelete = async (endpoint, body) => {
+  const { data } = await api.delete(endpoint, body, CONFIG);
+  return data;
+};
+
 export const requestLogin = async (endpoint, body) => {
   const { data } = await api.post(endpoint, body, CONFIG);
   return data;
