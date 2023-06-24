@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert, requestEdit, requestDelete } from '../services/requests';
+import {
+  requestData,
+  requestInsert,
+  requestEdit,
+  requestDelete,
+} from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -19,12 +24,12 @@ const Admin = () => {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [temUsuarios, setTemUsuarios] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [userSelectedEdit, setUserSelectedEdit] = useState('');
-  const [usuarioUpdate, setUsuarioUpdate] = useState('');
-  const [senhaUpdate, setSenhaUpdate] = useState('');
-  const [roleUpdate, setRoleUpdate] = useState('');
+  const [usuarioSelecionadoEditar, setUsuarioSelecionadoEditar] = useState('');
+  const [usuarioAtualizado, setUsuarioAtualizado] = useState('');
+  const [senhaAtualizada, setSenhaAtualizada] = useState('');
+  const [roleAtualizada, setRoleAtualizada] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [userSelectedDelete, setUserSelectedDelete] = useState('');
+  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] = useState('');
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -41,7 +46,11 @@ const Admin = () => {
       if (listaUsuarios.some((user) => user.usuario === usuario)) {
         return toast.error('Usuário já existente!');
       } else {
-        const result = await requestInsert('/usuarios', { usuario, senha, role });
+        const result = await requestInsert('/usuarios', {
+          usuario,
+          senha,
+          role,
+        });
         requestDataUsers();
         setUsuario('');
         setSenha('');
@@ -65,10 +74,10 @@ const Admin = () => {
   }, []);
 
   const handleOpenModalEdit = (id, usuario, senha, role) => {
-    setUserSelectedEdit(id);
-    setUsuarioUpdate(usuario);
-    setSenhaUpdate(senha);
-    setRoleUpdate(role);
+    setUsuarioSelecionadoEditar(id);
+    setUsuarioAtualizado(usuario);
+    setSenhaAtualizada(senha);
+    setRoleAtualizada(role);
     setOpenModalEdit(true);
   };
 
@@ -77,7 +86,7 @@ const Admin = () => {
   };
 
   const handleOpenModalDelete = (id) => {
-    setUserSelectedDelete(id);
+    setUsuarioSelecionadoDeletar(id);
     setOpenModalDelete(true);
   };
 
@@ -88,24 +97,24 @@ const Admin = () => {
   const btnRequestEditUsers = async () => {
     try {
       const filterUser = listaUsuarios.filter(
-        (user) => user.id === Number(userSelectedEdit)
+        (user) => user.id === Number(usuarioSelecionadoEditar)
       );
-      
+
       if (
-        filterUser[0].usuario !== usuarioUpdate ||
-        filterUser[0].senha !== senhaUpdate ||
-        filterUser[0].role !== roleUpdate
+        filterUser[0].usuario !== usuarioAtualizado ||
+        filterUser[0].senha !== senhaAtualizada ||
+        filterUser[0].role !== roleAtualizada
       ) {
         const result = await requestEdit('/usuarios', {
-          id: Number(userSelectedEdit),
-          usuario: usuarioUpdate,
-          senha: senhaUpdate,
-          role: roleUpdate,
+          id: Number(usuarioSelecionadoEditar),
+          usuario: usuarioAtualizado,
+          senha: senhaAtualizada,
+          role: roleAtualizada,
         });
         requestDataUsers();
-        setUsuarioUpdate('');
-        setSenhaUpdate('');
-        setRoleUpdate('');
+        setUsuarioAtualizado('');
+        setSenhaAtualizada('');
+        setRoleAtualizada('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
       } else {
@@ -123,7 +132,7 @@ const Admin = () => {
 
   const btnRequestDeleteUsers = async () => {
     try {
-      const idUser = Number(userSelectedDelete);
+      const idUser = Number(usuarioSelecionadoDeletar);
       const result = await requestDelete(`/usuarios?id=${idUser}`);
       requestDataUsers();
       toast.success(result.mensagem);
@@ -322,9 +331,9 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setUsuarioUpdate(value)
+                          setUsuarioAtualizado(value)
                         }
-                        value={usuarioUpdate}
+                        value={usuarioAtualizado}
                         placeholder='Digite aqui ...'
                       />
                     </td>
@@ -333,9 +342,9 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setSenhaUpdate(value)
+                          setSenhaAtualizada(value)
                         }
-                        value={senhaUpdate}
+                        value={senhaAtualizada}
                         placeholder='Digite aqui ...'
                       />
                     </td>
@@ -344,9 +353,9 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setRoleUpdate(value)
+                          setRoleAtualizada(value)
                         }
-                        value={roleUpdate}
+                        value={roleAtualizada}
                         placeholder='Digite aqui ...'
                       />
                     </td>

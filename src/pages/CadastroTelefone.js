@@ -62,20 +62,13 @@ const CadastroTelefone = () => {
 
   const btnRequestEditTelefone = async () => {
     try {
+      const filterTelefone = listaTelefones.filter(
+        (tel) => tel.id === Number(telefoneSelecionadoEditar)
+      );
+      
       if (
-        listaTelefones.some(
-          (tel) => tel.nome === nomeAtualizado && tel.telefone === telefoneAtualizado
-        )
-      ) {
-        toast.error('Contato não alterado!');
-        return;
-      }
-      if (
-        listaTelefones.some(
-          (tel) =>
-            (tel.nome !== nomeAtualizado && tel.telefone === telefoneAtualizado) ||
-            tel.telefone !== telefoneAtualizado
-        )
+        filterTelefone[0].nome !== nomeAtualizado  ||
+        filterTelefone[0].telefone !== telefoneAtualizado
       ) {
         const result = await requestEdit('/telefones', { id: Number(telefoneSelecionadoEditar), nome: nomeAtualizado, telefone: telefoneAtualizado });
         requestDataTelefone();
@@ -83,7 +76,8 @@ const CadastroTelefone = () => {
         setTelefoneAtualizado('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
-        return;
+      } else {
+        toast.error('Contato não alterado!');
       }
     } catch (error) {
       toast(

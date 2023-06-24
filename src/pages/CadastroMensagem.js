@@ -63,20 +63,13 @@ const CadastroMensagem = () => {
 
   const btnRequestEditMessages = async () => {
     try {
+      const filterMensagem = listaMensagens.filter(
+        (msn) => msn.id === Number(mensagemSelecionadaEditar)
+      );
+
       if (
-        listaMensagens.some(
-          (msn) => msn.nome === nomeAtualizado && msn.mensagem === mensagemAtualizado
-        )
-      ) {
-        toast.error('Mensagem não alterada!');
-        return;
-      }
-      if (
-        listaMensagens.some(
-          (msn) =>
-            (msn.nome !== nomeAtualizado && msn.mensagem === mensagemAtualizado) ||
-            msn.mensagem !== mensagemAtualizado
-        )
+        filterMensagem[0].nome !== nomeAtualizado ||
+        filterMensagem[0].mensagem !== mensagemAtualizado
       ) {
         const result = await requestEdit('/mensagens', { id: Number(mensagemSelecionadaEditar), nome: nomeAtualizado, mensagem: mensagemAtualizado });
         requestDataMessages();
@@ -84,7 +77,8 @@ const CadastroMensagem = () => {
         setMensagemAtualizado('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
-        return;
+      } else {
+        toast.error('Mensagem não alterada!');
       }
     } catch (error) {
       toast(
