@@ -7,27 +7,24 @@ import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [selectAllText, setSelectAllText] = useState('Selecionar Todos');
-  const [listContacts, setListContacts] = useState([]);
-  const [listSelectedContacts, setListSelectedContacts] = useState([]);
-  const [loadList, setLoadList] = useState(false);
-  const [selectAll, setSelectAll] = useState(false);
+  const [modificarTextoBtn, setModificarTextoBtn] = useState('Selecionar Todos');
+  const [listaTelefones, setListaTelefones] = useState([]);
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
+  const [carregandoLista, setCarregandoLista] = useState(false);
+  const [selecionarTodosCheckbox, setSelecionarTodosCheckbox] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [isMessage, setIsMessage] = useState([]);
-  const [existsIsMessage, setExistsIsMessage] = useState(false);
-  const [messageSelected, setMessageSelected] = useState('');
-
-  console.log(listSelectedContacts);
-  console.log(messageSelected);
+  const [mensagem, setMensagem] = useState([]);
+  const [existeMensagem, setExisteMensagem] = useState(false);
+  const [mensagemSelecionada, setMensagemSelecionada] = useState('');
 
   const contacts = async () => {
     try {
       const arrayList = await requestData('/telefones');
       if (arrayList.length !== 0) {
-        setLoadList(true);
-        setListContacts(arrayList);
+        setCarregandoLista(true);
+        setListaTelefones(arrayList);
       } else {
-        setLoadList(false);
+        setCarregandoLista(false);
       }
     } catch (error) {
       toast(
@@ -43,10 +40,10 @@ const Enviar = () => {
     try {
       const stringMessage = await requestData('/mensagens');
       if (stringMessage.length !== 0) {
-        setExistsIsMessage(true);
-        setIsMessage(stringMessage);
+        setExisteMensagem(true);
+        setMensagem(stringMessage);
       } else {
-        setExistsIsMessage(false);
+        setExisteMensagem(false);
       }
     } catch (error) {
       toast(
@@ -64,16 +61,16 @@ const Enviar = () => {
   }, []);
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    if (!selectAll) {
-      const newArray = listContacts.map((contact) => contact.telefone);
-      setListSelectedContacts(newArray);
+    setSelecionarTodosCheckbox(!selecionarTodosCheckbox);
+    if (!selecionarTodosCheckbox) {
+      const newArray = listaTelefones.map((contact) => contact.telefone);
+      setListaTelefonesSelecionados(newArray);
       setIsChecked(true);
-      setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
+      setModificarTextoBtn(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
     } else {
-      setListSelectedContacts([]);
+      setListaTelefonesSelecionados([]);
       setIsChecked(false);
-      setSelectAllText(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
+      setModificarTextoBtn(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
     }
   };
 
@@ -96,12 +93,12 @@ const Enviar = () => {
   //     const teste = !event.target.checked;
   //     return teste;
   //   }
-  //   setListSelectedContacts((prevSelectedContacts) => [
+  //   setListaTelefonesSelecionados((prevSelectedContacts) => [
   //     ...prevSelectedContacts,
   //     contact,
   //   ]);
   // } else {
-  //   setListSelectedContacts((prevSelectedContacts) =>
+  //   setListaTelefonesSelecionados((prevSelectedContacts) =>
   //     prevSelectedContacts.filter(
   //       (selectedContact) => selectedContact !== contact
   //     )
@@ -112,12 +109,12 @@ const Enviar = () => {
   const handleRadioChange = ({ target }) => {
     if (target.value.length !== 0 || target.value !== 'on') {
       const result = target.value;
-      setMessageSelected(result);
+      setMensagemSelecionada(result);
     }
   };
 
   const handleEnviarClick = () => {
-    if (listSelectedContacts.length !== 0 && messageSelected.length !== 0) {
+    if (listaTelefonesSelecionados.length !== 0 && mensagemSelecionada.length !== 0) {
       // FAZER REQUST DE ENVIO DE DADOS
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
@@ -143,7 +140,7 @@ const Enviar = () => {
         <div className='flex-col ml-5 mr-5 md:flex justify-between'>
           <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-96'>
             <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
-            {loadList ? (
+            {carregandoLista ? (
               <section className='container-contats'>
                 <button
                   className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
@@ -152,7 +149,7 @@ const Enviar = () => {
                   name='select-all'
                   onClick={handleSelectAll}
                 >
-                  {selectAllText}
+                  {modificarTextoBtn}
                 </button>
                 <div className='flex flex-col'>
                   <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
@@ -173,7 +170,7 @@ const Enviar = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {listContacts.map((contact) => (
+                            {listaTelefones.map((contact) => (
                               <tr
                                 className='border-b dark:border-neutral-500'
                                 key={`check-table-${contact.id}`}
@@ -236,8 +233,8 @@ const Enviar = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {existsIsMessage ? (
-                          isMessage.map((msn) => (
+                        {existeMensagem ? (
+                          mensagem.map((msn) => (
                             <tr
                               className='border-b dark:border-neutral-500'
                               key={`radio-form-${msn.id}`}
@@ -247,7 +244,7 @@ const Enviar = () => {
                                   id={`radio-${msn.id}`}
                                   type='radio'
                                   name='radioGroup'
-                                  value={msn.menssagem}
+                                  value={msn.mensagem}
                                   onChange={handleRadioChange}
                                 />
                               </td>
@@ -258,7 +255,7 @@ const Enviar = () => {
                               </td>
                               <td className='whitespace-nowrap  px-6 py-4'>
                                 <label htmlFor={`radio-${msn.id}`}>
-                                  {msn.menssagem}
+                                  {msn.mensagem}
                                 </label>
                               </td>
                             </tr>

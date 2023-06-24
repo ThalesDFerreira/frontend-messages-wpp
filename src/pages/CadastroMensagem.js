@@ -14,36 +14,36 @@ import Button from 'react-bootstrap/Button';
 
 const CadastroMensagem = () => {
   const [nome, setNome] = useState('');
-  const [menssagem, setMenssagem] = useState('');
-  const [listMessages, setListMessages] = useState([]);
-  const [hasMessage, setHasMessage] = useState(false);
+  const [mensagem, setMensagem] = useState('');
+  const [listaMensagens, setListaMensagens] = useState([]);
+  const [temMensagem, setTemMensagem] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [messageSelectedEdit, setMessageSelectedEdit] = useState('');
-  const [nomeUpdate, setNomeUpdate] = useState('');
-  const [menssagemUpdate, setMenssagemUpdate] = useState('');
+  const [mensagemSelecionadaEditar, setMensagemSelecionadaEditar] = useState('');
+  const [nomeAtualizado, setNomeAtualizado] = useState('');
+  const [mensagemAtualizado, setMensagemAtualizado] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [messageSelectedDelete, setMessageSelectedDelete] = useState('');
+  const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] = useState('');
 
   const requestDataMessages = async () => {
     const result = await requestData('/mensagens');
     if (result.length !== 0) {
-      setListMessages(result);
-      setHasMessage(true);
+      setListaMensagens(result);
+      setTemMensagem(true);
     } else {
-      setHasMessage(false);
+      setTemMensagem(false);
     }
   };
 
   const btnRequestInsertMessages = async () => {
     try {
-      if (listMessages.some((msn) => msn.menssagem === menssagem)) {
+      if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
         return toast.error('Mensagem já existente!');
       } else {
-        await requestInsert('/mensagens', { nome, menssagem });
+        const result = await requestInsert('/mensagens', { nome, mensagem });
         requestDataMessages();
         setNome('');
-        setMenssagem('');
-        toast.success('Mensagem inserida com Sucesso!');
+        setMensagem('');
+        toast.success(result.mensagem);
       }
     } catch (error) {
       toast(
@@ -64,25 +64,25 @@ const CadastroMensagem = () => {
   const btnRequestEditMessages = async () => {
     try {
       if (
-        listMessages.some(
-          (msn) => msn.nome === nomeUpdate && msn.menssagem === menssagemUpdate
+        listaMensagens.some(
+          (msn) => msn.nome === nomeAtualizado && msn.mensagem === mensagemAtualizado
         )
       ) {
         toast.error('Mensagem não alterada!');
         return;
       }
       if (
-        listMessages.some(
+        listaMensagens.some(
           (msn) =>
-            (msn.nome !== nomeUpdate && msn.menssagem === menssagemUpdate) ||
-            msn.menssagem !== menssagemUpdate
+            (msn.nome !== nomeAtualizado && msn.mensagem === mensagemAtualizado) ||
+            msn.mensagem !== mensagemAtualizado
         )
       ) {
-        await requestEdit('/mensagens', { id: Number(messageSelectedEdit), nome: nomeUpdate, menssagem: menssagemUpdate });
+        const result = await requestEdit('/mensagens', { id: Number(mensagemSelecionadaEditar), nome: nomeAtualizado, mensagem: mensagemAtualizado });
         requestDataMessages();
-        setNomeUpdate('');
-        setMenssagemUpdate('');
-        toast.success('Mensagem alterada com Sucesso!');
+        setNomeAtualizado('');
+        setMensagemAtualizado('');
+        toast.success(result.mensagem);
         handleCloseModalEdit();
         return;
       }
@@ -96,10 +96,10 @@ const CadastroMensagem = () => {
     }
   };
 
-  const handleOpenModalEdit = (id, nome, menssagem) => {
-    setMessageSelectedEdit(id);
-    setNomeUpdate(nome);
-    setMenssagemUpdate(menssagem);
+  const handleOpenModalEdit = (id, nome, mensagem) => {
+    setMensagemSelecionadaEditar(id);
+    setNomeAtualizado(nome);
+    setMensagemAtualizado(mensagem);
     setOpenModalEdit(true);
   };
 
@@ -109,8 +109,8 @@ const CadastroMensagem = () => {
 
   const btnRequestDeleteMessages = async () => {
     try {
-      const idMenssage = Number(messageSelectedDelete);
-      const result = await requestDelete(`/mensagens?id=${idMenssage}`);
+      const idMensagem = Number(mensagemSelecionadaDeletar);
+      const result = await requestDelete(`/mensagens?id=${idMensagem}`);
       requestDataMessages();
       toast.success(result.mensagem);
       handleCloseModalDelete();
@@ -125,7 +125,7 @@ const CadastroMensagem = () => {
   };
 
   const handleOpenModalDelete = (id) => {
-    setMessageSelectedDelete(id);
+    setMensagemSelecionadaDeletar(id);
     setOpenModalDelete(true);
   };
 
@@ -175,9 +175,9 @@ const CadastroMensagem = () => {
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
                             onChange={({ target: { value } }) =>
-                              setMenssagem(value)
+                              setMensagem(value)
                             }
-                            value={menssagem}
+                            value={mensagem}
                             placeholder='Digite aqui ...'
                           />
                         </td>
@@ -224,8 +224,8 @@ const CadastroMensagem = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {hasMessage ? (
-                        listMessages.map((msn) => (
+                      {temMensagem ? (
+                        listaMensagens.map((msn) => (
                           <tr
                             className='border-b dark:border-neutral-500'
                             key={`message-${msn.id}`}
@@ -234,7 +234,7 @@ const CadastroMensagem = () => {
                               {msn.nome}
                             </td>
                             <td className='whitespace-nowrap px-2 py-2'>
-                              {msn.menssagem}
+                              {msn.mensagem}
                             </td>
                             <td className='whitespace-nowrap px-2 py-2'>
                               <button
@@ -244,7 +244,7 @@ const CadastroMensagem = () => {
                                   handleOpenModalEdit(
                                     msn.id,
                                     msn.nome,
-                                    msn.menssagem
+                                    msn.mensagem
                                   )
                                 }
                               >
@@ -294,9 +294,9 @@ const CadastroMensagem = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setNomeUpdate(value)
+                          setNomeAtualizado(value)
                         }
-                        value={nomeUpdate}
+                        value={nomeAtualizado}
                         placeholder='Digite aqui ...'
                       />
                     </td>
@@ -305,9 +305,9 @@ const CadastroMensagem = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setMenssagemUpdate(value)
+                          setMensagemAtualizado(value)
                         }
-                        value={menssagemUpdate}
+                        value={mensagemAtualizado}
                         placeholder='Digite aqui ...'
                       />
                     </td>

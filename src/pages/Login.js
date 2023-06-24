@@ -9,12 +9,12 @@ import '../styles/pages/Login.css';
 import Footer from '../components/Footer';
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(MyContext);
+  const { autenticado, setAutenticado } = useContext(MyContext);
 
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [mostrarSenha, setMostrarSenha] = useState(false);
-  const [isFailAutenticated, setIsFailAutenticated] = useState(false);
+  const [falhaAutenticacao, setFalhaAutenticacao] = useState(false);
 
   const login = async (event) => {
     event.preventDefault();
@@ -22,12 +22,12 @@ const Login = () => {
       const token = await requestLogin('/login', { usuario, senha });
       localStorage.setItem('token', token);
       await verifyIsAdmin();
-      setIsAuthenticated(true);
-      setIsFailAutenticated(false);
-      toast.success('Usuário Logado com Sucesso!');
+      setAutenticado(true);
+      setFalhaAutenticacao(false);
+      toast.success(token.mensagem);
     } catch (error) {
-      setIsAuthenticated(false);
-      setIsFailAutenticated(true);
+      setAutenticado(false);
+      setFalhaAutenticacao(true);
       toast.error('Por favor, tente novamente!');
     }
   };
@@ -42,7 +42,7 @@ const Login = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  if (isAuthenticated) return <Navigate to='/enviar' />;
+  if (autenticado) return <Navigate to='/enviar' />;
 
   return (
     <div className='container-login flex flex-col min-h-screen'>
@@ -105,7 +105,7 @@ const Login = () => {
               </button>
             </div>
           </div>
-          {isFailAutenticated ? (
+          {falhaAutenticacao ? (
             <>
               <p className='text-red-600 text-center'>O nome de Usuário ou</p>
               <p className='text-red-600 text-center'>

@@ -4,14 +4,14 @@ import MyContext from '../context/MyContext';
 import '../styles/components/Header.css';
 import Home from '../assets/home.png';
 import Telefone from '../assets/add_contacts.png';
-import Message from '../assets/message.png';
+import Mensagem from '../assets/message.png';
 import Sair from '../assets/logout.png';
 import Admin from '../assets/admin.png';
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated, setIsAdmin, isAdmin } = useContext(MyContext);
+  const { setAutenticado, setAdmin, admin } = useContext(MyContext);
 
   const onClickHome = () => {
     navigate('/enviar');
@@ -26,10 +26,10 @@ const Header = () => {
   };
 
   const onClickSair = () => {
-    setIsAuthenticated(false);
+    setAutenticado(false);
     localStorage.clear();
     navigate('/login');
-    setIsAdmin(false);
+    setAdmin(false);
   };
 
   const onClickAdmin = () => {
@@ -56,7 +56,7 @@ const Header = () => {
         </h1>
       </div>
       <nav className='flex justify-between gap-4 mt-2'>
-        {isAdmin && <div>
+        {admin && <div>
           <button type='button' onClick={onClickAdmin}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
@@ -81,7 +81,7 @@ const Header = () => {
           <button type='button' onClick={onClickMensagem}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-sky-500 hover:bg-sky-900 p-1'
-              src={Message}
+              src={Mensagem}
               alt='Cadastrar Mensagem'
             />
             <p className='mt-1 flex justify-center'>Add Msn</p>

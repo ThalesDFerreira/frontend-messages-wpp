@@ -16,8 +16,8 @@ const Admin = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [role, setRole] = useState('user');
-  const [listUsuarios, setListUsuarios] = useState([]);
-  const [hasUsers, setHasUsers] = useState(false);
+  const [listaUsuarios, setListaUsuarios] = useState([]);
+  const [temUsuarios, setTemUsuarios] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [userSelectedEdit, setUserSelectedEdit] = useState('');
   const [usuarioUpdate, setUsuarioUpdate] = useState('');
@@ -29,24 +29,24 @@ const Admin = () => {
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
     if (result.length !== 0) {
-      setListUsuarios(result);
-      setHasUsers(true);
+      setListaUsuarios(result);
+      setTemUsuarios(true);
     } else {
-      setHasUsers(false);
+      setTemUsuarios(false);
     }
   };
 
   const btnRequestInsertUser = async () => {
     try {
-      if (listUsuarios.some((user) => user.usuario === usuario)) {
+      if (listaUsuarios.some((user) => user.usuario === usuario)) {
         return toast.error('Usuário já existente!');
       } else {
-        await requestInsert('/usuarios', { usuario, senha, role });
+        const result = await requestInsert('/usuarios', { usuario, senha, role });
         requestDataUsers();
         setUsuario('');
         setSenha('');
         setRole('user');
-        toast.success('Usuário inserido com Sucesso!');
+        toast.success(result.mensagem);
       }
     } catch (error) {
       toast(
@@ -87,7 +87,7 @@ const Admin = () => {
 
   const btnRequestEditUsers = async () => {
     try {
-      const filterUser = listUsuarios.filter(
+      const filterUser = listaUsuarios.filter(
         (user) => user.id === Number(userSelectedEdit)
       );
       
@@ -246,8 +246,8 @@ const Admin = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {hasUsers ? (
-                        listUsuarios.map((user) => (
+                      {temUsuarios ? (
+                        listaUsuarios.map((user) => (
                           <tr
                             className='border-b dark:border-neutral-500'
                             key={`user-${user.id}`}

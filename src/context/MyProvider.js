@@ -2,28 +2,28 @@ import React, { useState, useEffect } from 'react';
 import MyContext from './MyContext';
 
 const MyProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [redirectBtnHome, setRedirectBtnHome] = useState(false);
-  const [redirectBtnTelefone, setRedirectBtnTelefone] = useState(false);
-  const [redirectBtnMensagem, setRedirectBtnMensagem] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [autenticado, setAutenticado] = useState(false);
+  const [redirecionaBtnHome, setRedirecionaBtnHome] = useState(false);
+  const [redirecionaBtnTelefone, setRedirecionaBtnTelefone] = useState(false);
+  const [redirecionaBtnMensagem, setRedirecionaBtnMensagem] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
 
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {
-      setIsAuthenticated(true);
+      setAutenticado(true);
     } else {
-      setIsAuthenticated(false);
+      setAutenticado(false);
     }
   };
 
   const verifyUserRole = () => {
     const role = localStorage.getItem('role');
     if (role !== 'admin') {
-      setIsAdmin(false);
+      setAdmin(false);
     } else {
-      setIsAdmin(true);
+      setAdmin(true);
     }
   };
 
@@ -33,19 +33,19 @@ const MyProvider = ({ children }) => {
 
   useEffect(() => {
     verifyUserRole();
-  }, [isAuthenticated]);
+  }, [setAutenticado]);
 
   const state = {
-    isAuthenticated,
-    setIsAuthenticated,
-    redirectBtnHome,
-    setRedirectBtnHome,
-    redirectBtnTelefone,
-    setRedirectBtnTelefone,
-    redirectBtnMensagem,
-    setRedirectBtnMensagem,
-    setIsAdmin,
-    isAdmin,
+    autenticado,
+    setAutenticado,
+    redirecionaBtnHome,
+    setRedirecionaBtnHome,
+    redirecionaBtnTelefone,
+    setRedirecionaBtnTelefone,
+    redirecionaBtnMensagem,
+    setRedirecionaBtnMensagem,
+    setAdmin,
+    admin,
   };
 
   return <MyContext.Provider value={state}>{children}</MyContext.Provider>;

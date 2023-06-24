@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../assets/alert.png';
+import Alerta from '../assets/alert.png';
 import Home from '../assets/home.png';
 import '../styles/pages/ErroLogin.css';
 
@@ -18,7 +18,7 @@ const ErroLogin = () => {
           <div className='flex justify-center'>
             <img
               className='bg-yellow-200'
-              src={Alert}
+              src={Alerta}
               alt='Alerta'
             />
           </div>

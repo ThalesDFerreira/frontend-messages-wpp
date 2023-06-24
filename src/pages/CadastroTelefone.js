@@ -15,35 +15,35 @@ import Button from 'react-bootstrap/Button';
 const CadastroTelefone = () => {
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [listTelefones, setListTelefones] = useState([]);
-  const [hasTelefone, setHasTelefone] = useState(false);
+  const [listaTelefones, setListaTelefones] = useState([]);
+  const [temTelefone, setTemTelefone] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [telefoneSelectedEdit, setTelefoneSelectedEdit] = useState('');
-  const [nomeUpdate, setNomeUpdate] = useState('');
-  const [telefoneUpdate, setTelefoneUpdate] = useState('');
+  const [telefoneSelecionadoEditar, setTelefoneSelecionadoEditar] = useState('');
+  const [nomeAtualizado, setNomeAtualizado] = useState('');
+  const [telefoneAtualizado, setTelefoneAtualizado] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [messageSelectedDelete, setMessageSelectedDelete] = useState('');
+  const [telefoneSelecionadoDeletar, setTelefoneSelecionadoDeletar] = useState('');
 
   const requestDataTelefone = async () => {
     const result = await requestData('/telefones');
     if (result.length !== 0) {
-      setListTelefones(result);
-      setHasTelefone(true);
+      setListaTelefones(result);
+      setTemTelefone(true);
     } else {
-      setHasTelefone(false);
+      setTemTelefone(false);
     }
   };
 
   const btnRequestInsertTelefone = async () => {
     try {
-      if (listTelefones.some((tel) => tel.telefone === Number(telefone))) {
+      if (listaTelefones.some((tel) => tel.telefone === Number(telefone))) {
         return toast.error('Contato já existente!');
       }
-      await requestInsert('/telefones', { nome, telefone: Number(telefone) });
+      const result = await requestInsert('/telefones', { nome, telefone: Number(telefone) });
       requestDataTelefone();
       setNome('');
       setTelefone('');
-      toast.success('Contato inserido com Sucesso!');
+      toast.success(result.mensagem);
     } catch (error) {
       toast(
         '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
@@ -63,25 +63,25 @@ const CadastroTelefone = () => {
   const btnRequestEditTelefone = async () => {
     try {
       if (
-        listTelefones.some(
-          (tel) => tel.nome === nomeUpdate && tel.telefone === telefoneUpdate
+        listaTelefones.some(
+          (tel) => tel.nome === nomeAtualizado && tel.telefone === telefoneAtualizado
         )
       ) {
         toast.error('Contato não alterado!');
         return;
       }
       if (
-        listTelefones.some(
+        listaTelefones.some(
           (tel) =>
-            (tel.nome !== nomeUpdate && tel.telefone === telefoneUpdate) ||
-            tel.telefone !== telefoneUpdate
+            (tel.nome !== nomeAtualizado && tel.telefone === telefoneAtualizado) ||
+            tel.telefone !== telefoneAtualizado
         )
       ) {
-        await requestEdit('/telefones', { id: Number(telefoneSelectedEdit), nome: nomeUpdate, telefone: telefoneUpdate });
+        const result = await requestEdit('/telefones', { id: Number(telefoneSelecionadoEditar), nome: nomeAtualizado, telefone: telefoneAtualizado });
         requestDataTelefone();
-        setNomeUpdate('');
-        setTelefoneUpdate('');
-        toast.success('Contato alterado com Sucesso!');
+        setNomeAtualizado('');
+        setTelefoneAtualizado('');
+        toast.success(result.mensagem);
         handleCloseModalEdit();
         return;
       }
@@ -96,9 +96,9 @@ const CadastroTelefone = () => {
   };
 
   const handleOpenModalEdit = (id, nome, telefone) => {
-    setTelefoneSelectedEdit(id);
-    setNomeUpdate(nome);
-    setTelefoneUpdate(telefone);
+    setTelefoneSelecionadoEditar(id);
+    setNomeAtualizado(nome);
+    setTelefoneAtualizado(telefone);
     setOpenModalEdit(true);
   };
 
@@ -108,7 +108,7 @@ const CadastroTelefone = () => {
 
   const btnRequestDeleteTelefone = async () => {
     try {
-      const idTelefone = Number(messageSelectedDelete);
+      const idTelefone = Number(telefoneSelecionadoDeletar);
       const result = await requestDelete(`/telefones?id=${idTelefone}`);
       requestDataTelefone();
       toast.success(result.mensagem);
@@ -124,7 +124,7 @@ const CadastroTelefone = () => {
   };
 
   const handleOpenModalDelete = (id) => {
-    setMessageSelectedDelete(id);
+    setTelefoneSelecionadoDeletar(id);
     setOpenModalDelete(true);
   };
 
@@ -223,8 +223,8 @@ const CadastroTelefone = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {hasTelefone ? (
-                        listTelefones.map((tel) => (
+                      {temTelefone ? (
+                        listaTelefones.map((tel) => (
                           <tr
                             className='border-b dark:border-neutral-500'
                             key={`contato-${tel.id}`}
@@ -293,9 +293,9 @@ const CadastroTelefone = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setNomeUpdate(value)
+                          setNomeAtualizado(value)
                         }
-                        value={nomeUpdate}
+                        value={nomeAtualizado}
                         placeholder='Digite aqui ...'
                       />
                     </td>
@@ -304,9 +304,9 @@ const CadastroTelefone = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setTelefoneUpdate(value)
+                        setTelefoneAtualizado(value)
                         }
-                        value={telefoneUpdate}
+                        value={telefoneAtualizado}
                         placeholder='Digite aqui ...'
                       />
                     </td>
