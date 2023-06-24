@@ -53,7 +53,7 @@ const CadastroTelefone = () => {
         nome,
         telefone: Number(telefone),
       });
-      requestDataTelefone();
+      await requestDataTelefone();
       setNome('');
       setTelefone('');
       toast.success(result.mensagem);
@@ -70,7 +70,6 @@ const CadastroTelefone = () => {
 
   useEffect(() => {
     requestDataTelefone();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const btnRequestEditTelefone = async () => {
@@ -106,7 +105,7 @@ const CadastroTelefone = () => {
           nome: nomeAtualizado,
           telefone: telefoneAtualizado,
         });
-        requestDataTelefone();
+        await requestDataTelefone();
         setNomeAtualizado('');
         setTelefoneAtualizado('');
         toast.success(result.mensagem);
@@ -137,7 +136,7 @@ const CadastroTelefone = () => {
     try {
       const idTelefone = Number(telefoneSelecionadoDeletar);
       const result = await requestDelete(`/telefones?id=${idTelefone}`);
-      requestDataTelefone();
+      await requestDataTelefone();
       toast.success(result.mensagem);
       handleCloseModalDelete();
     } catch (error) {

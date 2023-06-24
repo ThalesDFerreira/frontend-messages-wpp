@@ -6,7 +6,7 @@ import Home from '../assets/home.png';
 import Telefone from '../assets/add_contacts.png';
 import Mensagem from '../assets/message.png';
 import Sair from '../assets/logout.png';
-import Admin from '../assets/admin.png';
+import AdminImg from '../assets/admin.png';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Header = () => {
           <button type='button' onClick={onClickAdmin}>
             <img
               className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
-              src={Admin}
+              src={AdminImg}
               alt='Painel Admin'
             />
             <p className='mt-1 flex justify-center'>Admin</p>

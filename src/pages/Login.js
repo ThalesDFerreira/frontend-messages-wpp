@@ -9,7 +9,7 @@ import '../styles/pages/Login.css';
 import Footer from '../components/Footer';
 
 const Login = () => {
-  const { autenticado, setAutenticado } = useContext(MyContext);
+  const { autenticado, setAutenticado, setAdmin } = useContext(MyContext);
 
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -36,6 +36,7 @@ const Login = () => {
     const users = await requestData('/usuarios');
     const findUserLogin = users.filter((user) => user.usuario === usuario);
     localStorage.setItem('role', findUserLogin[0].role);
+    setAdmin(true);
   };
 
   const handleMostrarSenha = () => {

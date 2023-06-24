@@ -52,7 +52,7 @@ const Admin = () => {
           senha,
           role,
         });
-        requestDataUsers();
+        await requestDataUsers();
         setUsuario('');
         setSenha('');
         setRole('user');
@@ -124,7 +124,7 @@ const Admin = () => {
           senha: senhaAtualizada,
           role: roleAtualizada,
         });
-        requestDataUsers();
+        await requestDataUsers();
         setUsuarioAtualizado('');
         setSenhaAtualizada('');
         setRoleAtualizada('');
@@ -145,7 +145,7 @@ const Admin = () => {
     try {
       const idUser = Number(usuarioSelecionadoDeletar);
       const result = await requestDelete(`/usuarios?id=${idUser}`);
-      requestDataUsers();
+      await requestDataUsers();
       toast.success(result.mensagem);
       handleCloseModalDelete();
     } catch (error) {
