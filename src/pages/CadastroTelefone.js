@@ -109,9 +109,9 @@ const CadastroTelefone = () => {
   const btnRequestDeleteTelefone = async () => {
     try {
       const idTelefone = Number(messageSelectedDelete);
-      await requestDelete('/telefones', { id: idTelefone });
+      const result = await requestDelete(`/telefones?id=${idTelefone}`);
       requestDataTelefone();
-      toast.success('Contato excluído com Sucesso!');
+      toast.success(result.mensagem);
       handleCloseModalDelete();
     } catch (error) {
       toast(

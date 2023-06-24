@@ -96,7 +96,7 @@ const Admin = () => {
         filterUser[0].senha !== senhaUpdate ||
         filterUser[0].role !== roleUpdate
       ) {
-        await requestEdit('/usuarios', {
+        const result = await requestEdit('/usuarios', {
           id: Number(userSelectedEdit),
           usuario: usuarioUpdate,
           senha: senhaUpdate,
@@ -106,7 +106,7 @@ const Admin = () => {
         setUsuarioUpdate('');
         setSenhaUpdate('');
         setRoleUpdate('');
-        toast.success('Usuário alterado com Sucesso!');
+        toast.success(result.mensagem);
         handleCloseModalEdit();
       } else {
         toast.error('Usuário não alterado!');
@@ -124,9 +124,9 @@ const Admin = () => {
   const btnRequestDeleteUsers = async () => {
     try {
       const idUser = Number(userSelectedDelete);
-      await requestDelete('/usuarios', { id: idUser });
+      const result = await requestDelete(`/usuarios?id=${idUser}`);
       requestDataUsers();
-      toast.success('Mensagem excluída com Sucesso!');
+      toast.success(result.mensagem);
       handleCloseModalDelete();
     } catch (error) {
       toast(

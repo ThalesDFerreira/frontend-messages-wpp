@@ -43,8 +43,8 @@ export const requestEdit = async (endpoint, body) => {
   return data;
 };
 
-export const requestDelete = async (endpoint, body) => {
-  const { data } = await api.delete(endpoint, body, CONFIG);
+export const requestDelete = async (endpoint) => {
+  const { data } = await api.delete(endpoint, CONFIG);
   return data;
 };
 

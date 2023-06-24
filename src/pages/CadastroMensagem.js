@@ -110,10 +110,9 @@ const CadastroMensagem = () => {
   const btnRequestDeleteMessages = async () => {
     try {
       const idMenssage = Number(messageSelectedDelete);
-      console.log({ id: idMenssage});
-      await requestDelete('/mensagens', { id: idMenssage });
+      const result = await requestDelete(`/mensagens?id=${idMenssage}`);
       requestDataMessages();
-      toast.success('Mensagem excluída com Sucesso!');
+      toast.success(result.mensagem);
       handleCloseModalDelete();
     } catch (error) {
       toast(
