@@ -13,7 +13,6 @@ import './App.css';
 const App = () => {
   const { autenticado, admin } = useContext(MyContext);
 
-  console.log(admin);
   return (
     <>
       <Toaster position='top-right' reverseOrder={false} />
