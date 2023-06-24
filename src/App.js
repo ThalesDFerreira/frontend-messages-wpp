@@ -11,7 +11,7 @@ import { Toaster } from 'react-hot-toast';
 import './App.css';
 
 const App = () => {
-  const { autenticado, admin  } = useContext(MyContext);
+  const { autenticado, admin } = useContext(MyContext);
   return (
     <>
       <Toaster position='top-right' reverseOrder={false} />

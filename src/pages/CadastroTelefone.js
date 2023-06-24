@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert, requestEdit, requestDelete } from '../services/requests';
+import {
+  requestData,
+  requestInsert,
+  requestEdit,
+  requestDelete,
+} from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
@@ -18,11 +23,13 @@ const CadastroTelefone = () => {
   const [listaTelefones, setListaTelefones] = useState([]);
   const [temTelefone, setTemTelefone] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [telefoneSelecionadoEditar, setTelefoneSelecionadoEditar] = useState('');
+  const [telefoneSelecionadoEditar, setTelefoneSelecionadoEditar] =
+    useState('');
   const [nomeAtualizado, setNomeAtualizado] = useState('');
   const [telefoneAtualizado, setTelefoneAtualizado] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [telefoneSelecionadoDeletar, setTelefoneSelecionadoDeletar] = useState('');
+  const [telefoneSelecionadoDeletar, setTelefoneSelecionadoDeletar] =
+    useState('');
 
   const requestDataTelefone = async () => {
     const result = await requestData('/telefones');
@@ -39,7 +46,13 @@ const CadastroTelefone = () => {
       if (listaTelefones.some((tel) => tel.telefone === Number(telefone))) {
         return toast.error('Contato já existente!');
       }
-      const result = await requestInsert('/telefones', { nome, telefone: Number(telefone) });
+      if (listaTelefones.some((tel) => tel.nome === nome)) {
+        return toast.error('Nome de contato já existente!');
+      }
+      const result = await requestInsert('/telefones', {
+        nome,
+        telefone: Number(telefone),
+      });
       requestDataTelefone();
       setNome('');
       setTelefone('');
@@ -62,22 +75,42 @@ const CadastroTelefone = () => {
 
   const btnRequestEditTelefone = async () => {
     try {
-      const filterTelefone = listaTelefones.filter(
+      const filterTelefoneId = listaTelefones.filter(
         (tel) => tel.id === Number(telefoneSelecionadoEditar)
       );
-      
+
+      const filterRemoverIdList = listaTelefones.filter(
+        (tel) => tel.id !== Number(telefoneSelecionadoEditar)
+      );
+
+      const filterListaTelefone = filterRemoverIdList.some(
+        (tel) => tel.telefone === Number(telefoneAtualizado)
+      );
+
+      const filterListaNome = filterRemoverIdList.some(
+        (tel) => tel.nome === nomeAtualizado
+      );
+
       if (
-        filterTelefone[0].nome !== nomeAtualizado  ||
-        filterTelefone[0].telefone !== telefoneAtualizado
+        filterTelefoneId[0].nome === nomeAtualizado &&
+        filterTelefoneId[0].telefone === Number(telefoneAtualizado)
       ) {
-        const result = await requestEdit('/telefones', { id: Number(telefoneSelecionadoEditar), nome: nomeAtualizado, telefone: telefoneAtualizado });
+        toast.error('Telefone não alterado!');
+      } else if (filterListaTelefone) {
+        toast.error('Telefone já existe!');
+      } else if (filterListaNome) {
+        toast.error('Nome do telefone já existe!');
+      } else {
+        const result = await requestEdit('/telefones', {
+          id: Number(telefoneSelecionadoEditar),
+          nome: nomeAtualizado,
+          telefone: telefoneAtualizado,
+        });
         requestDataTelefone();
         setNomeAtualizado('');
         setTelefoneAtualizado('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
-      } else {
-        toast.error('Contato não alterado!');
       }
     } catch (error) {
       toast(
@@ -298,7 +331,7 @@ const CadastroTelefone = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                        setTelefoneAtualizado(value)
+                          setTelefoneAtualizado(value)
                         }
                         value={telefoneAtualizado}
                         placeholder='Digite aqui ...'

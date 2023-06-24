@@ -7,9 +7,12 @@ import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [modificarTextoBtn, setModificarTextoBtn] = useState('Selecionar Todos');
+  const [modificarTextoBtn, setModificarTextoBtn] =
+    useState('Selecionar Todos');
   const [listaTelefones, setListaTelefones] = useState([]);
-  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
+    []
+  );
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [selecionarTodosCheckbox, setSelecionarTodosCheckbox] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -83,7 +86,6 @@ const Enviar = () => {
   const handleChangeInput = (event) => {
     // const { name } = event.target;
     // this.setState({ [name]: event.target.value }, () => this.buttonDisableEnable());
-    // console.log(event.target);
   };
 
   // const handleSelectContact = (event) => {
@@ -114,7 +116,10 @@ const Enviar = () => {
   };
 
   const handleEnviarClick = () => {
-    if (listaTelefonesSelecionados.length !== 0 && mensagemSelecionada.length !== 0) {
+    if (
+      listaTelefonesSelecionados.length !== 0 &&
+      mensagemSelecionada.length !== 0
+    ) {
       // FAZER REQUST DE ENVIO DE DADOS
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
@@ -262,7 +267,9 @@ const Enviar = () => {
                           ))
                         ) : (
                           <tr className='border-b dark:border-neutral-500'>
-                            <td className='whitespace-nowrap  px-6 py-4 font-medium'>Nenhuma mensagem cadastrada!</td>
+                            <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                              Nenhuma mensagem cadastrada!
+                            </td>
                           </tr>
                         )}
                       </tbody>
@@ -273,26 +280,26 @@ const Enviar = () => {
             </div>
             <div className='flex justify-between mb-3'>
               <div className='flex justify-center items-center ml-12 lg:ml-48'>
-              <label htmlFor='radio-message'>
-                <input
-                  className='p-2 flex justify-center items-center'
-                  id='radio-message'
-                  type='radio'
-                  name='radioGroup'
-                  onChange={handleRadioChange}
-                />
+                <label htmlFor='radio-message'>
+                  <input
+                    className='p-2 flex justify-center items-center'
+                    id='radio-message'
+                    type='radio'
+                    name='radioGroup'
+                    onChange={handleRadioChange}
+                  />
                 </label>
-                </div>
-                <div className='flex justify-center items-center'>
-                  <p className='p-2'>Escreva sua mensagem</p>
-                </div>
-                <div className='flex justify-center items-center w-72 lg:w-96'>
+              </div>
+              <div className='flex justify-center items-center'>
+                <p className='p-2'>Escreva sua mensagem</p>
+              </div>
+              <div className='flex justify-center items-center w-72 lg:w-96'>
                 <textarea
                   className='p-2 w-full h-20 text-black'
                   onChange={handleRadioChange}
                   placeholder='Digite sua mensagem...'
                 />
-                </div>
+              </div>
             </div>
           </section>
         </div>

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { requestData, requestInsert, requestEdit, requestDelete } from '../services/requests';
+import {
+  requestData,
+  requestInsert,
+  requestEdit,
+  requestDelete,
+} from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroMensagem.css';
 import Header from '../components/Header';
@@ -18,11 +23,13 @@ const CadastroMensagem = () => {
   const [listaMensagens, setListaMensagens] = useState([]);
   const [temMensagem, setTemMensagem] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [mensagemSelecionadaEditar, setMensagemSelecionadaEditar] = useState('');
+  const [mensagemSelecionadaEditar, setMensagemSelecionadaEditar] =
+    useState('');
   const [nomeAtualizado, setNomeAtualizado] = useState('');
   const [mensagemAtualizado, setMensagemAtualizado] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] = useState('');
+  const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] =
+    useState('');
 
   const requestDataMessages = async () => {
     const result = await requestData('/mensagens');
@@ -38,13 +45,15 @@ const CadastroMensagem = () => {
     try {
       if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
         return toast.error('Mensagem já existente!');
-      } else {
-        const result = await requestInsert('/mensagens', { nome, mensagem });
-        requestDataMessages();
-        setNome('');
-        setMensagem('');
-        toast.success(result.mensagem);
       }
+      if (listaMensagens.some((msn) => msn.nome === nome)) {
+        return toast.error('Nome de mensagem já existente!');
+      }
+      const result = await requestInsert('/mensagens', { nome, mensagem });
+      requestDataMessages();
+      setNome('');
+      setMensagem('');
+      toast.success(result.mensagem);
     } catch (error) {
       toast(
         '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
@@ -63,22 +72,42 @@ const CadastroMensagem = () => {
 
   const btnRequestEditMessages = async () => {
     try {
-      const filterMensagem = listaMensagens.filter(
+      const filterMensagemId = listaMensagens.filter(
         (msn) => msn.id === Number(mensagemSelecionadaEditar)
       );
 
+      const filterRemoverIdList = listaMensagens.filter(
+        (tel) => tel.id !== Number(mensagemSelecionadaEditar)
+      );
+
+      const filterListaMensagem = filterRemoverIdList.some(
+        (msn) => msn.mensagem === mensagemAtualizado
+      );
+
+      const filterListaNome = filterRemoverIdList.some(
+        (msn) => msn.nome === nomeAtualizado
+      );
+
       if (
-        filterMensagem[0].nome !== nomeAtualizado ||
-        filterMensagem[0].mensagem !== mensagemAtualizado
+        filterMensagemId[0].nome === nomeAtualizado &&
+        filterMensagemId[0].mensagem === mensagemAtualizado
       ) {
-        const result = await requestEdit('/mensagens', { id: Number(mensagemSelecionadaEditar), nome: nomeAtualizado, mensagem: mensagemAtualizado });
+        toast.error('Mensagem não alterado!');
+      } else if (filterListaMensagem) {
+        toast.error('Mensagem já existe!');
+      } else if (filterListaNome) {
+        toast.error('Nome da mensagem já existe!');
+      } else {
+        const result = await requestEdit('/mensagens', {
+          id: Number(mensagemSelecionadaEditar),
+          nome: nomeAtualizado,
+          mensagem: mensagemAtualizado,
+        });
         requestDataMessages();
         setNomeAtualizado('');
         setMensagemAtualizado('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
-      } else {
-        toast.error('Mensagem não alterada!');
       }
     } catch (error) {
       toast(

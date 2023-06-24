@@ -29,7 +29,8 @@ const Admin = () => {
   const [senhaAtualizada, setSenhaAtualizada] = useState('');
   const [roleAtualizada, setRoleAtualizada] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] = useState('');
+  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
+    useState('');
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -75,7 +76,7 @@ const Admin = () => {
 
   const handleOpenModalEdit = (id, usuario, senha, role) => {
     setUsuarioSelecionadoEditar(id);
-    setUsuarioAtualizado(usuario);
+    setUsuarioAtualizado(usuario.toLowerCase());
     setSenhaAtualizada(senha);
     setRoleAtualizada(role);
     setOpenModalEdit(true);
@@ -96,15 +97,23 @@ const Admin = () => {
 
   const btnRequestEditUsers = async () => {
     try {
-      const filterUser = listaUsuarios.filter(
+      const filterUserId = listaUsuarios.filter(
         (user) => user.id === Number(usuarioSelecionadoEditar)
       );
 
+      const filterListaUsuario = listaUsuarios.some(
+        (user) => user.usuario === usuarioAtualizado
+      );
+
       if (
-        filterUser[0].usuario !== usuarioAtualizado ||
-        filterUser[0].senha !== senhaAtualizada ||
-        filterUser[0].role !== roleAtualizada
+        filterUserId[0].usuario === usuarioAtualizado &&
+        filterUserId[0].senha === senhaAtualizada &&
+        filterUserId[0].role === roleAtualizada
       ) {
+        toast.error('Usuário não alterado!');
+      } else if (filterListaUsuario) {
+        toast.error('Usuário já existe!');
+      } else {
         const result = await requestEdit('/usuarios', {
           id: Number(usuarioSelecionadoEditar),
           usuario: usuarioAtualizado,
@@ -117,8 +126,6 @@ const Admin = () => {
         setRoleAtualizada('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
-      } else {
-        toast.error('Usuário não alterado!');
       }
     } catch (error) {
       toast(
@@ -183,7 +190,7 @@ const Admin = () => {
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
                             onChange={({ target: { value } }) =>
-                              setUsuario(value)
+                              setUsuario(value.toLowerCase())
                             }
                             value={usuario}
                             placeholder='Digite aqui ...'
@@ -331,7 +338,7 @@ const Admin = () => {
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
-                          setUsuarioAtualizado(value)
+                          setUsuarioAtualizado(value.toLowerCase())
                         }
                         value={usuarioAtualizado}
                         placeholder='Digite aqui ...'

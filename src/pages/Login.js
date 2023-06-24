@@ -36,7 +36,7 @@ const Login = () => {
     const users = await requestData('/usuarios');
     const findUserLogin = users.filter((user) => user.usuario === usuario);
     localStorage.setItem('role', findUserLogin[0].role);
-  }
+  };
 
   const handleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
