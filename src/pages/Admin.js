@@ -101,7 +101,11 @@ const Admin = () => {
         (user) => user.id === Number(usuarioSelecionadoEditar)
       );
 
-      const filterListaUsuario = listaUsuarios.some(
+      const filterRemoverIdList = listaUsuarios.filter(
+        (user) => user.id !== Number(usuarioSelecionadoEditar)
+      );
+
+      const filterListaUsuario = filterRemoverIdList.some(
         (user) => user.usuario === usuarioAtualizado
       );
 
@@ -208,13 +212,14 @@ const Admin = () => {
                           />
                         </td>
                         <td className='whitespace-nowrap px-2 py-2'>
-                          <input
-                            className='p-1 text-black rounded-md w-28 md:w-full'
-                            type='text'
+                          <select
+                            className='py-1 text-black rounded-md w-24 md:w-full'
                             onChange={({ target: { value } }) => setRole(value)}
                             value={role}
-                            placeholder='Digite aqui ...'
-                          />
+                          >
+                            <option value='user'>user</option>
+                            <option value='admin'>admin</option>
+                          </select>
                         </td>
                         <td className='whitespace-nowrap px-2 py-2'>
                           <button
@@ -356,7 +361,17 @@ const Admin = () => {
                       />
                     </td>
                     <td>
-                      <input
+                      <select
+                        className='p-1 text-black rounded-md bg-rgb-212-212-212'
+                        onChange={({ target: { value } }) =>
+                          setRoleAtualizada(value)
+                        }
+                        value={roleAtualizada}
+                      >
+                        <option value='user'>user</option>
+                        <option value='admin'>admin</option>
+                      </select>
+                      {/* <input
                         className='p-1 text-black rounded-md bg-rgb-212-212-212'
                         type='text'
                         onChange={({ target: { value } }) =>
@@ -364,7 +379,7 @@ const Admin = () => {
                         }
                         value={roleAtualizada}
                         placeholder='Digite aqui ...'
-                      />
+                      /> */}
                     </td>
                   </tr>
                 </tbody>
