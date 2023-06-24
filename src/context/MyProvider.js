@@ -33,7 +33,7 @@ const MyProvider = ({ children }) => {
 
   useEffect(() => {
     verifyUserRole();
-  }, [setAutenticado]);
+  }, [autenticado]);
 
   const state = {
     autenticado,
