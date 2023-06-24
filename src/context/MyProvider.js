@@ -8,7 +8,6 @@ const MyProvider = ({ children }) => {
   const [redirecionaBtnMensagem, setRedirecionaBtnMensagem] = useState(false);
   const [admin, setAdmin] = useState(false);
 
-
   const verifyUserLogin = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {

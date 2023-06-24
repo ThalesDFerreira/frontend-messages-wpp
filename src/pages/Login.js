@@ -9,7 +9,7 @@ import '../styles/pages/Login.css';
 import Footer from '../components/Footer';
 
 const Login = () => {
-  const { autenticado, setAutenticado, setAdmin } = useContext(MyContext);
+  const { autenticado, setAutenticado } = useContext(MyContext);
 
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
