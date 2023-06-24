@@ -340,7 +340,7 @@ const Admin = () => {
                   <tr>
                     <td>
                       <input
-                        className='p-1 text-black rounded-md bg-rgb-212-212-212'
+                        className='p-1 text-black w-36 rounded-md bg-rgb-212-212-212 mr-1'
                         type='text'
                         onChange={({ target: { value } }) =>
                           setUsuarioAtualizado(value.toLowerCase())
@@ -351,7 +351,7 @@ const Admin = () => {
                     </td>
                     <td>
                       <input
-                        className='p-1 text-black rounded-md bg-rgb-212-212-212'
+                        className='p-1 text-black w-36 rounded-md bg-rgb-212-212-212 mr-1'
                         type='text'
                         onChange={({ target: { value } }) =>
                           setSenhaAtualizada(value)
@@ -371,15 +371,6 @@ const Admin = () => {
                         <option value='user'>user</option>
                         <option value='admin'>admin</option>
                       </select>
-                      {/* <input
-                        className='p-1 text-black rounded-md bg-rgb-212-212-212'
-                        type='text'
-                        onChange={({ target: { value } }) =>
-                          setRoleAtualizada(value)
-                        }
-                        value={roleAtualizada}
-                        placeholder='Digite aqui ...'
-                      /> */}
                     </td>
                   </tr>
                 </tbody>
