@@ -7,12 +7,9 @@ import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [modificarTextoBtn, setModificarTextoBtn] =
-    useState('Selecionar Todos');
+  const [modificarTextoBtn, setModificarTextoBtn] = useState('Selecionar Todos');
   const [listaTelefones, setListaTelefones] = useState([]);
-  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
-    []
-  );
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [selecionarTodosCheckbox, setSelecionarTodosCheckbox] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -110,8 +107,15 @@ const Enviar = () => {
 
   const handleRadioChange = ({ target }) => {
     if (target.value.length !== 0 || target.value !== 'on') {
-      const result = target.value;
-      setMensagemSelecionada(result);
+      setMensagemSelecionada(target.value);
+    }
+    const inputMsg = document.querySelector("#radio-message");
+    const textArea = document.querySelector('TEXTAREA');
+    if (target.tagName === 'TEXTAREA' && target.value.length !== 0) {
+      inputMsg.checked = true;
+    } else {
+      textArea.value = '';
+      inputMsg.checked = false;
     }
   };
 
