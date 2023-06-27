@@ -11,8 +11,7 @@ const Enviar = () => {
   const [listaTelefones, setListaTelefones] = useState([]);
   const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
   const [carregandoLista, setCarregandoLista] = useState(false);
-  const [selecionarTodosCheckbox, setSelecionarTodosCheckbox] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isCheckedTelefones, setIsCheckedTelefones] = useState(false);
   const [mensagem, setMensagem] = useState([]);
   const [existeMensagem, setExisteMensagem] = useState(false);
   const [mensagemSelecionada, setMensagemSelecionada] = useState('');
@@ -61,49 +60,31 @@ const Enviar = () => {
   }, []);
 
   const handleSelectAll = () => {
-    setSelecionarTodosCheckbox(!selecionarTodosCheckbox);
-    if (!selecionarTodosCheckbox) {
-      const newArray = listaTelefones.map((contact) => contact.telefone);
-      setListaTelefonesSelecionados(newArray);
-      setIsChecked(true);
-      setModificarTextoBtn(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
+    if (!isCheckedTelefones) {
+      setListaTelefonesSelecionados(listaTelefones);
+      setIsCheckedTelefones(true);
+      setModificarTextoBtn(isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos');
     } else {
       setListaTelefonesSelecionados([]);
-      setIsChecked(false);
-      setModificarTextoBtn(isChecked ? 'Selecionar Todos' : 'Desmarcar Todos');
+      setIsCheckedTelefones(false);
+      setModificarTextoBtn(isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos');
     }
   };
 
-  // const handleChangeInput = ({ target }) => {
-  //   if (target.type === 'checkbox') {
-  //     target.checked = true;
-  //   }
-  // };
-
-  const handleChangeInput = (event) => {
-    // const { name } = event.target;
-    // this.setState({ [name]: event.target.value }, () => this.buttonDisableEnable());
+  const handleChangeInput = (idTelefone) => {
+    const addTel = listaTelefones.find(el => el.id === idTelefone);
+    if (listaTelefonesSelecionados.includes(addTel)) {
+      setListaTelefonesSelecionados(listaTelefonesSelecionados.filter(el => el.id !== idTelefone));
+    } else {
+      setListaTelefonesSelecionados([...listaTelefonesSelecionados, addTel]);
+    }
   };
 
-  // const handleSelectContact = (event) => {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-  //   if (name === value) {
-  //     const teste = !event.target.checked;
-  //     return teste;
-  //   }
-  //   setListaTelefonesSelecionados((prevSelectedContacts) => [
-  //     ...prevSelectedContacts,
-  //     contact,
-  //   ]);
-  // } else {
-  //   setListaTelefonesSelecionados((prevSelectedContacts) =>
-  //     prevSelectedContacts.filter(
-  //       (selectedContact) => selectedContact !== contact
-  //     )
-  //   );
-  // }
-  // };
+  const handleChangeCheckbox = (idTelefone) => {
+    const tel = listaTelefones.find(el => el.id === idTelefone);
+    return listaTelefonesSelecionados.includes(tel);
+
+  };
 
   const handleRadioChange = ({ target }) => {
     if (target.value.length !== 0 || target.value !== 'on') {
@@ -190,10 +171,8 @@ const Enviar = () => {
                                     name={`checkbox-${contact.id}`}
                                     type='checkbox'
                                     value={contact.telefone}
-                                    checked={isChecked}
-                                    onChange={(event) =>
-                                      handleChangeInput(event)
-                                    }
+                                    checked={ handleChangeCheckbox(contact.id) }
+                                    onChange={() => handleChangeInput(contact.id) }
                                   />
                                 </td>
                                 <td className='whitespace-nowrap  px-6 py-4'>
