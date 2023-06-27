@@ -15,6 +15,7 @@ const Enviar = () => {
   const [mensagem, setMensagem] = useState([]);
   const [existeMensagem, setExisteMensagem] = useState(false);
   const [mensagemSelecionada, setMensagemSelecionada] = useState('');
+  const [isCheckedTextArea, setIsCheckedTextArea] = useState(false);
 
   const contacts = async () => {
     try {
@@ -83,20 +84,19 @@ const Enviar = () => {
   const handleChangeCheckbox = (idTelefone) => {
     const tel = listaTelefones.find(el => el.id === idTelefone);
     return listaTelefonesSelecionados.includes(tel);
-
   };
 
-  const handleRadioChange = ({ target }) => {
+  const handleChangeRadio = ({target}) => {
     if (target.value.length !== 0 || target.value !== 'on') {
       setMensagemSelecionada(target.value);
     }
-    const inputMsg = document.querySelector("#radio-message");
-    const textArea = document.querySelector('TEXTAREA');
-    if (target.tagName === 'TEXTAREA' && target.value.length !== 0) {
-      inputMsg.checked = true;
+    if (target.value.length > 0 && target.tagName === 'TEXTAREA') {
+      setIsCheckedTextArea(true);
+      setMensagemSelecionada(target.value);
     } else {
+      setIsCheckedTextArea(false);
+      const textArea = document.querySelector('TEXTAREA');
       textArea.value = '';
-      inputMsg.checked = false;
     }
   };
 
@@ -233,7 +233,7 @@ const Enviar = () => {
                                   type='radio'
                                   name='radioGroup'
                                   value={msn.mensagem}
-                                  onChange={handleRadioChange}
+                                  onChange={ (e) => handleChangeRadio(e) }
                                 />
                               </td>
                               <td className='whitespace-nowrap  px-6 py-4'>
@@ -269,17 +269,18 @@ const Enviar = () => {
                     id='radio-message'
                     type='radio'
                     name='radioGroup'
-                    onChange={handleRadioChange}
+                    checked={ isCheckedTextArea }
+                    onChange={ () => console.log('text-area') }
                   />
                 </label>
               </div>
-              <div className='flex justify-center items-center'>
+              <div className='flex justify-center items-center ml-12 lg:ml-48'>
                 <p className='p-2'>Escreva sua mensagem</p>
               </div>
               <div className='flex justify-center items-center w-72 lg:w-96'>
                 <textarea
                   className='p-2 w-full h-20 text-black'
-                  onChange={handleRadioChange}
+                  onChange={ (e) => handleChangeRadio(e) }
                   placeholder='Digite sua mensagem...'
                 />
               </div>
