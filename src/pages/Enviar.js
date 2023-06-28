@@ -90,6 +90,10 @@ const Enviar = () => {
     if (target.value.length !== 0 || target.value !== 'on') {
       setMensagemSelecionada(target.value);
     }
+    if (target.attributes.id && target.attributes.id.value.startsWith('radio')) {
+      const textArea = document.querySelector('TEXTAREA');
+      textArea.value = '';
+    }
     if (target.value.length > 0 && target.tagName === 'TEXTAREA') {
       setIsCheckedTextArea(true);
       setMensagemSelecionada(target.value);
