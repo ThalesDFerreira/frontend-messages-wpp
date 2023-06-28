@@ -270,7 +270,7 @@ const Enviar = () => {
                     type='radio'
                     name='radioGroup'
                     checked={ isCheckedTextArea }
-                    onChange={ () => console.log('text-area') }
+                    onChange={ () => setIsCheckedTextArea(true) }
                   />
                 </label>
               </div>
