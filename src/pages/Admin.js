@@ -33,6 +33,7 @@ const Admin = () => {
     useState('');
   const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
 
+console.log(isLoggedWhatsapp);
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -73,8 +74,7 @@ const Admin = () => {
 
   const whatsappIsLogged = async () => {
     const result = await requestData('/logged');
-    const { conectado } = result;
-    setIsLoggedWhatsapp(conectado);
+    setIsLoggedWhatsapp(result.conectado);
   };
 
   useEffect(() => {
@@ -414,10 +414,10 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        {isLoggedWhatsapp ? (
-          <section>
+        {isLoggedWhatsapp ? 
+          <section className='flex justify-center mb-5'>
             <h3>Aparelho do usuário conectado! 🚀🚀🚀</h3>
-          </section>) : (
+          </section> : 
           <section>
             <div className='flex justify-center'>
               <h1>QR Code</h1>
@@ -430,7 +430,7 @@ const Admin = () => {
               />
             </div>
           </section>
-        )}
+        }
       </main>
       <Footer />
     </div>
