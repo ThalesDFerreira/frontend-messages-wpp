@@ -31,6 +31,8 @@ const Admin = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
     useState('');
+  const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
+
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -69,8 +71,19 @@ const Admin = () => {
     }
   };
 
+  const whatsappIsLogged = async () => {
+    const result = await requestData('/logged');
+    const { conectado } = result;
+    setIsLoggedWhatsapp(conectado);
+  };
+
   useEffect(() => {
     requestDataUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    whatsappIsLogged();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -401,18 +414,23 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        <section>
-          <div className='flex justify-center'>
-            <h1>QR Code</h1>
-          </div>
-          <div className='flex justify-center'>
-            <img
-              className='w-52 h-52'
-              src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
-              alt='placeholder'
-            />
-          </div>
-        </section>
+        {isLoggedWhatsapp ? (
+          <section>
+            <h3>Aparelho do usuário conectado! 🚀🚀🚀</h3>
+          </section>) : (
+          <section>
+            <div className='flex justify-center'>
+              <h1>QR Code</h1>
+            </div>
+            <div className='flex justify-center'>
+              <img
+                className='w-52 h-52'
+                src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
+                alt='placeholder'
+              />
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
