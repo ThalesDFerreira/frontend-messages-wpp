@@ -53,4 +53,19 @@ export const requestLogin = async (endpoint, body) => {
   return data;
 };
 
+export const requestGet = async (endpoint) => {
+  const { data } = await api.get(endpoint, CONFIG);
+  return data;
+};
+
+export const requestPost = async (endpoint, body) => {
+  const { data } = await api.post(endpoint, body, CONFIG);
+  return data;
+};
+
+export const requestPut = async (endpoint, body) => {
+  const { data } = await api.put(endpoint, body, CONFIG);
+  return data;
+};
+
 export default api;

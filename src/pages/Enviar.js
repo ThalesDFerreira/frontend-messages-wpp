@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { requestData } from '../services/requests';
+import {requestData, requestPost} from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
@@ -104,12 +104,21 @@ const Enviar = () => {
     }
   };
 
-  const handleEnviarClick = () => {
-    if (
-      listaTelefonesSelecionados.length !== 0 &&
-      mensagemSelecionada.length !== 0
-    ) {
-      // FAZER REQUST DE ENVIO DE DADOS
+  const handleEnviarClick = async () => {
+    const telefonesExists = listaTelefonesSelecionados.length !== 0;
+    const mensagensExists = mensagemSelecionada.length !== 0;
+    if (telefonesExists && mensagensExists) {
+      const listaBody = listaTelefonesSelecionados.map(tel => tel.telefone);
+      const body = { nome: "thiago", mensagem: mensagemSelecionada, numeros: listaBody }
+      try {
+        const result = await requestPost('/envio', body)
+        toast.success(result.mensagem);
+      } catch (error) {
+        toast(
+          '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+          { duration: 4000 }
+        );
+      }
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }
