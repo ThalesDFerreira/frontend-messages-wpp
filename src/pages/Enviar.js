@@ -1,21 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import {requestData, requestPost} from '../services/requests';
+import { requestData, requestPost } from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [modificarTextoBtn, setModificarTextoBtn] = useState('Selecionar Todos');
+  const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
+    useState('Selecionar Todos');
+    const [ocultarMensagensBtn, setOcultarMensagensBtn] =
+    useState('Ocultar Mensagens');
   const [listaTelefones, setListaTelefones] = useState([]);
-  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
+    []
+  );
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [isCheckedTelefones, setIsCheckedTelefones] = useState(false);
   const [mensagem, setMensagem] = useState([]);
   const [existeMensagem, setExisteMensagem] = useState(false);
   const [mensagemSelecionada, setMensagemSelecionada] = useState('');
   const [isCheckedTextArea, setIsCheckedTextArea] = useState(false);
+  const [optionsFindTel, setOptionsFindTel] = useState('nome');
+  const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
+  const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(false);
+
 
   const contacts = async () => {
     try {
@@ -64,33 +73,42 @@ const Enviar = () => {
     if (!isCheckedTelefones) {
       setListaTelefonesSelecionados(listaTelefones);
       setIsCheckedTelefones(true);
-      setModificarTextoBtn(isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos');
+      setModificarTextoBtnSelecTodos(
+        isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos'
+      );
     } else {
       setListaTelefonesSelecionados([]);
       setIsCheckedTelefones(false);
-      setModificarTextoBtn(isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos');
+      setModificarTextoBtnSelecTodos(
+        isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos'
+      );
     }
   };
 
   const handleChangeInput = (idTelefone) => {
-    const addTel = listaTelefones.find(el => el.id === idTelefone);
+    const addTel = listaTelefones.find((el) => el.id === idTelefone);
     if (listaTelefonesSelecionados.includes(addTel)) {
-      setListaTelefonesSelecionados(listaTelefonesSelecionados.filter(el => el.id !== idTelefone));
+      setListaTelefonesSelecionados(
+        listaTelefonesSelecionados.filter((el) => el.id !== idTelefone)
+      );
     } else {
       setListaTelefonesSelecionados([...listaTelefonesSelecionados, addTel]);
     }
   };
 
   const handleChangeCheckbox = (idTelefone) => {
-    const tel = listaTelefones.find(el => el.id === idTelefone);
+    const tel = listaTelefones.find((el) => el.id === idTelefone);
     return listaTelefonesSelecionados.includes(tel);
   };
 
-  const handleChangeRadio = ({target}) => {
+  const handleChangeRadio = ({ target }) => {
     if (target.value.length !== 0 || target.value !== 'on') {
       setMensagemSelecionada(target.value);
     }
-    if (target.attributes.id && target.attributes.id.value.startsWith('radio')) {
+    if (
+      target.attributes.id &&
+      target.attributes.id.value.startsWith('radio')
+    ) {
       const textArea = document.querySelector('TEXTAREA');
       textArea.value = '';
     }
@@ -108,10 +126,14 @@ const Enviar = () => {
     const telefonesExists = listaTelefonesSelecionados.length !== 0;
     const mensagensExists = mensagemSelecionada.length !== 0;
     if (telefonesExists && mensagensExists) {
-      const listaBody = listaTelefonesSelecionados.map(tel => tel.telefone);
-      const body = { nome: "thiago", mensagem: mensagemSelecionada, numeros: listaBody }
+      const listaBody = listaTelefonesSelecionados.map((tel) => tel.telefone);
+      const body = {
+        nome: 'thiago',
+        mensagem: mensagemSelecionada,
+        numeros: listaBody,
+      };
       try {
-        const result = await requestPost('/envio', body)
+        const result = await requestPost('/envio', body);
         toast.success(result.mensagem);
       } catch (error) {
         toast(
@@ -121,6 +143,70 @@ const Enviar = () => {
       }
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
+    }
+  };
+
+  const inputPesquisaTelefones = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arrayList = await requestData('/telefones');
+    if (optionsFindTel === 'nome') {
+      for (let index = 0; index < arrayList.length; index += 1) {
+        const element = arrayList[index];
+        if (
+          element.nome &&
+          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+        ) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefones(newArray);
+    } else {
+      for (let index = 0; index < arrayList.length; index += 1) {
+        const element = arrayList[index];
+        if (element.telefone.toString().includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefones(newArray);
+    }
+  };
+
+  const inputPesquisaMensagens = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arrayList = await requestData('/mensagens');
+    if (optionsFindMsn === 'nome') {
+      for (let index = 0; index < arrayList.length; index += 1) {
+        const element = arrayList[index];
+        if (
+          element.nome &&
+          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+        ) {
+          newArray.push(element);
+        }
+      }
+      setMensagem(newArray);
+    } else {
+      for (let index = 0; index < arrayList.length; index += 1) {
+        const element = arrayList[index];
+        if (element.mensagem.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setMensagem(newArray);
+    }
+  };
+
+  const ocultarMensagens = async () => {
+    setBtnOcultarMostrarMsn(!btnOcultarMostrarMsn);
+    if (btnOcultarMostrarMsn) {
+      setOcultarMensagensBtn('Mostrar Mensagens')
+      setMensagem([]);
+    } else {
+      setOcultarMensagensBtn('Ocultar Mensagens')
+      const arrayList = await requestData('/mensagens');
+      setMensagem(arrayList);
     }
   };
 
@@ -145,15 +231,48 @@ const Enviar = () => {
             <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
             {carregandoLista ? (
               <section className='container-contats'>
-                <button
-                  className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
-                  type='button'
-                  id='select-all'
-                  name='select-all'
-                  onClick={handleSelectAll}
-                >
-                  {modificarTextoBtn}
-                </button>
+                <div className='flex justify-between'>
+                  <div>
+                    <button
+                      className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+                      type='button'
+                      id='select-all'
+                      name='select-all'
+                      onClick={handleSelectAll}
+                    >
+                      {modificarTextoBtnSelecTodos}
+                    </button>
+                  </div>
+                  <div className='flex justify-center items-center'>
+                    <div className='flex mr-3'>
+                      <div className='mr-1'>
+                        <label htmlFor='select-filterTel'>Filtrar por:</label>
+                      </div>
+                      <div>
+                        <select
+                          id='select-filterTel'
+                          className='py-1 text-black rounded-md w-24 md:w-full'
+                          onChange={({ target: { value } }) =>
+                            setOptionsFindTel(value)
+                          }
+                          value={optionsFindTel}
+                        >
+                          <option value='nome'>Nome</option>
+                          <option value='telefone'>Telefone</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className=''>
+                      <input
+                        className='py-1 text-black rounded-md w-24 md:w-full'
+                        name='input-pesquisa-tel'
+                        type='text'
+                        placeholder='Pesquise aqui ...'
+                        onChange={inputPesquisaTelefones}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className='flex flex-col'>
                   <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
                     <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
@@ -184,8 +303,10 @@ const Enviar = () => {
                                     name={`checkbox-${contact.id}`}
                                     type='checkbox'
                                     value={contact.telefone}
-                                    checked={ handleChangeCheckbox(contact.id) }
-                                    onChange={() => handleChangeInput(contact.id) }
+                                    checked={handleChangeCheckbox(contact.id)}
+                                    onChange={() =>
+                                      handleChangeInput(contact.id)
+                                    }
                                   />
                                 </td>
                                 <td className='whitespace-nowrap  px-6 py-4'>
@@ -215,6 +336,48 @@ const Enviar = () => {
           </div>
           <section className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 overflow-auto h-96'>
             <h3 className='flex justify-center'>Lista de mensagens:</h3>
+            <div className='flex justify-between'>
+              <div>
+                <button
+                  className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+                  type='button'
+                  id='ocultar-msn'
+                  name='ocultar-msn'
+                  onClick={ocultarMensagens}
+                >
+                  {ocultarMensagensBtn}
+                </button>
+              </div>
+              <div className='flex justify-center items-center'>
+                <div className='flex mr-3'>
+                  <div className='mr-1'>
+                    <label htmlFor='select-filterMsn'>Filtrar por:</label>
+                  </div>
+                  <div>
+                    <select
+                      id='select-filterMsn'
+                      className='py-1 text-black rounded-md w-24 md:w-full'
+                      onChange={({ target: { value } }) =>
+                        setOptionsFindMsn(value)
+                      }
+                      value={optionsFindMsn}
+                    >
+                      <option value='nome'>Nome</option>
+                      <option value='telefone'>Mensagem</option>
+                    </select>
+                  </div>
+                </div>
+                <div className=''>
+                  <input
+                    className='py-1 text-black rounded-md w-24 md:w-full'
+                    name='input-pesquisa-msn'
+                    type='text'
+                    placeholder='Pesquise aqui ...'
+                    onChange={inputPesquisaMensagens}
+                  />
+                </div>
+              </div>
+            </div>
             <div className='flex flex-col'>
               <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
@@ -246,7 +409,7 @@ const Enviar = () => {
                                   type='radio'
                                   name='radioGroup'
                                   value={msn.mensagem}
-                                  onChange={ (e) => handleChangeRadio(e) }
+                                  onChange={(e) => handleChangeRadio(e)}
                                 />
                               </td>
                               <td className='whitespace-nowrap  px-6 py-4'>
@@ -282,8 +445,8 @@ const Enviar = () => {
                     id='radio-message'
                     type='radio'
                     name='radioGroup'
-                    checked={ isCheckedTextArea }
-                    onChange={ () => setIsCheckedTextArea(true) }
+                    checked={isCheckedTextArea}
+                    onChange={() => setIsCheckedTextArea(true)}
                   />
                 </label>
               </div>
@@ -293,7 +456,7 @@ const Enviar = () => {
               <div className='flex justify-center items-center w-72 lg:w-96'>
                 <textarea
                   className='p-2 w-full h-20 text-black'
-                  onChange={ (e) => handleChangeRadio(e) }
+                  onChange={(e) => handleChangeRadio(e)}
                   placeholder='Digite sua mensagem...'
                 />
               </div>
