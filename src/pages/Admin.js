@@ -34,6 +34,8 @@ const Admin = () => {
   const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
   const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
   const [optionsFindUser, setOptionsFindUser] = useState('usuario');
+  const [numeroInstancia, setNumeroInstancia] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
 
   console.log(isLoggedWhatsapp);
 
@@ -178,7 +180,7 @@ const Admin = () => {
     const valueInput = target.value;
     let newArray = [];
     const arraySearch = [...listaUsuariosClone];
-    
+
     if (optionsFindUser === 'usuario' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
@@ -203,6 +205,37 @@ const Admin = () => {
       setListaUsuarios(listaUsuariosClone);
     }
   };
+
+  const enableButton = () => {
+    if (numeroInstancia.length === 11) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    enableButton();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numeroInstancia]);
+
+  const btnRequestInstanciartUser = async () => {
+    console.log('apertei o BTN');
+    // const result = await requestInsert('/instanciar-whatsapp', {
+    //   nome: numeroInstancia,
+    // });
+  };
+
+  // <div className='flex justify-center'>
+  //             <h1>QR Code</h1>
+  //           </div>
+  //           <div className='flex justify-center'>
+  //             <img
+  //               className='w-52 h-52'
+  //               src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
+  //               alt='placeholder'
+  //             />
+  //           </div>
 
   return (
     <div className='container-admin flex flex-col min-h-screen'>
@@ -478,24 +511,45 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        {isLoggedWhatsapp ? (
-          <section className='flex justify-center mb-5'>
-            <h3>Aparelho do usuário conectado! 🚀🚀🚀</h3>
-          </section>
-        ) : (
-          <section>
-            <div className='flex justify-center'>
-              <h1>QR Code</h1>
-            </div>
-            <div className='flex justify-center'>
-              <img
-                className='w-52 h-52'
-                src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
-                alt='placeholder'
+
+        <section className='flex justify-center '>
+          <div className='flex-col bg-black rounded-2xl bg-opacity-80 p-10'>
+            <h1 className='flex justify-center text-xl text-slate-100 mb-4'>
+              Instanciar WhatsApp
+            </h1>
+            <div className='flex justify-center mb-4'>
+              <input
+                className='p-1 text-black rounded-md bg-rgb-212-212-212 mr-1'
+                type='number'
+                onChange={({ target: { value } }) => setNumeroInstancia(value)}
+                value={numeroInstancia}
+                placeholder='Número da instância ...'
               />
             </div>
-          </section>
-        )}
+            <div className='flex justify-center'>
+              <button
+                className={
+                  isDisabled
+                    ? 'bg-red-600 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                    : 'btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                }
+                type='button'
+                disabled={isDisabled}
+                onClick={btnRequestInstanciartUser}
+              >
+                Instanciar
+              </button>
+            </div>
+            <div className='mt-2'>
+              <p className='flex justify-center text-slate-100 h-2'>
+                Obs: O número da instancia
+              </p>
+              <p className='flex justify-center text-slate-100 h-2'>
+                tem que possuir 11 dígitos
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
