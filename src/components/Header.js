@@ -56,17 +56,19 @@ const Header = () => {
         </h1>
       </div>
       <nav className='flex justify-between gap-4 mt-2'>
-        {admin && <div>
-          <button type='button' onClick={onClickAdmin}>
-            <img
-              className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
-              src={AdminImg}
-              alt='Painel Admin'
-            />
-            <p className='mt-1 flex justify-center'>Admin</p>
-          </button>
-        </div>}
-        
+        {admin && (
+          <div>
+            <button type='button' onClick={onClickAdmin}>
+              <img
+                className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
+                src={AdminImg}
+                alt='Painel Admin'
+              />
+              <p className='mt-1 flex justify-center'>Admin</p>
+            </button>
+          </div>
+        )}
+
         <div>
           <button type='button' onClick={onClickTelefone}>
             <img

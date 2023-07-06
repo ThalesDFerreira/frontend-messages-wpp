@@ -170,7 +170,7 @@ const Enviar = () => {
     if (optionsFindTel === 'telefone' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (((element.telefone).toString()).includes(valueInput)) {
+        if (element.telefone.toString().includes(valueInput)) {
           newArray.push(element);
         }
       }

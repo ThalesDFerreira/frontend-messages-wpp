@@ -33,7 +33,7 @@ const Admin = () => {
     useState('');
   const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
 
-console.log(isLoggedWhatsapp);
+  console.log(isLoggedWhatsapp);
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -414,10 +414,11 @@ console.log(isLoggedWhatsapp);
             </Modal.Footer>
           </Modal>
         </div>
-        {isLoggedWhatsapp ? 
+        {isLoggedWhatsapp ? (
           <section className='flex justify-center mb-5'>
             <h3>Aparelho do usuário conectado! 🚀🚀🚀</h3>
-          </section> : 
+          </section>
+        ) : (
           <section>
             <div className='flex justify-center'>
               <h1>QR Code</h1>
@@ -430,7 +431,7 @@ console.log(isLoggedWhatsapp);
               />
             </div>
           </section>
-        }
+        )}
       </main>
       <Footer />
     </div>
