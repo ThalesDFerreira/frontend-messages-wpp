@@ -30,12 +30,15 @@ const CadastroMensagem = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] =
     useState('');
+  const [mensagemClone, setMensagemClone] = useState([]);
+  const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
 
   const requestDataMessages = async () => {
     const result = await requestData('/mensagens');
     if (result.length !== 0) {
       setListaMensagens(result);
       setTemMensagem(true);
+      setMensagemClone(result);
     } else {
       setTemMensagem(false);
     }
@@ -156,6 +159,38 @@ const CadastroMensagem = () => {
     setOpenModalDelete(false);
   };
 
+  const inputPesquisaMensagens = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arraySearch = [...mensagemClone];
+    if (optionsFindMsn === 'nome' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (
+          element.nome &&
+          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+        ) {
+          newArray.push(element);
+        }
+      }
+      setListaMensagens(newArray);
+    }
+
+    if (optionsFindMsn === 'mensagem' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.mensagem.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaMensagens(newArray);
+    }
+
+    if (valueInput === '') {
+      setListaMensagens(mensagemClone);
+    }
+  };
+
   return (
     <div className='container-add-mensagem flex flex-col min-h-screen'>
       <Header />
@@ -225,6 +260,37 @@ const CadastroMensagem = () => {
           <h1 className='p-2 flex justify-center text-xl'>
             Lista de mensagens:
           </h1>
+          <div className='flex justify-end'>
+            <div className='flex justify-center items-center'>
+              <div className='flex mr-3'>
+                <div className='mr-1'>
+                  <label htmlFor='select-filterMsn'>Filtrar por:</label>
+                </div>
+                <div>
+                  <select
+                    id='select-filterMsn'
+                    className='py-1 text-black rounded-md w-24 md:w-full'
+                    onChange={({ target: { value } }) =>
+                      setOptionsFindMsn(value)
+                    }
+                    value={optionsFindMsn}
+                  >
+                    <option value='nome'>Nome</option>
+                    <option value='mensagem'>Mensagem</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <input
+                  className='py-1 text-black rounded-md w-24 md:w-full'
+                  name='input-pesquisa-msn'
+                  type='text'
+                  placeholder='Pesquise aqui ...'
+                  onChange={inputPesquisaMensagens}
+                />
+              </div>
+            </div>
+          </div>
           <div className='flex flex-col text-slate-100'>
             <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>

@@ -30,12 +30,15 @@ const CadastroTelefone = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [telefoneSelecionadoDeletar, setTelefoneSelecionadoDeletar] =
     useState('');
+  const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
+  const [optionsFindTel, setOptionsFindTel] = useState('nome');
 
   const requestDataTelefone = async () => {
     const result = await requestData('/telefones');
     if (result.length !== 0) {
       setListaTelefones(result);
       setTemTelefone(true);
+      setListaTelefonesClone(result);
     } else {
       setTemTelefone(false);
     }
@@ -158,6 +161,38 @@ const CadastroTelefone = () => {
     setOpenModalDelete(false);
   };
 
+  const inputPesquisaTelefones = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arraySearch = [...listaTelefonesClone];
+    if (optionsFindTel === 'nome' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (
+          element.nome &&
+          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+        ) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefones(newArray);
+    }
+
+    if (optionsFindTel === 'telefone' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.telefone.toString().includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefones(newArray);
+    }
+
+    if (valueInput === '') {
+      setListaTelefones(listaTelefonesClone);
+    }
+  };
+
   return (
     <div className='container-add-telefone flex flex-col min-h-screen'>
       <Header />
@@ -227,6 +262,37 @@ const CadastroTelefone = () => {
           <h1 className='p-2 flex justify-center text-xl'>
             Lista de contatos:
           </h1>
+          <div className='flex justify-end'>
+            <div className='flex justify-center items-center'>
+              <div className='flex mr-3'>
+                <div className='mr-1'>
+                  <label htmlFor='select-filterTel'>Filtrar por:</label>
+                </div>
+                <div>
+                  <select
+                    id='select-filterTel'
+                    className='py-1 text-black rounded-md w-24 md:w-full'
+                    onChange={({ target: { value } }) =>
+                      setOptionsFindTel(value)
+                    }
+                    value={optionsFindTel}
+                  >
+                    <option value='nome'>Nome</option>
+                    <option value='telefone'>Telefone</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <input
+                  className='py-1 text-black rounded-md w-24 md:w-full'
+                  name='input-pesquisa-tel'
+                  type='text'
+                  placeholder='Pesquise aqui ...'
+                  onChange={inputPesquisaTelefones}
+                />
+              </div>
+            </div>
+          </div>
           <div className='flex flex-col text-slate-100'>
             <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
