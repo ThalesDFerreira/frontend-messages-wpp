@@ -32,6 +32,8 @@ const Admin = () => {
   const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
     useState('');
   const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
+  const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
+  const [optionsFindUser, setOptionsFindUser] = useState('usuario');
 
   console.log(isLoggedWhatsapp);
 
@@ -40,6 +42,7 @@ const Admin = () => {
     if (result.length !== 0) {
       setListaUsuarios(result);
       setTemUsuarios(true);
+      setListaUsuariosClone(result);
     } else {
       setTemUsuarios(false);
     }
@@ -171,6 +174,36 @@ const Admin = () => {
     }
   };
 
+  const inputPesquisaUsuarios = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arraySearch = [...listaUsuariosClone];
+    
+    if (optionsFindUser === 'usuario' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.usuario.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaUsuarios(newArray);
+    }
+
+    if (optionsFindUser === 'permissão' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.role.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaUsuarios(newArray);
+    }
+
+    if (valueInput === '') {
+      setListaUsuarios(listaUsuariosClone);
+    }
+  };
+
   return (
     <div className='container-admin flex flex-col min-h-screen'>
       <Header />
@@ -255,6 +288,37 @@ const Admin = () => {
           <h1 className='p-2 flex justify-center text-xl'>
             Lista de usuários:
           </h1>
+          <div className='flex justify-end'>
+            <div className='flex justify-center items-center'>
+              <div className='flex mr-3'>
+                <div className='mr-1'>
+                  <label htmlFor='select-filter-user'>Filtrar por:</label>
+                </div>
+                <div>
+                  <select
+                    id='select-filter-user'
+                    className='py-1 text-black rounded-md w-24 md:w-full'
+                    onChange={({ target: { value } }) =>
+                      setOptionsFindUser(value)
+                    }
+                    value={optionsFindUser}
+                  >
+                    <option value='usuario'>Usuário</option>
+                    <option value='permissão'>Permissão</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <input
+                  className='py-1 text-black rounded-md w-24 md:w-full'
+                  name='input-pesquisa-msn'
+                  type='text'
+                  placeholder='Pesquise aqui ...'
+                  onChange={inputPesquisaUsuarios}
+                />
+              </div>
+            </div>
+          </div>
           <div className='flex flex-col text-slate-100'>
             <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>

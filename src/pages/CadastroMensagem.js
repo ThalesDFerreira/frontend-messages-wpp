@@ -30,7 +30,7 @@ const CadastroMensagem = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] =
     useState('');
-  const [mensagemClone, setMensagemClone] = useState([]);
+  const [listaMensagemClone, setListaMensagemClone] = useState([]);
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
 
   const requestDataMessages = async () => {
@@ -38,7 +38,7 @@ const CadastroMensagem = () => {
     if (result.length !== 0) {
       setListaMensagens(result);
       setTemMensagem(true);
-      setMensagemClone(result);
+      setListaMensagemClone(result);
     } else {
       setTemMensagem(false);
     }
@@ -162,7 +162,7 @@ const CadastroMensagem = () => {
   const inputPesquisaMensagens = async ({ target }) => {
     const valueInput = target.value;
     let newArray = [];
-    const arraySearch = [...mensagemClone];
+    const arraySearch = [...listaMensagemClone];
     if (optionsFindMsn === 'nome' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
@@ -187,7 +187,7 @@ const CadastroMensagem = () => {
     }
 
     if (valueInput === '') {
-      setListaMensagens(mensagemClone);
+      setListaMensagens(listaMensagemClone);
     }
   };
 
