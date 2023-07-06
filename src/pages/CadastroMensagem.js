@@ -221,7 +221,7 @@ const CadastroMensagem = () => {
             </div>
           </div>
         </section>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-96'>
+        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
           <h1 className='p-2 flex justify-center text-xl'>
             Lista de mensagens:
           </h1>

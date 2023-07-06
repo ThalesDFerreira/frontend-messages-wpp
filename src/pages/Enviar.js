@@ -9,22 +9,24 @@ import Footer from '../components/Footer';
 const Enviar = () => {
   const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
     useState('Selecionar Todos');
-    const [ocultarMensagensBtn, setOcultarMensagensBtn] =
+  const [ocultarMensagensBtn, setOcultarMensagensBtn] =
     useState('Ocultar Mensagens');
   const [listaTelefones, setListaTelefones] = useState([]);
+  const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
+
   const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
     []
   );
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [isCheckedTelefones, setIsCheckedTelefones] = useState(false);
   const [mensagem, setMensagem] = useState([]);
+  const [mensagemClone, setMensagemClone] = useState([]);
   const [existeMensagem, setExisteMensagem] = useState(false);
   const [mensagemSelecionada, setMensagemSelecionada] = useState('');
   const [isCheckedTextArea, setIsCheckedTextArea] = useState(false);
   const [optionsFindTel, setOptionsFindTel] = useState('nome');
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
-  const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(false);
-
+  const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(true);
 
   const contacts = async () => {
     try {
@@ -32,6 +34,7 @@ const Enviar = () => {
       if (arrayList.length !== 0) {
         setCarregandoLista(true);
         setListaTelefones(arrayList);
+        setListaTelefonesClone(arrayList);
       } else {
         setCarregandoLista(false);
       }
@@ -51,6 +54,7 @@ const Enviar = () => {
       if (stringMessage.length !== 0) {
         setExisteMensagem(true);
         setMensagem(stringMessage);
+        setMensagemClone(stringMessage);
       } else {
         setExisteMensagem(false);
       }
@@ -149,10 +153,10 @@ const Enviar = () => {
   const inputPesquisaTelefones = async ({ target }) => {
     const valueInput = target.value;
     let newArray = [];
-    const arrayList = await requestData('/telefones');
-    if (optionsFindTel === 'nome') {
-      for (let index = 0; index < arrayList.length; index += 1) {
-        const element = arrayList[index];
+    const arraySearch = [...listaTelefonesClone];
+    if (optionsFindTel === 'nome' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
         if (
           element.nome &&
           element.nome.toLowerCase().includes(valueInput.toLowerCase())
@@ -161,24 +165,30 @@ const Enviar = () => {
         }
       }
       setListaTelefones(newArray);
-    } else {
-      for (let index = 0; index < arrayList.length; index += 1) {
-        const element = arrayList[index];
-        if (element.telefone.toString().includes(valueInput)) {
+    }
+
+    if (optionsFindTel === 'telefone' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (((element.telefone).toString()).includes(valueInput)) {
           newArray.push(element);
         }
       }
       setListaTelefones(newArray);
+    }
+
+    if (valueInput === '') {
+      setListaTelefones(listaTelefonesClone);
     }
   };
 
   const inputPesquisaMensagens = async ({ target }) => {
     const valueInput = target.value;
     let newArray = [];
-    const arrayList = await requestData('/mensagens');
-    if (optionsFindMsn === 'nome') {
-      for (let index = 0; index < arrayList.length; index += 1) {
-        const element = arrayList[index];
+    const arraySearch = [...mensagemClone];
+    if (optionsFindMsn === 'nome' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
         if (
           element.nome &&
           element.nome.toLowerCase().includes(valueInput.toLowerCase())
@@ -187,26 +197,32 @@ const Enviar = () => {
         }
       }
       setMensagem(newArray);
-    } else {
-      for (let index = 0; index < arrayList.length; index += 1) {
-        const element = arrayList[index];
+    }
+
+    if (optionsFindMsn === 'mensagem' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
         if (element.mensagem.includes(valueInput)) {
           newArray.push(element);
         }
       }
       setMensagem(newArray);
     }
+
+    if (valueInput === '') {
+      setMensagem(mensagemClone);
+    }
   };
 
-  const ocultarMensagens = async () => {
-    setBtnOcultarMostrarMsn(!btnOcultarMostrarMsn);
+  const ocultarMensagens = () => {
     if (btnOcultarMostrarMsn) {
-      setOcultarMensagensBtn('Mostrar Mensagens')
+      setOcultarMensagensBtn('Mostrar Mensagens');
       setMensagem([]);
+      setBtnOcultarMostrarMsn(false);
     } else {
-      setOcultarMensagensBtn('Ocultar Mensagens')
-      const arrayList = await requestData('/mensagens');
-      setMensagem(arrayList);
+      setOcultarMensagensBtn('Ocultar Mensagens');
+      setMensagem(mensagemClone);
+      setBtnOcultarMostrarMsn(true);
     }
   };
 
@@ -227,7 +243,7 @@ const Enviar = () => {
           </button>
         </div>
         <div className='flex-col ml-5 mr-5 md:flex justify-between'>
-          <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-96'>
+          <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
             <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
             {carregandoLista ? (
               <section className='container-contats'>
@@ -262,7 +278,7 @@ const Enviar = () => {
                         </select>
                       </div>
                     </div>
-                    <div className=''>
+                    <div>
                       <input
                         className='py-1 text-black rounded-md w-24 md:w-full'
                         name='input-pesquisa-tel'
@@ -334,7 +350,7 @@ const Enviar = () => {
               </div>
             )}
           </div>
-          <section className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 overflow-auto h-96'>
+          <section className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 overflow-auto h-screen'>
             <h3 className='flex justify-center'>Lista de mensagens:</h3>
             <div className='flex justify-between'>
               <div>
@@ -363,11 +379,11 @@ const Enviar = () => {
                       value={optionsFindMsn}
                     >
                       <option value='nome'>Nome</option>
-                      <option value='telefone'>Mensagem</option>
+                      <option value='mensagem'>Mensagem</option>
                     </select>
                   </div>
                 </div>
-                <div className=''>
+                <div>
                   <input
                     className='py-1 text-black rounded-md w-24 md:w-full'
                     name='input-pesquisa-msn'
