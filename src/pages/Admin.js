@@ -31,13 +31,28 @@ const Admin = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
     useState('');
-  const [isLoggedWhatsapp, setIsLoggedWhatsapp] = useState(false);
   const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
   const [optionsFindUser, setOptionsFindUser] = useState('usuario');
   const [numeroInstancia, setNumeroInstancia] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-
-  console.log(isLoggedWhatsapp);
+  const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState(
+    []
+  );
+  const [listaTelefonesCadastradosClone, setListaTelefonesCadastradosClone] =
+    useState([]);
+  const [existeTelefoneCadastrado, setExisteTelefoneCadastrado] =
+    useState(false);
+  const [
+    openModalDeleteTelefoneCadastrado,
+    setOpenModalDeleteTelefoneCadastrado,
+  ] = useState(false);
+  const [
+    telefoneCadastradoSelecionadoDeletar,
+    setTelefoneCadastradoSelecionadoDeletar,
+  ] = useState('');
+  const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] =
+    useState('telefone');
+  const [showQrCode, setShowQrCode] = useState(false);
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -47,6 +62,17 @@ const Admin = () => {
       setListaUsuariosClone(result);
     } else {
       setTemUsuarios(false);
+    }
+  };
+
+  const requestDataTelCadastrado = async () => {
+    const result = await requestData('/logged');
+    if (result.length !== 0) {
+      setListaTelefonesCadastrados(result);
+      setListaTelefonesCadastradosClone(result);
+      setExisteTelefoneCadastrado(true);
+    } else {
+      setExisteTelefoneCadastrado(false);
     }
   };
 
@@ -77,18 +103,9 @@ const Admin = () => {
     }
   };
 
-  const whatsappIsLogged = async () => {
-    const result = await requestData('/logged');
-    setIsLoggedWhatsapp(result.conectado);
-  };
-
   useEffect(() => {
     requestDataUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    whatsappIsLogged();
+    requestDataTelCadastrado();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -111,6 +128,15 @@ const Admin = () => {
 
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
+  };
+
+  const handleOpenModalDeleteTelCadastrado = (id) => {
+    setTelefoneCadastradoSelecionadoDeletar(id);
+    setOpenModalDeleteTelefoneCadastrado(true);
+  };
+
+  const handleCloseModalDeleteTelCadastrado = () => {
+    setOpenModalDeleteTelefoneCadastrado(false);
   };
 
   const btnRequestEditUsers = async () => {
@@ -161,7 +187,7 @@ const Admin = () => {
 
   const btnRequestDeleteUsers = async () => {
     try {
-      const idUser = Number(usuarioSelecionadoDeletar);
+      const idUser = usuarioSelecionadoDeletar;
       const result = await requestDelete(`/usuarios?id=${idUser}`);
       await requestDataUsers();
       toast.success(result.mensagem);
@@ -173,6 +199,53 @@ const Admin = () => {
           duration: 3000,
         }
       );
+    }
+  };
+
+  const btnRequestDeleteTelCadastrado = async () => {
+    try {
+      const idTel = telefoneCadastradoSelecionadoDeletar;
+      const result = await requestDelete(`/logged?id=${idTel}`);
+      await requestDataTelCadastrado();
+      toast.success(result.mensagem);
+      handleCloseModalDeleteTelCadastrado();
+    } catch (error) {
+      toast(
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        {
+          duration: 3000,
+        }
+      );
+    }
+  };
+
+  const inputPesquisaTelCadastrados = async ({ target }) => {
+    const valueInput = target.value;
+    let newArray = [];
+    const arraySearch = [...listaTelefonesCadastradosClone];
+
+    if (optionsFindUser === 'telefone' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.numero_telefone.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefonesCadastrados(newArray);
+    }
+
+    if (optionsFindUser === 'conectado' && valueInput !== '') {
+      for (let index = 0; index < arraySearch.length; index += 1) {
+        const element = arraySearch[index];
+        if (element.conectado.includes(valueInput)) {
+          newArray.push(element);
+        }
+      }
+      setListaTelefonesCadastrados(newArray);
+    }
+
+    if (valueInput === '') {
+      setListaTelefonesCadastrados(listaTelefonesCadastradosClone);
     }
   };
 
@@ -220,22 +293,28 @@ const Admin = () => {
   }, [numeroInstancia]);
 
   const btnRequestInstanciartUser = async () => {
-    console.log('apertei o BTN');
-    // const result = await requestInsert('/instanciar-whatsapp', {
-    //   nome: numeroInstancia,
-    // });
+    try {
+      if (!showQrCode) {
+        setShowQrCode(true);
+        const result = await requestInsert('/cadastrar-whatsapp', {
+          numero: numeroInstancia,
+        });
+        await requestDataTelCadastrado();
+        toast.success(result.mensagem);
+      } else {
+        setShowQrCode(false);
+      }
+    } catch (error) {
+      setShowQrCode(false);
+      toast(
+        '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
+        {
+          duration: 3000,
+        }
+      );
+      toast.error('Instância não inicializada!');
+    }
   };
-
-  // <div className='flex justify-center'>
-  //             <h1>QR Code</h1>
-  //           </div>
-  //           <div className='flex justify-center'>
-  //             <img
-  //               className='w-52 h-52'
-  //               src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
-  //               alt='placeholder'
-  //             />
-  //           </div>
 
   return (
     <div className='container-admin flex flex-col min-h-screen'>
@@ -511,7 +590,127 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-
+        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+          <h1 className='p-2 flex justify-center text-xl'>
+            Lista de telefones cadastrados:
+          </h1>
+          <div className='flex justify-end'>
+            <div className='flex justify-center items-center'>
+              <div className='flex mr-3'>
+                <div className='mr-1'>
+                  <label htmlFor='select-filter-tels'>Filtrar por:</label>
+                </div>
+                <div>
+                  <select
+                    id='select-filter-tels'
+                    className='py-1 text-black rounded-md w-24 md:w-full'
+                    onChange={({ target: { value } }) =>
+                      setOptionsFindTelCadastrado(value)
+                    }
+                    value={optionsFindTelCadastrado}
+                  >
+                    <option value='telefone'>Telefone</option>
+                    <option value='conectado'>Conectado</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <input
+                  className='py-1 text-black rounded-md w-24 md:w-full'
+                  name='input-pesquisa-msn'
+                  type='text'
+                  placeholder='Pesquise aqui ...'
+                  onChange={inputPesquisaTelCadastrados}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-col text-slate-100'>
+            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                <div className='overflow-hidden'>
+                  <table className='min-w-full text-center text-sm font-light md:text-lg'>
+                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <tr>
+                        <th scope='col' className='px-2 py-2'>
+                          Id
+                        </th>
+                        <th scope='col' className='px-2 py-2'>
+                          Numero Telefone
+                        </th>
+                        <th scope='col' className='px-2 py-2'>
+                          Conectado
+                        </th>
+                        <th scope='col' className='px-2 py-2'>
+                          Deletar
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {existeTelefoneCadastrado ? (
+                        listaTelefonesCadastrados.map((tel) => (
+                          <tr
+                            className='border-b dark:border-neutral-500'
+                            key={`user-${tel.id}`}
+                          >
+                            <td className='whitespace-nowrap px-2 py-2 font-medium'>
+                              {tel.id}
+                            </td>
+                            <td className='whitespace-nowrap px-2 py-2'>
+                              {tel.numero_telefone}
+                            </td>
+                            <td className='text-slate-100 whitespace-nowrap px-2 py-2'>
+                              {tel.conectado ? 'Sim' : 'Não'}
+                            </td>
+                            <td className='whitespace-nowrap px-2 py-2'>
+                              <button
+                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                type='button'
+                                onClick={() =>
+                                  handleOpenModalDeleteTelCadastrado(tel.id)
+                                }
+                              >
+                                <img src={Deletar} alt='Deletar' />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr key={'no-tel-cadastrado'}>
+                          <td>---</td>
+                          <td>Não há telefones cadastrados</td>
+                          <td>---</td>
+                          <td>---</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div>
+          <Modal
+            show={openModalDeleteTelefoneCadastrado}
+            onHide={handleCloseModalDeleteTelCadastrado}
+          >
+            <Modal.Body>
+              Tem certeza que deseja excluir essa instância?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                type='button'
+                onClick={handleCloseModalDeleteTelCadastrado}
+              >
+                Não
+              </Button>
+              <Button type='button' onClick={btnRequestDeleteTelCadastrado}>
+                Sim
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
         <section className='flex justify-center '>
           <div className='flex-col bg-black rounded-2xl bg-opacity-80 p-10'>
             <h1 className='flex justify-center text-xl text-slate-100 mb-4'>
@@ -548,6 +747,20 @@ const Admin = () => {
                 tem que possuir 11 dígitos
               </p>
             </div>
+            {showQrCode && (
+              <>
+                <div className='flex justify-center'>
+                  <h1>QR Code</h1>
+                </div>
+                <div className='flex justify-center'>
+                  <img
+                    className='w-52 h-52'
+                    src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
+                    alt='placeholder'
+                  />
+                </div>
+              </>
+            )}
           </div>
         </section>
       </main>
