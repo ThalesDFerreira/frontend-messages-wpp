@@ -132,7 +132,7 @@ const Enviar = () => {
     if (telefonesExists && mensagensExists) {
       const listaBody = listaTelefonesSelecionados.map((tel) => tel.telefone);
       const body = {
-        nome: 'thiago',
+        instancia: 'thiago',
         mensagem: mensagemSelecionada,
         numeros: listaBody,
       };
