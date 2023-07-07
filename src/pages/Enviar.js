@@ -27,6 +27,14 @@ const Enviar = () => {
   const [optionsFindTel, setOptionsFindTel] = useState('nome');
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
   const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(true);
+  const [
+    numerosTelefonesUsuariosSelecionado,
+    setNumerosTelefonesUsuariosSelecionado,
+  ] = useState('');
+  const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] =
+    useState([]);
+  const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] =
+    useState(false);
 
   const contacts = async () => {
     try {
@@ -71,6 +79,7 @@ const Enviar = () => {
   useEffect(() => {
     contacts();
     messages();
+    requestDataTelCadastrado();
   }, []);
 
   const handleSelectAll = () => {
@@ -132,7 +141,7 @@ const Enviar = () => {
     if (telefonesExists && mensagensExists) {
       const listaBody = listaTelefonesSelecionados.map((tel) => tel.telefone);
       const body = {
-        instancia: 'thiago',
+        instancia: numerosTelefonesUsuariosSelecionado,
         mensagem: mensagemSelecionada,
         numeros: listaBody,
       };
@@ -226,6 +235,16 @@ const Enviar = () => {
     }
   };
 
+  const requestDataTelCadastrado = async () => {
+    const result = await requestData('/logged');
+    if (result.length !== 0) {
+      setListaNumerosTelefonesUsuarios(result);
+      setExisteNumeroTelefoneCadastrado(true);
+    } else {
+      setExisteNumeroTelefoneCadastrado(false);
+    }
+  };
+
   return (
     <div className='container-enviar flex flex-col min-h-screen'>
       <Header />
@@ -233,14 +252,35 @@ const Enviar = () => {
         <h1 className='flex justify-center text-2xl mb-3'>
           Formulário de Envio
         </h1>
-        <div className='flex justify-center p-1 mb-6'>
-          <button
-            className='md:text-base rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
-            type='button'
-            onClick={handleEnviarClick}
-          >
-            Enviar Mensagem
-          </button>
+        <div className='flex-col justify-center items-center'>
+          <div className='flex justify-center mb-2'>
+            {existeNumeroTelefoneCadastrado ? (
+              <select
+                className='py-1 text-black rounded-md w-24'
+                onChange={({ target: { value } }) =>
+                  setNumerosTelefonesUsuariosSelecionado(value)
+                }
+                value={numerosTelefonesUsuariosSelecionado}
+              >
+                {listaNumerosTelefonesUsuarios.map((tel) => (
+                  <option value={tel.numero_telefone}>
+                    {tel.numero_telefone}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className='h-2'>Não existe instâncias cadastradas!</p>
+            )}
+          </div>
+          <div className='flex justify-center p-1 mb-6'>
+            <button
+              className='md:text-base rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+              type='button'
+              onClick={handleEnviarClick}
+            >
+              Enviar Mensagem
+            </button>
+          </div>
         </div>
         <div className='flex-col ml-5 mr-5 md:flex justify-between'>
           <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
