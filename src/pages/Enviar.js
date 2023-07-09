@@ -349,9 +349,7 @@ const Enviar = () => {
                                     type='checkbox'
                                     value={contact.telefone}
                                     checked={handleChangeCheckbox(contact.id)}
-                                    onChange={() =>
-                                      handleChangeInput(contact.id)
-                                    }
+                                    onChange={() => handleChangeInput(contact.id)}
                                   />
                                 </td>
                                 <td className='whitespace-nowrap  px-6 py-4'>
