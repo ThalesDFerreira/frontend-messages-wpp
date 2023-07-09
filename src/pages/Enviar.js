@@ -7,16 +7,11 @@ import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
-    useState('Selecionar Todos');
-  const [ocultarMensagensBtn, setOcultarMensagensBtn] =
-    useState('Ocultar Mensagens');
+  const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] = useState('Selecionar Todos');
+  const [ocultarMensagensBtn, setOcultarMensagensBtn] = useState('Ocultar Mensagens');
   const [listaTelefones, setListaTelefones] = useState([]);
   const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
-
-  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
-    []
-  );
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [isCheckedTelefones, setIsCheckedTelefones] = useState(false);
   const [mensagem, setMensagem] = useState([]);
@@ -27,14 +22,9 @@ const Enviar = () => {
   const [optionsFindTel, setOptionsFindTel] = useState('nome');
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
   const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(true);
-  const [
-    numerosTelefonesUsuariosSelecionado,
-    setNumerosTelefonesUsuariosSelecionado,
-  ] = useState('');
-  const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] =
-    useState([]);
-  const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] =
-    useState(false);
+  const [numeroTelefoneUsuarioSelecionado, setNumeroTelefoneUsuarioSelecionado] = useState('');
+  const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] = useState([]);
+  const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] = useState(false);
 
   const contacts = async () => {
     try {
@@ -141,16 +131,18 @@ const Enviar = () => {
     if (telefonesExists && mensagensExists) {
       const listaBody = listaTelefonesSelecionados.map((tel) => tel.telefone);
       const body = {
-        instancia: numerosTelefonesUsuariosSelecionado,
+        instancia: numeroTelefoneUsuarioSelecionado,
         mensagem: mensagemSelecionada,
         numeros: listaBody,
       };
       try {
-        const result = await requestPost('/envio', body);
+        const result = await requestPost('/envio-mensagem', body);
         toast.success(result.mensagem);
       } catch (error) {
         toast(
-          '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+          `🛑 Desculpe! Estamos enfrentando problemas técnicos.
+          Tente realizar a operação novamente
+          ou entre em contato com nosso suporte técnico.`,
           { duration: 4000 }
         );
       }
@@ -237,6 +229,7 @@ const Enviar = () => {
 
   const requestDataTelCadastrado = async () => {
     const result = await requestData('/logged');
+    setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
     if (result.length !== 0) {
       setListaNumerosTelefonesUsuarios(result);
       setExisteNumeroTelefoneCadastrado(true);
@@ -257,15 +250,11 @@ const Enviar = () => {
             {existeNumeroTelefoneCadastrado ? (
               <select
                 className='py-1 text-black rounded-md w-24'
-                onChange={({ target: { value } }) =>
-                  setNumerosTelefonesUsuariosSelecionado(value)
-                }
-                value={numerosTelefonesUsuariosSelecionado}
+                onChange={({ target: { value } }) => setNumeroTelefoneUsuarioSelecionado(value)}
+                value={numeroTelefoneUsuarioSelecionado}
               >
                 {listaNumerosTelefonesUsuarios.map((tel) => (
-                  <option value={tel.numero_telefone}>
-                    {tel.numero_telefone}
-                  </option>
+                  <option value={tel.numero_telefone}>{tel.numero_telefone}</option>
                 ))}
               </select>
             ) : (
