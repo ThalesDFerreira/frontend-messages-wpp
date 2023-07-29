@@ -29,29 +29,17 @@ const Admin = () => {
   const [senhaAtualizada, setSenhaAtualizada] = useState('');
   const [roleAtualizada, setRoleAtualizada] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
-    useState('');
+  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] = useState('');
   const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
   const [optionsFindUser, setOptionsFindUser] = useState('usuario');
   const [numeroInstancia, setNumeroInstancia] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState(
-    []
-  );
-  const [listaTelefonesCadastradosClone, setListaTelefonesCadastradosClone] =
-    useState([]);
-  const [existeTelefoneCadastrado, setExisteTelefoneCadastrado] =
-    useState(false);
-  const [
-    openModalDeleteTelefoneCadastrado,
-    setOpenModalDeleteTelefoneCadastrado,
-  ] = useState(false);
-  const [
-    telefoneCadastradoSelecionadoDeletar,
-    setTelefoneCadastradoSelecionadoDeletar,
-  ] = useState('');
-  const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] =
-    useState('telefone');
+  const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState([]);
+  const [listaTelefonesCadastradosClone, setListaTelefonesCadastradosClone] = useState([]);
+  const [existeTelefoneCadastrado, setExisteTelefoneCadastrado] = useState(false);
+  const [openModalDeleteTelefoneCadastrado, setOpenModalDeleteTelefoneCadastrado,] = useState(false);
+  const [telefoneCadastradoSelecionadoDeletar, setTelefoneCadastradoSelecionadoDeletar,] = useState('');
+  const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] = useState('telefone');
   const [showQrCode, setShowQrCode] = useState(false);
 
   const requestDataUsers = async () => {
@@ -294,25 +282,15 @@ const Admin = () => {
 
   const btnRequestInstanciartUser = async () => {
     try {
-      if (!showQrCode) {
-        setShowQrCode(true);
-        const result = await requestInsert('/cadastrar-whatsapp', {
-          numero: numeroInstancia,
-        });
-        await requestDataTelCadastrado();
-        toast.success(result.mensagem);
-      } else {
-        setShowQrCode(false);
-      }
+      const result = await requestInsert('/cadastrar-whatsapp', {
+        numero: numeroInstancia,
+      });
+      await requestDataTelCadastrado();
+      setTimeout(() => setShowQrCode(true), 15000);
+      toast.success(result.mensagem);
     } catch (error) {
+      toast.error(`⚠️${error}`);
       setShowQrCode(false);
-      toast(
-        '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
-        {
-          duration: 3000,
-        }
-      );
-      toast.error('Instância não inicializada!');
     }
   };
 
