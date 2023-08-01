@@ -29,18 +29,29 @@ const Admin = () => {
   const [senhaAtualizada, setSenhaAtualizada] = useState('');
   const [roleAtualizada, setRoleAtualizada] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] = useState('');
+  const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
+    useState('');
   const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
   const [optionsFindUser, setOptionsFindUser] = useState('usuario');
   const [numeroInstancia, setNumeroInstancia] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState([]);
-  const [listaTelefonesCadastradosClone, setListaTelefonesCadastradosClone] = useState([]);
-  const [existeTelefoneCadastrado, setExisteTelefoneCadastrado] = useState(false);
-  const [openModalDeleteTelefoneCadastrado, setOpenModalDeleteTelefoneCadastrado,] = useState(false);
-  const [telefoneCadastradoSelecionadoDeletar, setTelefoneCadastradoSelecionadoDeletar,] = useState('');
-  const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] = useState('telefone');
-  const [showQrCode, setShowQrCode] = useState(false);
+  const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState(
+    []
+  );
+  const [listaTelefonesCadastradosClone, setListaTelefonesCadastradosClone] =
+    useState([]);
+  const [existeTelefoneCadastrado, setExisteTelefoneCadastrado] =
+    useState(false);
+  const [
+    openModalDeleteTelefoneCadastrado,
+    setOpenModalDeleteTelefoneCadastrado,
+  ] = useState(false);
+  const [
+    telefoneCadastradoSelecionadoDeletar,
+    setTelefoneCadastradoSelecionadoDeletar,
+  ] = useState('');
+  const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] =
+    useState('telefone');
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -282,17 +293,50 @@ const Admin = () => {
 
   const btnRequestInstanciartUser = async () => {
     try {
+      fetchImages();
       const result = await requestInsert('/cadastrar-whatsapp', {
         numero: numeroInstancia,
       });
       await requestDataTelCadastrado();
-      setTimeout(() => setShowQrCode(true), 15000);
       toast.success(result.mensagem);
     } catch (error) {
       toast.error(`⚠️${error}`);
-      setShowQrCode(false);
     }
   };
+
+  const fetchImages = async () => {
+   
+      const response = await fetch(`${process.env.REACT_APP_API_PORT}/qr-code`);
+      // console.log(response);
+      // if (response.ok === 200) {
+        // const data = await response.json();
+        // Faça o processamento dos dados recebidos aqui
+        const imageQrCode = document.getElementById('conatiner-qrcode');
+        imageQrCode.innerHTML = '';
+        const image = document.createElement('img');
+        image.style.width = '400px';
+        image.style.height = '400px';
+        image.style.border = '20px solid white';
+        image.src = response.url;
+        imageQrCode.appendChild(image);
+      // } else {
+      //   const imageQrCode = document.getElementById('conatiner-qrcode');
+      //   imageQrCode.innerHTML = '';
+      //   console.error(
+      //     'Erro ao obter as imagens:',
+      //     response.status,
+      //     response.statusText
+      //   );
+      // }
+   
+    const interval = 10000; // 10 segundos
+    setTimeout(fetchImages, interval);
+  };
+
+  // useEffect(() => {
+  //   fetchImages();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [btnRequestInstanciartUser]);
 
   return (
     <div className='container-admin flex flex-col min-h-screen'>
@@ -725,20 +769,8 @@ const Admin = () => {
                 tem que possuir 11 dígitos
               </p>
             </div>
-            {showQrCode && (
-              <>
-                <div className='flex justify-center'>
-                  <h1>QR Code</h1>
-                </div>
-                <div className='flex justify-center'>
-                  <img
-                    className='w-52 h-52'
-                    src={`${process.env.REACT_APP_API_PORT}/images/qr-code.png`}
-                    alt='placeholder'
-                  />
-                </div>
-              </>
-            )}
+            <div id='conatiner-qrcode' className='flex justify-center'>
+            </div>
           </div>
         </section>
       </main>
