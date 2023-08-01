@@ -305,38 +305,19 @@ const Admin = () => {
   };
 
   const fetchImages = async () => {
-   
-      const response = await fetch(`${process.env.REACT_APP_API_PORT}/qr-code`);
-      // console.log(response);
-      // if (response.ok === 200) {
-        // const data = await response.json();
-        // Faça o processamento dos dados recebidos aqui
-        const imageQrCode = document.getElementById('conatiner-qrcode');
-        imageQrCode.innerHTML = '';
-        const image = document.createElement('img');
-        image.style.width = '400px';
-        image.style.height = '400px';
-        image.style.border = '20px solid white';
-        image.src = response.url;
-        imageQrCode.appendChild(image);
-      // } else {
-      //   const imageQrCode = document.getElementById('conatiner-qrcode');
-      //   imageQrCode.innerHTML = '';
-      //   console.error(
-      //     'Erro ao obter as imagens:',
-      //     response.status,
-      //     response.statusText
-      //   );
-      // }
-   
+    const response = await fetch(`${process.env.REACT_APP_API_PORT}/qr-code`);
+    const imageQrCode = document.getElementById('conatiner-qrcode');
+    imageQrCode.innerHTML = '';
+    const image = document.createElement('img');
+    image.style.width = '400px';
+    image.style.height = '400px';
+    image.style.border = '20px solid white';
+    image.src = response.url;
+    imageQrCode.appendChild(image);
+
     const interval = 10000; // 10 segundos
     setTimeout(fetchImages, interval);
   };
-
-  // useEffect(() => {
-  //   fetchImages();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [btnRequestInstanciartUser]);
 
   return (
     <div className='container-admin flex flex-col min-h-screen'>
@@ -769,8 +750,7 @@ const Admin = () => {
                 tem que possuir 11 dígitos
               </p>
             </div>
-            <div id='conatiner-qrcode' className='flex justify-center'>
-            </div>
+            <div id='conatiner-qrcode' className='flex justify-center'></div>
           </div>
         </section>
       </main>
