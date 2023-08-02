@@ -249,7 +249,7 @@ const Enviar = () => {
           <div className='flex justify-center mb-2'>
             {existeNumeroTelefoneCadastrado ? (
               <select
-                className='py-1 text-black rounded-md w-24'
+                className='py-1 text-black rounded-md w-32'
                 onChange={({ target: { value } }) => setNumeroTelefoneUsuarioSelecionado(value)}
                 value={numeroTelefoneUsuarioSelecionado}
               >
