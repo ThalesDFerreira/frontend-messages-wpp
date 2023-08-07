@@ -244,12 +244,14 @@ const Enviar = () => {
 
   const requestDataTelCadastrado = async () => {
     const result = await requestData('/logged');
-    setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
-    if (result.length !== 0) {
+    if (result.length === 0) {
+      setExisteNumeroTelefoneCadastrado(false);
+      // setNumeroTelefoneUsuarioSelecionado('S/ Números');
+    } else {
+      // setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
+      console.log('entrou aqui na lista');
       setListaNumerosTelefonesUsuarios(result);
       setExisteNumeroTelefoneCadastrado(true);
-    } else {
-      setExisteNumeroTelefoneCadastrado(false);
     }
   };
 
@@ -266,7 +268,9 @@ const Enviar = () => {
         </h1>
         <div className='flex-col justify-center items-center'>
           <div className='flex justify-center mb-2'>
-            {existeNumeroTelefoneCadastrado ? (
+            {!existeNumeroTelefoneCadastrado ? (
+              <p>Não existe instâncias cadastradas!</p>
+            ) : (
               <select
                 className='py-1 text-black rounded-md w-32'
                 onChange={({ target: { value } }) =>
@@ -280,8 +284,6 @@ const Enviar = () => {
                   </option>
                 ))}
               </select>
-            ) : (
-              <p className='h-2'>Não existe instâncias cadastradas!</p>
             )}
           </div>
           <div className='flex justify-center p-1 mb-6'>
