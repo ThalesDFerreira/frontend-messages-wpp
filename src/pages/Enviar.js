@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { requestData, requestPost } from '../services/requests';
+import { requestData, requestPost, requestUplaodFile } from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
@@ -149,7 +149,7 @@ const Enviar = () => {
         if (selectedFile !== null) {
           const formData = new FormData();
           formData.append('file', selectedFile);
-          await requestPost('/upload', formData);
+          await requestUplaodFile('/upload', formData);
         }
         const result = await requestPost('/envio-mensagem', body);
         toast.success(result.mensagem);
@@ -246,10 +246,8 @@ const Enviar = () => {
     const result = await requestData('/logged');
     if (result.length === 0) {
       setExisteNumeroTelefoneCadastrado(false);
-      // setNumeroTelefoneUsuarioSelecionado('S/ Números');
     } else {
-      // setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
-      console.log('entrou aqui na lista');
+      setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
       setListaNumerosTelefonesUsuarios(result);
       setExisteNumeroTelefoneCadastrado(true);
     }
