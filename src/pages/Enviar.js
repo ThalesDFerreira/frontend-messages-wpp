@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { requestData, requestPost, requestUplaodFile } from '../services/requests';
+import {
+  requestData,
+  requestPost,
+  requestUplaodFile,
+} from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
@@ -150,10 +154,25 @@ const Enviar = () => {
           const formData = new FormData();
           formData.append('file', selectedFile);
           await requestUplaodFile('/upload', formData);
+          setSelectedFile(null);
         }
         const result = await requestPost('/envio-mensagem', body);
+        setListaTelefonesSelecionados([]);
+        setIsCheckedTelefones(false);
+        setMensagemSelecionada('');
+        setIsCheckedTextArea(false);
+        limparInputsRadio();
+        limparInputUpload();
+        limparTextArea();
         toast.success(result.mensagem);
       } catch (error) {
+        setListaTelefonesSelecionados([]);
+        setIsCheckedTelefones(false);
+        setMensagemSelecionada('');
+        setIsCheckedTextArea(false);
+        limparInputsRadio();
+        limparInputUpload();
+        limparTextArea();
         toast(
           `🛑 Desculpe! Estamos enfrentando problemas técnicos.
           Tente realizar a operação novamente
@@ -164,6 +183,27 @@ const Enviar = () => {
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }
+  };
+
+  const limparInputsRadio = () => {
+    const radioInputs = document.querySelectorAll(
+      'input[type="radio"][id^="radio"]'
+    );
+
+    // Percorra a lista de inputs de rádio e desmarque-os
+    radioInputs.forEach((input) => {
+      input.checked = false;
+    });
+  };
+
+  const limparInputUpload = () => {
+    const fileInput = document.getElementById('fileInput');
+    fileInput.value = null;
+  };
+
+  const limparTextArea = () => {
+    const textArea = document.querySelector('TEXTAREA');
+      textArea.value = '';
   };
 
   const inputPesquisaTelefones = async ({ target }) => {
@@ -277,7 +317,10 @@ const Enviar = () => {
                 value={numeroTelefoneUsuarioSelecionado}
               >
                 {listaNumerosTelefonesUsuarios.map((tel) => (
-                  <option value={tel.numero_telefone} key={`${tel.numero_telefone}`}>
+                  <option
+                    value={tel.numero_telefone}
+                    key={`${tel.numero_telefone}`}
+                  >
                     {tel.numero_telefone}
                   </option>
                 ))}
@@ -545,8 +588,11 @@ const Enviar = () => {
                     </thead>
                     <tbody>
                       <tr className='border-b dark:border-neutral-500'>
-                        <td className='whitespace-nowrap  px-6 py-4 font-medium' key='upload-file'>
-                          <input type="file" onChange={handleFileChange}/>
+                        <td
+                          className='whitespace-nowrap  px-6 py-4 font-medium'
+                          key='upload-file'
+                        >
+                          <input type='file' id="fileInput" onChange={handleFileChange} />
                         </td>
                       </tr>
                     </tbody>
