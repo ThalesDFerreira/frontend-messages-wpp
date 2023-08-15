@@ -12,6 +12,14 @@ const CONFIG = {
   },
 };
 
+const CONFIG_UPLOAD = {
+  headers: {
+    apikey: API_KEY,
+    authorization: API_AUTH,
+    'Content-Type': 'multipart/form-data',
+  },
+};
+
 const api = axios.create({
   baseURL: BASE_URL,
 });
@@ -65,6 +73,11 @@ export const requestPost = async (endpoint, body) => {
 
 export const requestPut = async (endpoint, body) => {
   const { data } = await api.put(endpoint, body, CONFIG);
+  return data;
+};
+
+export const requestUplaodFile = async (endpoint, body) => {
+  const { data } = await api.post(endpoint, body,  CONFIG_UPLOAD);
   return data;
 };
 

@@ -1,17 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { requestData, requestPost } from '../services/requests';
+import {
+  requestData,
+  requestPost,
+  requestUplaodFile,
+} from '../services/requests';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 
 const Enviar = () => {
-  const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] = useState('Selecionar Todos');
-  const [ocultarMensagensBtn, setOcultarMensagensBtn] = useState('Ocultar Mensagens');
+  const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
+    useState('Selecionar Todos');
+  const [ocultarMensagensBtn, setOcultarMensagensBtn] =
+    useState('Ocultar Mensagens');
   const [listaTelefones, setListaTelefones] = useState([]);
   const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
-  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState([]);
+  const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
+    []
+  );
   const [carregandoLista, setCarregandoLista] = useState(false);
   const [isCheckedTelefones, setIsCheckedTelefones] = useState(false);
   const [mensagem, setMensagem] = useState([]);
@@ -22,9 +30,15 @@ const Enviar = () => {
   const [optionsFindTel, setOptionsFindTel] = useState('nome');
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
   const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(true);
-  const [numeroTelefoneUsuarioSelecionado, setNumeroTelefoneUsuarioSelecionado] = useState('');
-  const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] = useState([]);
-  const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] = useState(false);
+  const [
+    numeroTelefoneUsuarioSelecionado,
+    setNumeroTelefoneUsuarioSelecionado,
+  ] = useState('');
+  const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] =
+    useState([]);
+  const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] =
+    useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const contacts = async () => {
     try {
@@ -136,9 +150,29 @@ const Enviar = () => {
         numeros: listaBody,
       };
       try {
+        if (selectedFile !== null) {
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          await requestUplaodFile('/upload', formData);
+          setSelectedFile(null);
+        }
         const result = await requestPost('/envio-mensagem', body);
+        setListaTelefonesSelecionados([]);
+        setIsCheckedTelefones(false);
+        setMensagemSelecionada('');
+        setIsCheckedTextArea(false);
+        limparInputsRadio();
+        limparInputUpload();
+        limparTextArea();
         toast.success(result.mensagem);
       } catch (error) {
+        setListaTelefonesSelecionados([]);
+        setIsCheckedTelefones(false);
+        setMensagemSelecionada('');
+        setIsCheckedTextArea(false);
+        limparInputsRadio();
+        limparInputUpload();
+        limparTextArea();
         toast(
           `🛑 Desculpe! Estamos enfrentando problemas técnicos.
           Tente realizar a operação novamente
@@ -149,6 +183,27 @@ const Enviar = () => {
     } else {
       toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }
+  };
+
+  const limparInputsRadio = () => {
+    const radioInputs = document.querySelectorAll(
+      'input[type="radio"][id^="radio"]'
+    );
+
+    // Percorra a lista de inputs de rádio e desmarque-os
+    radioInputs.forEach((input) => {
+      input.checked = false;
+    });
+  };
+
+  const limparInputUpload = () => {
+    const fileInput = document.getElementById('fileInput');
+    fileInput.value = null;
+  };
+
+  const limparTextArea = () => {
+    const textArea = document.querySelector('TEXTAREA');
+      textArea.value = '';
   };
 
   const inputPesquisaTelefones = async ({ target }) => {
@@ -229,13 +284,17 @@ const Enviar = () => {
 
   const requestDataTelCadastrado = async () => {
     const result = await requestData('/logged');
-    setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
-    if (result.length !== 0) {
+    if (result.length === 0) {
+      setExisteNumeroTelefoneCadastrado(false);
+    } else {
+      setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
       setListaNumerosTelefonesUsuarios(result);
       setExisteNumeroTelefoneCadastrado(true);
-    } else {
-      setExisteNumeroTelefoneCadastrado(false);
     }
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
   return (
@@ -247,23 +306,30 @@ const Enviar = () => {
         </h1>
         <div className='flex-col justify-center items-center'>
           <div className='flex justify-center mb-2'>
-            {existeNumeroTelefoneCadastrado ? (
+            {!existeNumeroTelefoneCadastrado ? (
+              <p>Não existe instâncias cadastradas!</p>
+            ) : (
               <select
                 className='py-1 text-black rounded-md w-32'
-                onChange={({ target: { value } }) => setNumeroTelefoneUsuarioSelecionado(value)}
+                onChange={({ target: { value } }) =>
+                  setNumeroTelefoneUsuarioSelecionado(value)
+                }
                 value={numeroTelefoneUsuarioSelecionado}
               >
                 {listaNumerosTelefonesUsuarios.map((tel) => (
-                  <option value={tel.numero_telefone}>{tel.numero_telefone}</option>
+                  <option
+                    value={tel.numero_telefone}
+                    key={`${tel.numero_telefone}`}
+                  >
+                    {tel.numero_telefone}
+                  </option>
                 ))}
               </select>
-            ) : (
-              <p className='h-2'>Não existe instâncias cadastradas!</p>
             )}
           </div>
           <div className='flex justify-center p-1 mb-6'>
             <button
-              className='md:text-base rounded bg-green-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+              className='md:text-base rounded bg-green-500 hover:bg-green-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
               type='button'
               onClick={handleEnviarClick}
             >
@@ -349,7 +415,9 @@ const Enviar = () => {
                                     type='checkbox'
                                     value={contact.telefone}
                                     checked={handleChangeCheckbox(contact.id)}
-                                    onChange={() => handleChangeInput(contact.id)}
+                                    onChange={() =>
+                                      handleChangeInput(contact.id)
+                                    }
                                   />
                                 </td>
                                 <td className='whitespace-nowrap  px-6 py-4'>
@@ -502,6 +570,34 @@ const Enviar = () => {
                   onChange={(e) => handleChangeRadio(e)}
                   placeholder='Digite sua mensagem...'
                 />
+              </div>
+            </div>
+          </section>
+          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-auto mt-10'>
+            <h3 className='flex justify-center mt-3'>Upload Arquivos:</h3>
+            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                <div className='overflow-hidden'>
+                  <table className='table-mensages min-w-full text-center text-sm font-light md:text-lg'>
+                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <tr>
+                        <th scope='col' className='px-6 py-4'>
+                          Selecione um arquivo
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className='border-b dark:border-neutral-500'>
+                        <td
+                          className='whitespace-nowrap  px-6 py-4 font-medium'
+                          key='upload-file'
+                        >
+                          <input type='file' id="fileInput" onChange={handleFileChange} />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </section>
