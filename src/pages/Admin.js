@@ -827,7 +827,7 @@ const Admin = () => {
                 <p className='flex justify-center text-slate-100 h-2'>
                   Obs: O número da instancia
                 </p>
-                <p className='flex justify-center text-slate-100 h-2'>
+                <p className='flex justify-center text-slate-100 h-2 mt-2'>
                   tem que possuir 11 dígitos
                 </p>
               </div>
