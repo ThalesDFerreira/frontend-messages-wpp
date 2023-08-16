@@ -1,9 +1,9 @@
 import axios from 'axios';
 // import toast from 'react-hot-toast';
 
-const API_KEY = process.env.REACT_APP_API_KEY;
-const API_AUTH = process.env.REACT_APP_API_AUTH;
-const BASE_URL = process.env.REACT_APP_API_PORT;
+const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
+const API_AUTH = import.meta.env.VITE_REACT_APP_API_AUTH;
+const BASE_URL = import.meta.env.VITE_REACT_APP_API_PORT;
 
 const CONFIG = {
   headers: {

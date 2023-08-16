@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alerta from '../assets/alert.png';
 import Home from '../assets/home.png';

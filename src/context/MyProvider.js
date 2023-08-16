@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MyContext from './MyContext';
+import PropTypes from 'prop-types';
 
 const MyProvider = ({ children }) => {
   const [autenticado, setAutenticado] = useState(false);
@@ -48,6 +49,10 @@ const MyProvider = ({ children }) => {
   };
 
   return <MyContext.Provider value={state}>{children}</MyContext.Provider>;
+};
+
+MyProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export default MyProvider;

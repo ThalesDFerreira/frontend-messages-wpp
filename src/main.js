@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './App.js';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import MyProvider from './context/MyProvider';
+import MyProvider from './context/MyProvider.js';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <MyProvider>
       <BrowserRouter>
@@ -16,5 +14,3 @@ root.render(
     </MyProvider>
   </React.StrictMode>
 );
-
-reportWebVitals();

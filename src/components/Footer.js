@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/components/Footer.css';
 import Email from '../assets/gmail.png';
 import WhatsApp from '../assets/whatsapp.png';
