@@ -315,7 +315,7 @@ const Admin = () => {
     image.src = response.url;
     imageQrCode.appendChild(image);
 
-    const interval = 10000; // 10 segundos
+    const interval = 15000; // 15 segundos
     setTimeout(fetchImages, interval);
   };
 
