@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { requestLogin, requestData } from '../services/requests';
 import MyContext from '../context/MyContext';

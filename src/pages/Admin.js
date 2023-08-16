@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   requestData,
   requestInsert,
@@ -305,7 +305,7 @@ const Admin = () => {
   };
 
   const fetchImages = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_PORT}/qr-code`);
+    const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`);
     const imageQrCode = document.getElementById('conatiner-qrcode');
     imageQrCode.innerHTML = '';
     const image = document.createElement('img');
