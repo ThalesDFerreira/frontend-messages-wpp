@@ -388,7 +388,7 @@ const Enviar = () => {
                 onClick={onClickListMensagens}
               >
                 <img
-                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14'
+                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-1'
                   src={ListMsnPng}
                   alt='Mensagens'
                 />

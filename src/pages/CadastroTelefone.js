@@ -208,11 +208,11 @@ const CadastroTelefone = () => {
       <Header />
       <main className='container-telefone p-2 flex-grow bg-rgb-212-212-212'>
         <section className='flex justify-center items-center mb-2'>
-          <nav className='mr-9'>
+          <nav className=''>
             <div>
               <button type='button' onClick={onClickListContatos}>
                 <img
-                  className='w-16 h-16 flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1 hover:mb-3'
+                  className='w-16 h-16 flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mb-3 hover:ml-1'
                   src={ListContatosPng}
                   alt='Contatos'
                 />
