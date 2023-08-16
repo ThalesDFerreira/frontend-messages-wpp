@@ -382,7 +382,11 @@ const Enviar = () => {
           </nav>
           <nav>
             <div>
-              <button className='flex-col justify-center items-center text-center' type='button' onClick={onClickListMensagens}>
+              <button
+                className='flex-col justify-center items-center text-center'
+                type='button'
+                onClick={onClickListMensagens}
+              >
                 <img
                   className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14'
                   src={ListMsnPng}
@@ -407,7 +411,7 @@ const Enviar = () => {
         </section>
         {mostrarListTelefones && (
           <div className='flex-col ml-5 mr-5 md:flex justify-between'>
-            <div className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+            <div className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
               <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
               {carregandoLista ? (
                 <section className='container-contats'>

@@ -16,6 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../styles/pages/Admin.css';
+import ListUserPng from '../assets/users.png';
+import ListTelPng from '../assets/list_contacts.png';
+import WppPng from '../assets/instanciar_whatsapp.png';
 
 const Admin = () => {
   const [usuario, setUsuario] = useState('');
@@ -52,6 +55,9 @@ const Admin = () => {
   ] = useState('');
   const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] =
     useState('telefone');
+  const [mostrarListUsuarios, setMostrarListUsuarios] = useState(false);
+  const [mostrarListTelefones, setMostrarListTelefones] = useState(false);
+  const [mostrarInstanciarWpp, setMostrarInstanciarWpp] = useState(false);
 
   const requestDataUsers = async () => {
     const result = await requestData('/usuarios');
@@ -305,7 +311,9 @@ const Admin = () => {
   };
 
   const fetchImages = async () => {
-    const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`);
+    const response = await fetch(
+      `${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`
+    );
     const imageQrCode = document.getElementById('conatiner-qrcode');
     imageQrCode.innerHTML = '';
     const image = document.createElement('img');
@@ -319,10 +327,76 @@ const Admin = () => {
     setTimeout(fetchImages, interval);
   };
 
+  const onClickListUsuarios = () => {
+    if (!mostrarListUsuarios) {
+      setMostrarListUsuarios(true);
+    } else {
+      setMostrarListUsuarios(false);
+    }
+  };
+
+  const onClickListTelefones = () => {
+    if (!mostrarListTelefones) {
+      setMostrarListTelefones(true);
+    } else {
+      setMostrarListTelefones(false);
+    }
+  };
+
+  const onClickMostrarInstanciarWpp = () => {
+    if (!mostrarInstanciarWpp) {
+      setMostrarInstanciarWpp(true);
+    } else {
+      setMostrarInstanciarWpp(false);
+    }
+  };
+
   return (
     <div className='container-admin flex flex-col min-h-screen'>
       <Header />
       <main className='container-mensagem p-2 flex-grow bg-rgb-212-212-212'>
+        <section className='flex justify-center items-center mb-2'>
+          <nav className='mr-9'>
+            <div>
+              <button type='button' onClick={onClickListUsuarios}>
+                <img
+                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
+                  src={ListUserPng}
+                  alt='Usuarios'
+                />
+                <p className='mt-1 flex justify-center text-sm'>Usuários</p>
+              </button>
+            </div>
+          </nav>
+          <nav>
+            <div>
+              <button
+                className='flex-col justify-center items-center text-center'
+                type='button'
+                onClick={onClickListTelefones}
+              >
+                <img
+                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
+                  src={ListTelPng}
+                  alt='Telefones'
+                />
+                <p className='mt-1 flex justify-center text-sm'>Telefones</p>
+              </button>
+            </div>
+          </nav>
+          <nav className='ml-6'>
+            <div>
+              <button type='button' onClick={onClickMostrarInstanciarWpp}>
+                <img
+                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
+                  src={WppPng}
+                  alt='Instanciar'
+                />
+                <p className='mt-1 flex justify-center text-sm'>Instanciar</p>
+              </button>
+            </div>
+          </nav>
+        </section>
         <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto'>
           <h1 className='p-2 flex justify-center text-xl'>
             Adicionar usuário:
@@ -382,7 +456,7 @@ const Admin = () => {
                             <option value='admin'>admin</option>
                           </select>
                         </td>
-                        <td className='whitespace-nowrap px-2 py-2'>
+                        <td className='whitespace-nowrap px-2 py-2 flex justify-center'>
                           <button
                             className='btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
                             type='button'
@@ -399,124 +473,126 @@ const Admin = () => {
             </div>
           </div>
         </section>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
-          <h1 className='p-2 flex justify-center text-xl'>
-            Lista de usuários:
-          </h1>
-          <div className='flex justify-end'>
-            <div className='flex justify-center items-center'>
-              <div className='flex mr-3'>
-                <div className='mr-1'>
-                  <label htmlFor='select-filter-user'>Filtrar por:</label>
+        {mostrarListUsuarios && (
+          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+            <h1 className='p-2 flex justify-center text-xl'>
+              Lista de usuários:
+            </h1>
+            <div className='flex justify-end'>
+              <div className='flex justify-center items-center'>
+                <div className='flex mr-3'>
+                  <div className='mr-1'>
+                    <label htmlFor='select-filter-user'>Filtrar por:</label>
+                  </div>
+                  <div>
+                    <select
+                      id='select-filter-user'
+                      className='py-1 text-black rounded-md w-24 md:w-full'
+                      onChange={({ target: { value } }) =>
+                        setOptionsFindUser(value)
+                      }
+                      value={optionsFindUser}
+                    >
+                      <option value='usuario'>Usuário</option>
+                      <option value='permissão'>Permissão</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
-                  <select
-                    id='select-filter-user'
+                  <input
                     className='py-1 text-black rounded-md w-24 md:w-full'
-                    onChange={({ target: { value } }) =>
-                      setOptionsFindUser(value)
-                    }
-                    value={optionsFindUser}
-                  >
-                    <option value='usuario'>Usuário</option>
-                    <option value='permissão'>Permissão</option>
-                  </select>
+                    name='input-pesquisa-msn'
+                    type='text'
+                    placeholder='Pesquise aqui ...'
+                    onChange={inputPesquisaUsuarios}
+                  />
                 </div>
               </div>
-              <div>
-                <input
-                  className='py-1 text-black rounded-md w-24 md:w-full'
-                  name='input-pesquisa-msn'
-                  type='text'
-                  placeholder='Pesquise aqui ...'
-                  onChange={inputPesquisaUsuarios}
-                />
-              </div>
             </div>
-          </div>
-          <div className='flex flex-col text-slate-100'>
-            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
-                <div className='overflow-hidden'>
-                  <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
-                      <tr>
-                        <th scope='col' className='px-2 py-2'>
-                          Usuário
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Senha
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Permissão
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Editar
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Deletar
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {temUsuarios ? (
-                        listaUsuarios.map((user) => (
-                          <tr
-                            className='border-b dark:border-neutral-500'
-                            key={`user-${user.id}`}
-                          >
-                            <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                              {user.usuario}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              {user.senha}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              {user.role}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              <button
-                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
-                                type='button'
-                                onClick={() =>
-                                  handleOpenModalEdit(
-                                    user.id,
-                                    user.usuario,
-                                    user.senha,
-                                    user.role
-                                  )
-                                }
-                              >
-                                <img src={Editar} alt='Editar' />
-                              </button>
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              <button
-                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
-                                type='button'
-                                onClick={() => handleOpenModalDelete(user.id)}
-                              >
-                                <img src={Deletar} alt='Deletar' />
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr key={'no-message'}>
-                          <td>---</td>
-                          <td>Não há usuários</td>
-                          <td>---</td>
-                          <td>---</td>
-                          <td>---</td>
+            <div className='flex flex-col text-slate-100'>
+              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                  <div className='overflow-hidden'>
+                    <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                        <tr>
+                          <th scope='col' className='px-2 py-2'>
+                            Usuário
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Senha
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Permissão
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Editar
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Deletar
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {temUsuarios ? (
+                          listaUsuarios.map((user) => (
+                            <tr
+                              className='border-b dark:border-neutral-500'
+                              key={`user-${user.id}`}
+                            >
+                              <td className='whitespace-nowrap px-2 py-2 font-medium'>
+                                {user.usuario}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                {user.senha}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                {user.role}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                <button
+                                  className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                  type='button'
+                                  onClick={() =>
+                                    handleOpenModalEdit(
+                                      user.id,
+                                      user.usuario,
+                                      user.senha,
+                                      user.role
+                                    )
+                                  }
+                                >
+                                  <img src={Editar} alt='Editar' />
+                                </button>
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                <button
+                                  className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                  type='button'
+                                  onClick={() => handleOpenModalDelete(user.id)}
+                                >
+                                  <img src={Deletar} alt='Deletar' />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr key={'no-message'}>
+                            <td>---</td>
+                            <td>Não há usuários</td>
+                            <td>---</td>
+                            <td>---</td>
+                            <td>---</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <div>
           <Modal show={openModalEdit} onHide={handleCloseModalEdit}>
             <Modal.Body className='flex justify-center'>
@@ -593,106 +669,108 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
-          <h1 className='p-2 flex justify-center text-xl'>
-            Lista de telefones cadastrados:
-          </h1>
-          <div className='flex justify-end'>
-            <div className='flex justify-center items-center'>
-              <div className='flex mr-3'>
-                <div className='mr-1'>
-                  <label htmlFor='select-filter-tels'>Filtrar por:</label>
+        {mostrarListTelefones && (
+          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+            <h1 className='p-2 flex justify-center text-xl'>
+              Lista de telefones cadastrados:
+            </h1>
+            <div className='flex justify-end'>
+              <div className='flex justify-center items-center'>
+                <div className='flex mr-3'>
+                  <div className='mr-1'>
+                    <label htmlFor='select-filter-tels'>Filtrar por:</label>
+                  </div>
+                  <div>
+                    <select
+                      id='select-filter-tels'
+                      className='py-1 text-black rounded-md w-24 md:w-full'
+                      onChange={({ target: { value } }) =>
+                        setOptionsFindTelCadastrado(value)
+                      }
+                      value={optionsFindTelCadastrado}
+                    >
+                      <option value='telefone'>Telefone</option>
+                      <option value='conectado'>Conectado</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
-                  <select
-                    id='select-filter-tels'
+                  <input
                     className='py-1 text-black rounded-md w-24 md:w-full'
-                    onChange={({ target: { value } }) =>
-                      setOptionsFindTelCadastrado(value)
-                    }
-                    value={optionsFindTelCadastrado}
-                  >
-                    <option value='telefone'>Telefone</option>
-                    <option value='conectado'>Conectado</option>
-                  </select>
+                    name='input-pesquisa-msn'
+                    type='text'
+                    placeholder='Pesquise aqui ...'
+                    onChange={inputPesquisaTelCadastrados}
+                  />
                 </div>
               </div>
-              <div>
-                <input
-                  className='py-1 text-black rounded-md w-24 md:w-full'
-                  name='input-pesquisa-msn'
-                  type='text'
-                  placeholder='Pesquise aqui ...'
-                  onChange={inputPesquisaTelCadastrados}
-                />
-              </div>
             </div>
-          </div>
-          <div className='flex flex-col text-slate-100'>
-            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
-                <div className='overflow-hidden'>
-                  <table className='min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
-                      <tr>
-                        <th scope='col' className='px-2 py-2'>
-                          Id
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Numero Telefone
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Conectado
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Deletar
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {existeTelefoneCadastrado ? (
-                        listaTelefonesCadastrados.map((tel) => (
-                          <tr
-                            className='border-b dark:border-neutral-500'
-                            key={`user-${tel.id}`}
-                          >
-                            <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                              {tel.id}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              {tel.numero_telefone}
-                            </td>
-                            <td className='text-slate-100 whitespace-nowrap px-2 py-2'>
-                              {tel.conectado ? 'Sim' : 'Não'}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              <button
-                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
-                                type='button'
-                                onClick={() =>
-                                  handleOpenModalDeleteTelCadastrado(tel.id)
-                                }
-                              >
-                                <img src={Deletar} alt='Deletar' />
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr key={'no-tel-cadastrado'}>
-                          <td>---</td>
-                          <td>Não há telefones cadastrados</td>
-                          <td>---</td>
-                          <td>---</td>
+            <div className='flex flex-col text-slate-100'>
+              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                  <div className='overflow-hidden'>
+                    <table className='min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                        <tr>
+                          <th scope='col' className='px-2 py-2'>
+                            Id
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Numero Telefone
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Conectado
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Deletar
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {existeTelefoneCadastrado ? (
+                          listaTelefonesCadastrados.map((tel) => (
+                            <tr
+                              className='border-b dark:border-neutral-500'
+                              key={`user-${tel.id}`}
+                            >
+                              <td className='whitespace-nowrap px-2 py-2 font-medium'>
+                                {tel.id}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                {tel.numero_telefone}
+                              </td>
+                              <td className='text-slate-100 whitespace-nowrap px-2 py-2'>
+                                {tel.conectado ? 'Sim' : 'Não'}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                <button
+                                  className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                  type='button'
+                                  onClick={() =>
+                                    handleOpenModalDeleteTelCadastrado(tel.id)
+                                  }
+                                >
+                                  <img src={Deletar} alt='Deletar' />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr key={'no-tel-cadastrado'}>
+                            <td>---</td>
+                            <td>Não há telefones cadastrados</td>
+                            <td>---</td>
+                            <td>---</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <div>
           <Modal
             show={openModalDeleteTelefoneCadastrado}
@@ -714,45 +792,49 @@ const Admin = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        <section className='flex justify-center '>
-          <div className='flex-col bg-black rounded-2xl bg-opacity-80 p-10'>
-            <h1 className='flex justify-center text-xl text-slate-100 mb-4'>
-              Instanciar WhatsApp
-            </h1>
-            <div className='flex justify-center mb-4'>
-              <input
-                className='p-1 text-black rounded-md bg-rgb-212-212-212 mr-1'
-                type='number'
-                onChange={({ target: { value } }) => setNumeroInstancia(value)}
-                value={numeroInstancia}
-                placeholder='Número da instância ...'
-              />
+        {mostrarInstanciarWpp && (
+          <section className='flex justify-center '>
+            <div className='flex-col bg-black rounded-2xl bg-opacity-80 p-10'>
+              <h1 className='flex justify-center text-xl text-slate-100 mb-4'>
+                Instanciar WhatsApp
+              </h1>
+              <div className='flex justify-center mb-4'>
+                <input
+                  className='p-1 text-black rounded-md bg-rgb-212-212-212 mr-1'
+                  type='number'
+                  onChange={({ target: { value } }) =>
+                    setNumeroInstancia(value)
+                  }
+                  value={numeroInstancia}
+                  placeholder='Número da instância ...'
+                />
+              </div>
+              <div className='flex justify-center'>
+                <button
+                  className={
+                    isDisabled
+                      ? 'bg-red-600 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                      : 'btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                  }
+                  type='button'
+                  disabled={isDisabled}
+                  onClick={btnRequestInstanciartUser}
+                >
+                  Instanciar
+                </button>
+              </div>
+              <div className='mt-2'>
+                <p className='flex justify-center text-slate-100 h-2'>
+                  Obs: O número da instancia
+                </p>
+                <p className='flex justify-center text-slate-100 h-2'>
+                  tem que possuir 11 dígitos
+                </p>
+              </div>
+              <div id='conatiner-qrcode' className='flex justify-center'></div>
             </div>
-            <div className='flex justify-center'>
-              <button
-                className={
-                  isDisabled
-                    ? 'bg-red-600 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
-                    : 'btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
-                }
-                type='button'
-                disabled={isDisabled}
-                onClick={btnRequestInstanciartUser}
-              >
-                Instanciar
-              </button>
-            </div>
-            <div className='mt-2'>
-              <p className='flex justify-center text-slate-100 h-2'>
-                Obs: O número da instancia
-              </p>
-              <p className='flex justify-center text-slate-100 h-2'>
-                tem que possuir 11 dígitos
-              </p>
-            </div>
-            <div id='conatiner-qrcode' className='flex justify-center'></div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
