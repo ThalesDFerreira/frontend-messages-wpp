@@ -16,6 +16,7 @@ import Deletar from '../assets/delete.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import ListMsnPng from '../assets/list_msn.png';
 
 const CadastroMensagem = () => {
   const [nome, setNome] = useState('');
@@ -32,6 +33,7 @@ const CadastroMensagem = () => {
     useState('');
   const [listaMensagemClone, setListaMensagemClone] = useState([]);
   const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
+  const [mostrarListMensagens, setMostrarListMensagens] = useState(false);
 
   const requestDataMessages = async () => {
     const result = await requestData('/mensagens');
@@ -191,10 +193,32 @@ const CadastroMensagem = () => {
     }
   };
 
+  const onClickListMensagens = () => {
+    if (!mostrarListMensagens) {
+      setMostrarListMensagens(true);
+    } else {
+      setMostrarListMensagens(false);
+    }
+  };
+
   return (
     <div className='container-add-mensagem flex flex-col min-h-screen'>
       <Header />
       <main className='container-mensagem p-2 flex-grow bg-rgb-212-212-212'>
+        <section className='flex justify-center items-center mb-2'>
+          <nav className='mr-9'>
+            <div>
+              <button type='button' onClick={onClickListMensagens}>
+                <img
+                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1 hover:mb-3'
+                  src={ListMsnPng}
+                  alt='Mensagens'
+                />
+                <p className='mt-1 flex justify-center text-sm'>Mensagens</p>
+              </button>
+            </div>
+          </nav>
+        </section>
         <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto'>
           <h1 className='p-2 flex justify-center text-xl'>
             Adicionar mensagem:
@@ -239,7 +263,7 @@ const CadastroMensagem = () => {
                             placeholder='Digite aqui ...'
                           />
                         </td>
-                        <td className='whitespace-nowrap px-2 py-2'>
+                        <td className='whitespace-nowrap px-2 py-2 flex justify-center'>
                           <button
                             className='btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
                             type='button'
@@ -256,116 +280,118 @@ const CadastroMensagem = () => {
             </div>
           </div>
         </section>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
-          <h1 className='p-2 flex justify-center text-xl'>
-            Lista de mensagens:
-          </h1>
-          <div className='flex justify-end'>
-            <div className='flex justify-center items-center'>
-              <div className='flex mr-3'>
-                <div className='mr-1'>
-                  <label htmlFor='select-filterMsn'>Filtrar por:</label>
+        {mostrarListMensagens && (
+          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+            <h1 className='p-2 flex justify-center text-xl'>
+              Lista de mensagens:
+            </h1>
+            <div className='flex justify-end'>
+              <div className='flex justify-center items-center'>
+                <div className='flex mr-3'>
+                  <div className='mr-1'>
+                    <label htmlFor='select-filterMsn'>Filtrar por:</label>
+                  </div>
+                  <div>
+                    <select
+                      id='select-filterMsn'
+                      className='py-1 text-black rounded-md w-24 md:w-full'
+                      onChange={({ target: { value } }) =>
+                        setOptionsFindMsn(value)
+                      }
+                      value={optionsFindMsn}
+                    >
+                      <option value='nome'>Nome</option>
+                      <option value='mensagem'>Mensagem</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
-                  <select
-                    id='select-filterMsn'
+                  <input
                     className='py-1 text-black rounded-md w-24 md:w-full'
-                    onChange={({ target: { value } }) =>
-                      setOptionsFindMsn(value)
-                    }
-                    value={optionsFindMsn}
-                  >
-                    <option value='nome'>Nome</option>
-                    <option value='mensagem'>Mensagem</option>
-                  </select>
+                    name='input-pesquisa-msn'
+                    type='text'
+                    placeholder='Pesquise aqui ...'
+                    onChange={inputPesquisaMensagens}
+                  />
                 </div>
               </div>
-              <div>
-                <input
-                  className='py-1 text-black rounded-md w-24 md:w-full'
-                  name='input-pesquisa-msn'
-                  type='text'
-                  placeholder='Pesquise aqui ...'
-                  onChange={inputPesquisaMensagens}
-                />
-              </div>
             </div>
-          </div>
-          <div className='flex flex-col text-slate-100'>
-            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
-                <div className='overflow-hidden'>
-                  <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
-                      <tr>
-                        <th scope='col' className='px-2 py-2'>
-                          Nome
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Mensagem
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Editar
-                        </th>
-                        <th scope='col' className='px-2 py-2'>
-                          Deletar
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {temMensagem ? (
-                        listaMensagens.map((msn) => (
-                          <tr
-                            className='border-b dark:border-neutral-500'
-                            key={`message-${msn.id}`}
-                          >
-                            <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                              {msn.nome}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              {msn.mensagem}
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              <button
-                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
-                                type='button'
-                                onClick={() =>
-                                  handleOpenModalEdit(
-                                    msn.id,
-                                    msn.nome,
-                                    msn.mensagem
-                                  )
-                                }
-                              >
-                                <img src={Editar} alt='Editar' />
-                              </button>
-                            </td>
-                            <td className='whitespace-nowrap px-2 py-2'>
-                              <button
-                                className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
-                                type='button'
-                                onClick={() => handleOpenModalDelete(msn.id)}
-                              >
-                                <img src={Deletar} alt='Deletar' />
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr key={'no-message'}>
-                          <td>---</td>
-                          <td>Não há mensagens</td>
-                          <td>---</td>
-                          <td>---</td>
+            <div className='flex flex-col text-slate-100'>
+              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+                  <div className='overflow-hidden'>
+                    <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                        <tr>
+                          <th scope='col' className='px-2 py-2'>
+                            Nome
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Mensagem
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Editar
+                          </th>
+                          <th scope='col' className='px-2 py-2'>
+                            Deletar
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {temMensagem ? (
+                          listaMensagens.map((msn) => (
+                            <tr
+                              className='border-b dark:border-neutral-500'
+                              key={`message-${msn.id}`}
+                            >
+                              <td className='whitespace-nowrap px-2 py-2 font-medium'>
+                                {msn.nome}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                {msn.mensagem}
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                <button
+                                  className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                  type='button'
+                                  onClick={() =>
+                                    handleOpenModalEdit(
+                                      msn.id,
+                                      msn.nome,
+                                      msn.mensagem
+                                    )
+                                  }
+                                >
+                                  <img src={Editar} alt='Editar' />
+                                </button>
+                              </td>
+                              <td className='whitespace-nowrap px-2 py-2'>
+                                <button
+                                  className='bg-gray-200 hover:bg-gray-400 p-1 rounded-xl'
+                                  type='button'
+                                  onClick={() => handleOpenModalDelete(msn.id)}
+                                >
+                                  <img src={Deletar} alt='Deletar' />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr key={'no-message'}>
+                            <td>---</td>
+                            <td>Não há mensagens</td>
+                            <td>---</td>
+                            <td>---</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <div>
           <Modal show={openModalEdit} onHide={handleCloseModalEdit}>
             <Modal.Body className='flex justify-center'>

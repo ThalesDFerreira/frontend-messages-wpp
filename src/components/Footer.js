@@ -19,7 +19,7 @@ const Footer = () => {
           <img className='w-5 h-5 mr-2' src={Email} alt='Email' />
           <p className='text-xs mt-2'>{empresa.email}</p>
         </div>
-        <div className='flex justify-end items-center h-5'>
+        <div className='flex justify-end items-center h-5 mt-2'>
           <img className='w-5 h-5 mr-2' src={WhatsApp} alt='WhatsApp' />
           <a
             className='no-underline text-slate-100 text-xs'
