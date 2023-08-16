@@ -356,7 +356,7 @@ const Admin = () => {
       <Header />
       <main className='container-mensagem p-2 flex-grow bg-rgb-212-212-212'>
         <section className='flex justify-center items-center mb-2'>
-          <nav className='mr-9'>
+          <nav className='mr-7'>
             <div>
               <button type='button' onClick={onClickListUsuarios}>
                 <img
