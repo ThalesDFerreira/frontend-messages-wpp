@@ -360,7 +360,7 @@ const Admin = () => {
             <div>
               <button type='button' onClick={onClickListUsuarios}>
                 <img
-                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
+                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
                   src={ListUserPng}
                   alt='Usuarios'
                 />
@@ -388,7 +388,7 @@ const Admin = () => {
             <div>
               <button type='button' onClick={onClickMostrarInstanciarWpp}>
                 <img
-                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
+                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
                   src={WppPng}
                   alt='Instanciar'
                 />
