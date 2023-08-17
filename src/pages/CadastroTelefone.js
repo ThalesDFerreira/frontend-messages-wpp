@@ -207,7 +207,7 @@ const CadastroTelefone = () => {
   return (
     <div className='container-add-telefone flex flex-col min-h-screen'>
       <Header />
-      <main className='container-telefone p-2 flex-grow bg-rgb-212-212-212'>
+      <main className='container-telefone p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
           <nav className=''>
             <div>

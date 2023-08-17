@@ -333,7 +333,7 @@ const Enviar = () => {
   return (
     <div className='container-enviar flex flex-col min-h-screen'>
       <Header />
-      <main className='container-form p-2 flex-grow bg-rgb-212-212-212'>
+      <main className='container-form p-2 flex-grow bg-rgb-azul-claro'>
         <h1 className='flex justify-center text-2xl mb-3'>
           Formulário de Envio
         </h1>

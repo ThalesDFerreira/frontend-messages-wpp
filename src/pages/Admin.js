@@ -357,13 +357,13 @@ const Admin = () => {
   return (
     <div className='container-admin flex flex-col min-h-screen'>
       <Header />
-      <main className='container-mensagem p-2 flex-grow bg-rgb-212-212-212'>
+      <main className='container-mensagem p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
           <nav className='mr-7'>
             <div>
               <button type='button' onClick={onClickListUsuarios}>
                 <img
-                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
+                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-rgb-rosa hover:bg-red-300 p-1 border-solid border-2 border-rgb-bege hover:w-14 hover:h-14 hover:mr-2'
                   src={mostrarListUsuarios ? ListUserPngClick : ListUserPng}
                   alt='Usuarios'
                 />
@@ -379,7 +379,7 @@ const Admin = () => {
                 onClick={onClickListTelefones}
               >
                 <img
-                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
+                  className='w-16 h-16 flex justify-center bg-rgb-azul hover:bg-sky-300 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
                   src={mostrarListTelefones ? ListTelPngClick : ListTelPng}
                   alt='Telefones'
                 />
@@ -391,7 +391,7 @@ const Admin = () => {
             <div>
               <button type='button' onClick={onClickMostrarInstanciarWpp}>
                 <img
-                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
+                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-rgb-verde-claro hover:bg-green-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
                   src={mostrarInstanciarWpp ? WppPngClick : WppPng}
                   alt='Instanciar'
                 />

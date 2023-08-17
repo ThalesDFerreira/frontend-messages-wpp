@@ -205,7 +205,7 @@ const CadastroMensagem = () => {
   return (
     <div className='container-add-mensagem flex flex-col min-h-screen'>
       <Header />
-      <main className='container-mensagem p-2 flex-grow bg-rgb-212-212-212'>
+      <main className='container-mensagem p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
           <nav className=''>
             <div>

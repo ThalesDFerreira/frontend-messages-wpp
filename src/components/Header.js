@@ -37,12 +37,12 @@ const Header = () => {
   };
 
   return (
-    <div className='flex justify-between bg-gradient-to-r from-sky-500 to-indigo-500 text-slate-100 py-3 p-4 text-xs h-24'>
+    <div className='flex justify-between bg-gradient-to-l from-sky-500 to-indigo-300 text-slate-100 py-3 p-4 text-xs h-24'>
       <nav className='mt-2'>
         <div>
           <button type='button' onClick={onClickHome}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-400 p-1'
+              className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-300 p-1'
               src={Home}
               alt='Home'
             />
@@ -60,7 +60,7 @@ const Header = () => {
           <div>
             <button type='button' onClick={onClickAdmin}>
               <img
-                className='w-10 h-10 rounded-full flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1'
+                className='w-10 h-10 rounded-full flex justify-center bg-rgb-bege hover:bg-yellow-300 p-1'
                 src={AdminImg}
                 alt='Painel Admin'
               />
@@ -72,7 +72,7 @@ const Header = () => {
         <div>
           <button type='button' onClick={onClickTelefone}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-green-500 hover:bg-green-900 p-1'
+              className='w-10 h-10 rounded-full flex justify-center bg-rgb-verde-claro hover:bg-green-600 p-1'
               src={Telefone}
               alt='Cadastrar Telefone'
             />
@@ -82,7 +82,7 @@ const Header = () => {
         <div>
           <button type='button' onClick={onClickMensagem}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-sky-500 hover:bg-sky-900 p-1'
+              className='w-10 h-10 rounded-full flex justify-center bg-rgb-azul-claro hover:bg-sky-300 p-1'
               src={Mensagem}
               alt='Cadastrar Mensagem'
             />
@@ -92,7 +92,7 @@ const Header = () => {
         <div>
           <button name='sair' type='button' onClick={onClickSair}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-red-500 hover:bg-red-900 p-1'
+              className='w-10 h-10 rounded-full flex justify-center bg-rgb-rosa hover:bg-red-400 p-1'
               src={Sair}
               alt='Sair'
             />

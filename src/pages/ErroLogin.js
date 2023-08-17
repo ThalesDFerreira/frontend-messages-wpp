@@ -15,7 +15,7 @@ const ErroLogin = () => {
       <main className='container-error-area w-full h-56 flex justify-center items-center text-slate-100 flex-grow'>
         <div className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-60'>
           <div className='flex justify-center'>
-            <img className='bg-yellow-200' src={Alerta} alt='Alerta' />
+            <img className='bg-yellow-300' src={Alerta} alt='Alerta' />
           </div>
           <div className='flex justify-center'>
             <h2 className='mt-2 text-center'>Ops... Ocorreu algum problema!</h2>
