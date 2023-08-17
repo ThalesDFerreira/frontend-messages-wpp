@@ -10,8 +10,11 @@ import Header from '../components/Header';
 import '../styles/pages/Enviar.css';
 import Footer from '../components/Footer';
 import ListTelPng from '../assets/list_contacts.png';
+import ListTelPngClick from '../assets/list_contacts_click.png';
 import ListMsnPng from '../assets/list_msn.png';
+import ListMsnPngClick from '../assets/list_msn_click.png';
 import anexoPng from '../assets/anexo.png';
+import anexoPngClick from '../assets/anexo_click.png';
 
 const Enviar = () => {
   const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
@@ -373,7 +376,7 @@ const Enviar = () => {
               <button type='button' onClick={onClickListTelefones}>
                 <img
                   className='w-16 h-16 rounded-s-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
-                  src={ListTelPng}
+                  src={mostrarListTelefones ? ListTelPngClick : ListTelPng}
                   alt='Contatos'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Contatos</p>
@@ -389,7 +392,7 @@ const Enviar = () => {
               >
                 <img
                   className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-1'
-                  src={ListMsnPng}
+                  src={mostrarListMensagens ? ListMsnPngClick : ListMsnPng}
                   alt='Mensagens'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Mensagens</p>
@@ -401,7 +404,7 @@ const Enviar = () => {
               <button type='button' onClick={onClickMostrarAnexo}>
                 <img
                   className='w-16 h-16 rounded-e-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
-                  src={anexoPng}
+                  src={mostrarAnexo ? anexoPngClick : anexoPng}
                   alt='Anexo'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Anexo</p>

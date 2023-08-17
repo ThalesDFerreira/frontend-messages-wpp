@@ -17,6 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ListContatosPng from '../assets/list_contacts.png';
+import ListContatosPngClick from '../assets/list_contacts_click.png';
 
 const CadastroTelefone = () => {
   const [nome, setNome] = useState('');
@@ -213,7 +214,9 @@ const CadastroTelefone = () => {
               <button type='button' onClick={onClickListContatos}>
                 <img
                   className='w-16 h-16 flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mb-3 hover:ml-1'
-                  src={ListContatosPng}
+                  src={
+                    mostrarListContatos ? ListContatosPngClick : ListContatosPng
+                  }
                   alt='Contatos'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Contatos</p>

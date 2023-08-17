@@ -17,6 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ListMsnPng from '../assets/list_msn.png';
+import ListMsnPngClick from '../assets/list_msn_click.png';
 
 const CadastroMensagem = () => {
   const [nome, setNome] = useState('');
@@ -211,7 +212,7 @@ const CadastroMensagem = () => {
               <button type='button' onClick={onClickListMensagens}>
                 <img
                   className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mb-3 hover:ml-1'
-                  src={ListMsnPng}
+                  src={mostrarListMensagens ? ListMsnPngClick : ListMsnPng}
                   alt='Mensagens'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Mensagens</p>

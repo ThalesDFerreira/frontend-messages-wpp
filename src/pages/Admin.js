@@ -17,8 +17,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../styles/pages/Admin.css';
 import ListUserPng from '../assets/users.png';
+import ListUserPngClick from '../assets/users_click.png';
 import ListTelPng from '../assets/list_contacts.png';
+import ListTelPngClick from '../assets/list_contacts_click.png';
 import WppPng from '../assets/instanciar_whatsapp.png';
+import WppPngClick from '../assets/instanciar_whatsapp_click.png';
 
 const Admin = () => {
   const [usuario, setUsuario] = useState('');
@@ -361,7 +364,7 @@ const Admin = () => {
               <button type='button' onClick={onClickListUsuarios}>
                 <img
                   className='w-16 h-16 rounded-s-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
-                  src={ListUserPng}
+                  src={mostrarListUsuarios ? ListUserPngClick : ListUserPng}
                   alt='Usuarios'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Usuários</p>
@@ -377,7 +380,7 @@ const Admin = () => {
               >
                 <img
                   className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
-                  src={ListTelPng}
+                  src={mostrarListTelefones ? ListTelPngClick : ListTelPng}
                   alt='Telefones'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Telefones</p>
@@ -389,7 +392,7 @@ const Admin = () => {
               <button type='button' onClick={onClickMostrarInstanciarWpp}>
                 <img
                   className='w-16 h-16 rounded-e-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
-                  src={WppPng}
+                  src={mostrarInstanciarWpp ? WppPngClick : WppPng}
                   alt='Instanciar'
                 />
                 <p className='mt-1 flex justify-center text-sm'>Instanciar</p>

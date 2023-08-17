@@ -77,7 +77,7 @@ export const requestPut = async (endpoint, body) => {
 };
 
 export const requestUplaodFile = async (endpoint, body) => {
-  const { data } = await api.post(endpoint, body,  CONFIG_UPLOAD);
+  const { data } = await api.post(endpoint, body, CONFIG_UPLOAD);
   return data;
 };
 
