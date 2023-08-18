@@ -447,10 +447,18 @@ const CadastroMensagem = () => {
               Tem certeza que deseja excluir esse contato?
             </Modal.Body>
             <Modal.Footer>
-              <Button type='button' onClick={handleCloseModalDelete}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={handleCloseModalDelete}
+              >
                 Não
               </Button>
-              <Button type='button' onClick={btnRequestDeleteMessages}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={btnRequestDeleteMessages}
+              >
                 Sim
               </Button>
             </Modal.Footer>

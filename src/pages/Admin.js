@@ -794,12 +794,17 @@ const Admin = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button
+                className='text-black'
                 type='button'
                 onClick={handleCloseModalDeleteTelCadastrado}
               >
                 Não
               </Button>
-              <Button type='button' onClick={btnRequestDeleteTelCadastrado}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={btnRequestDeleteTelCadastrado}
+              >
                 Sim
               </Button>
             </Modal.Footer>

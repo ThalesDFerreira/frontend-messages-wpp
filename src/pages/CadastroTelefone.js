@@ -453,10 +453,18 @@ const CadastroTelefone = () => {
               Tem certeza que deseja excluir esse contato?
             </Modal.Body>
             <Modal.Footer>
-              <Button type='button' onClick={handleCloseModalDelete}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={handleCloseModalDelete}
+              >
                 Não
               </Button>
-              <Button type='button' onClick={btnRequestDeleteTelefone}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={btnRequestDeleteTelefone}
+              >
                 Sim
               </Button>
             </Modal.Footer>
