@@ -13,15 +13,15 @@ const ErroLogin = () => {
   return (
     <div className='container-error flex flex-col min-h-screen'>
       <main className='container-error-area w-full h-56 flex justify-center items-center text-slate-100 flex-grow'>
-        <div className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-60'>
+        <div className='bg-rgb-azul-claro bg-opacity-50 p-8 rounded-2xl flex-col auto-cols-max'>
           <div className='flex justify-center'>
             <img className='bg-yellow-300' src={Alerta} alt='Alerta' />
           </div>
           <div className='flex justify-center'>
-            <h2 className='mt-2 text-center'>Ops... Ocorreu algum problema!</h2>
+            <h2 className='mt-2 text-center text-black'>Ops... Ocorreu algum problema!</h2>
           </div>
           <div className='flex justify-center'>
-            <h2 className='mt-2 text-center'>
+            <h2 className='mt-2 text-center text-black'>
               Clique no botão abaixo e tente realizar o Login!
             </h2>
           </div>
@@ -32,7 +32,7 @@ const ErroLogin = () => {
                 src={Home}
                 alt='Home'
               />
-              <p className='mt-1 flex-col justify-center'>Início</p>
+              <p className='mt-1 flex-col justify-center text-black'>Início</p>
             </button>
           </div>
         </div>
