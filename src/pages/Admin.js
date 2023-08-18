@@ -20,7 +20,7 @@ import ListUserPng from '../assets/users.png';
 import ListUserPngClick from '../assets/users_click.png';
 import ListTelPng from '../assets/list_contacts.png';
 import ListTelPngClick from '../assets/list_contacts_click.png';
-import WppPng from '../assets/instanciar_whatsapp.png';
+import WppPng from '../assets/whatsapp.png';
 import WppPngClick from '../assets/instanciar_whatsapp_click.png';
 
 const Admin = () => {
@@ -360,10 +360,10 @@ const Admin = () => {
       <main className='container-mensagem p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
           <nav className='mr-7'>
-            <div>
+            <div className='img-admin'>
               <button type='button' onClick={onClickListUsuarios}>
                 <img
-                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-rgb-rosa hover:bg-red-300 p-1 border-solid border-2 border-rgb-bege hover:w-14 hover:h-14 hover:mr-2'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:mr-2'
                   src={mostrarListUsuarios ? ListUserPngClick : ListUserPng}
                   alt='Usuarios'
                 />
@@ -372,14 +372,14 @@ const Admin = () => {
             </div>
           </nav>
           <nav>
-            <div>
+            <div className='img-admin'>
               <button
                 className='flex-col justify-center items-center text-center'
                 type='button'
                 onClick={onClickListTelefones}
               >
                 <img
-                  className='w-16 h-16 flex justify-center bg-rgb-azul hover:bg-sky-300 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:mr-1 hover:ml-1'
                   src={mostrarListTelefones ? ListTelPngClick : ListTelPng}
                   alt='Telefones'
                 />
@@ -388,20 +388,22 @@ const Admin = () => {
             </div>
           </nav>
           <nav className='ml-6'>
-            <div>
+            <div className='img-admin'>
               <button type='button' onClick={onClickMostrarInstanciarWpp}>
                 <img
-                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-rgb-verde-claro hover:bg-green-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:ml-2'
                   src={mostrarInstanciarWpp ? WppPngClick : WppPng}
                   alt='Instanciar'
                 />
-                <p className='mt-1 flex justify-center text-sm'>Instanciar</p>
+                <p className='mt-1 flex justify-center text-sm text-slate-100'>
+                  Instanciar
+                </p>
               </button>
             </div>
           </nav>
         </section>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto'>
-          <h1 className='p-2 flex justify-center text-xl'>
+        <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
+          <h1 className='py-2 flex justify-center text-xl'>
             Adicionar usuário:
           </h1>
           <div className='flex flex-col text-slate-100'>
@@ -409,7 +411,7 @@ const Admin = () => {
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                 <div className='overflow-hidden'>
                   <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                    <thead className='border-b bg-neutral-800 bg-opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                       <tr>
                         <th scope='col' className='px-2 py-2'>
                           Usuário
@@ -477,7 +479,7 @@ const Admin = () => {
           </div>
         </section>
         {mostrarListUsuarios && (
-          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
             <h1 className='p-2 flex justify-center text-xl'>
               Lista de usuários:
             </h1>
@@ -517,7 +519,7 @@ const Admin = () => {
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <thead className='border-b bg-neutral-800 bg-opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Usuário
@@ -663,17 +665,25 @@ const Admin = () => {
               Tem certeza que deseja excluir esse usuário?
             </Modal.Body>
             <Modal.Footer>
-              <Button type='button' onClick={handleCloseModalDelete}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={handleCloseModalDelete}
+              >
                 Não
               </Button>
-              <Button type='button' onClick={btnRequestDeleteUsers}>
+              <Button
+                className='text-black'
+                type='button'
+                onClick={btnRequestDeleteUsers}
+              >
                 Sim
               </Button>
             </Modal.Footer>
           </Modal>
         </div>
         {mostrarListTelefones && (
-          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
             <h1 className='p-2 flex justify-center text-xl'>
               Lista de telefones cadastrados:
             </h1>
@@ -713,7 +723,7 @@ const Admin = () => {
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Id
@@ -796,8 +806,8 @@ const Admin = () => {
           </Modal>
         </div>
         {mostrarInstanciarWpp && (
-          <section className='flex justify-center '>
-            <div className='flex-col bg-black rounded-2xl bg-opacity-80 p-10'>
+          <section className='flex justify-center'>
+            <div className='flex-col rounded-2xl p-10 bg-rgb-preto bg-opacity-20'>
               <h1 className='flex justify-center text-xl text-slate-100 mb-4'>
                 Instanciar WhatsApp
               </h1>
@@ -816,7 +826,7 @@ const Admin = () => {
                 <button
                   className={
                     isDisabled
-                      ? 'bg-red-600 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                      ? 'bg-red-400 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
                       : 'btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
                   }
                   type='button'

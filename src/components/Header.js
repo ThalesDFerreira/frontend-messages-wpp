@@ -39,64 +39,65 @@ const Header = () => {
   return (
     <div className='flex justify-between bg-gradient-to-l from-sky-500 to-indigo-300 text-slate-100 py-3 p-4 text-xs h-24'>
       <nav className='mt-2'>
-        <div>
+        <div className='img-header'>
           <button type='button' onClick={onClickHome}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-gray-200 hover:bg-gray-300 p-1'
+              className='w-10 h-10 flex justify-center p-1'
               src={Home}
               alt='Home'
             />
-            <p className='mt-1 flex justify-center'>Início</p>
+            <p className='flex justify-center text-black'>Início</p>
           </button>
         </div>
       </nav>
       <div className='mt-2'>
-        <h1 className='w-42 h-14 flex items-center text-slate-100 text-base font-bold md:text-xl'>
+        <h1 className='w-42 h-14 flex items-center ml-52 text-slate-100 text-base font-bold md:text-xl'>
           WhatsApp Send
         </h1>
       </div>
       <nav className='flex justify-between gap-4 mt-2'>
         {admin && (
-          <div>
+          <div className='img-header'>
             <button type='button' onClick={onClickAdmin}>
               <img
-                className='w-10 h-10 rounded-full flex justify-center bg-rgb-bege hover:bg-yellow-300 p-1'
+                className=' w-10 h-10 rounded-full flex justify-center p-1'
                 src={AdminImg}
                 alt='Painel Admin'
               />
-              <p className='mt-1 flex justify-center'>Admin</p>
+              <p className='flex justify-center text-black'>Admin</p>
             </button>
           </div>
         )}
-
-        <div>
+        <div className='img-header'>
           <button type='button' onClick={onClickTelefone}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-rgb-verde-claro hover:bg-green-600 p-1'
+              className=' w-10 h-10 flex justify-center p-1'
               src={Telefone}
               alt='Cadastrar Telefone'
             />
-            <p className='mt-1 flex justify-center'>Add Tel</p>
+            <p className='flex justify-center text-black'>Add Tel</p>
           </button>
         </div>
-        <div>
+        <div className='mr-10 img-header'>
           <button type='button' onClick={onClickMensagem}>
             <img
-              className='w-10 h-10 rounded-full flex justify-center bg-rgb-azul-claro hover:bg-sky-300 p-1'
+              className=' w-10 h-10 flex justify-center p-1'
               src={Mensagem}
               alt='Cadastrar Mensagem'
             />
-            <p className='mt-1 flex justify-center'>Add Msn</p>
+            <p className='flex justify-center text-black'>Add Msn</p>
           </button>
         </div>
-        <div>
+        <div className='img-header-sair'>
           <button name='sair' type='button' onClick={onClickSair}>
-            <img
-              className='w-10 h-10 rounded-full flex justify-center bg-rgb-rosa hover:bg-red-400 p-1'
-              src={Sair}
-              alt='Sair'
-            />
-            <p className='mt-1 flex justify-center'>Sair</p>
+            <div>
+              <img
+                className='w-10 h-10 flex justify-center p-1'
+                src={Sair}
+                alt='Sair'
+              />
+            </div>
+            <p className='flex justify-center text-black'>Sair</p>
           </button>
         </div>
       </nav>

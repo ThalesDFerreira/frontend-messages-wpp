@@ -46,8 +46,8 @@ const Login = () => {
 
   return (
     <div className='container-login flex flex-col min-h-screen'>
-      <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-100 flex-grow'>
-        <form className='bg-black p-8 rounded-2xl flex-col auto-cols-max bg-opacity-60'>
+      <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-800 flex-grow'>
+        <form className='bg-rgb-azul-claro p-8 rounded-2xl flex-col auto-cols-max bg-opacity-50'>
           <h1 className='text-4xl mb-6 text-center font-bold'>
             Área do usuário
           </h1>
@@ -75,7 +75,7 @@ const Login = () => {
                 <div>
                   <button
                     type='button'
-                    className='mostrar-senha-button bg-white rounded-2xl w-6 h-6 ml-2 mt-1 bg-opacity-90'
+                    className='mostrar-senha-button w-6 h-6 ml-2 mt-1 bg-opacity-90'
                     onClick={handleMostrarSenha}
                   >
                     {mostrarSenha ? (
@@ -97,7 +97,7 @@ const Login = () => {
             </div>
             <div className='flex justify-center mt-3'>
               <button
-                className='btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-2 w-20 flex justify-center rounded-xl font-bold'
+                className='btn-entrar text-center mb-2 bg-blue-500 hover:bg-blue-600 text-slate-800 p-2 w-20 flex justify-center rounded-xl font-bold'
                 type='submit'
                 onClick={(event) => login(event)}
               >

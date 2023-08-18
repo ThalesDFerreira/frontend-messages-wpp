@@ -207,11 +207,11 @@ const CadastroMensagem = () => {
       <Header />
       <main className='container-mensagem p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
-          <nav className=''>
-            <div>
+          <nav>
+            <div className='img-mensagens'>
               <button type='button' onClick={onClickListMensagens}>
                 <img
-                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mb-3 hover:ml-1'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:mb-3 hover:ml-1'
                   src={mostrarListMensagens ? ListMsnPngClick : ListMsnPng}
                   alt='Mensagens'
                 />
@@ -220,7 +220,7 @@ const CadastroMensagem = () => {
             </div>
           </nav>
         </section>
-        <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto'>
+        <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
           <h1 className='p-2 flex justify-center text-xl'>
             Adicionar mensagem:
           </h1>
@@ -229,7 +229,7 @@ const CadastroMensagem = () => {
               <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                 <div className='overflow-hidden'>
                   <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                    <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                       <tr>
                         <th scope='col' className='px-2 py-2'>
                           Nome
@@ -282,7 +282,7 @@ const CadastroMensagem = () => {
           </div>
         </section>
         {mostrarListMensagens && (
-          <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto h-screen'>
             <h1 className='p-2 flex justify-center text-xl'>
               Lista de mensagens:
             </h1>
@@ -322,7 +322,7 @@ const CadastroMensagem = () => {
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Nome

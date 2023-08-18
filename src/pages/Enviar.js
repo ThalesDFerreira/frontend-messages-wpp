@@ -173,6 +173,7 @@ const Enviar = () => {
         limparInputsRadio();
         limparInputUpload();
         limparTextArea();
+        console.log(result.mensagem);
         toast.success(result.mensagem);
       } catch (error) {
         setListaTelefonesSelecionados([]);
@@ -207,12 +208,16 @@ const Enviar = () => {
 
   const limparInputUpload = () => {
     const fileInput = document.getElementById('fileInput');
-    fileInput.value = null;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const limparTextArea = () => {
     const textArea = document.querySelector('TEXTAREA');
-    textArea.value = '';
+    if (textArea) {
+      textArea.value = '';
+    }
   };
 
   const inputPesquisaTelefones = async ({ target }) => {
@@ -362,7 +367,7 @@ const Enviar = () => {
           </div>
           <div className='flex justify-center p-1 mb-6'>
             <button
-              className='md:text-base rounded bg-green-500 hover:bg-green-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+              className='md:text-base rounded bg-rgb-azul hover:bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
               type='button'
               onClick={handleEnviarClick}
             >
@@ -372,10 +377,10 @@ const Enviar = () => {
         </div>
         <section className='flex justify-center items-center mb-2'>
           <nav className='mr-9'>
-            <div>
+            <div className='img-enviar'>
               <button type='button' onClick={onClickListTelefones}>
                 <img
-                  className='w-16 h-16 rounded-s-2xl flex justify-center bg-green-500 hover:bg-green-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:mr-2'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:mr-2'
                   src={mostrarListTelefones ? ListTelPngClick : ListTelPng}
                   alt='Contatos'
                 />
@@ -384,14 +389,14 @@ const Enviar = () => {
             </div>
           </nav>
           <nav>
-            <div>
+            <div className='img-enviar'>
               <button
                 className='flex-col justify-center items-center text-center'
                 type='button'
                 onClick={onClickListMensagens}
               >
                 <img
-                  className='w-16 h-16 flex justify-center bg-sky-500 hover:bg-sky-900 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-1'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:ml-1'
                   src={mostrarListMensagens ? ListMsnPngClick : ListMsnPng}
                   alt='Mensagens'
                 />
@@ -400,10 +405,10 @@ const Enviar = () => {
             </div>
           </nav>
           <nav className='ml-6'>
-            <div>
+            <div className='img-enviar'>
               <button type='button' onClick={onClickMostrarAnexo}>
                 <img
-                  className='w-16 h-16 rounded-e-2xl flex justify-center bg-yellow-400 hover:bg-yellow-600 p-1 border-solid border-2 border-indigo-600 hover:w-14 hover:h-14 hover:ml-2'
+                  className='w-16 h-16 flex justify-center p-1 hover:w-14 hover:h-14 hover:ml-2'
                   src={mostrarAnexo ? anexoPngClick : anexoPng}
                   alt='Anexo'
                 />
@@ -414,14 +419,14 @@ const Enviar = () => {
         </section>
         {mostrarListTelefones && (
           <div className='flex-col ml-5 mr-5 md:flex justify-between'>
-            <div className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-screen'>
+            <div className='bg-rgb-preto bg-opacity-20 p-3 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
               <h3 className='flex justify-center mt-3'>Lista de contatos:</h3>
               {carregandoLista ? (
                 <section className='container-contats'>
                   <div className='flex justify-between'>
                     <div>
                       <button
-                        className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+                        className='ml-4 mt-2 mb-2 rounded bg-rgb-azul hover:bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
                         type='button'
                         id='select-all'
                         name='select-all'
@@ -465,7 +470,7 @@ const Enviar = () => {
                       <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                         <div className='overflow-hidden'>
                           <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                            <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                            <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                               <tr>
                                 <th scope='col' className='px-6 py-4'>
                                   Selecionar
@@ -525,12 +530,12 @@ const Enviar = () => {
         )}
         {mostrarListMensagens && (
           <div className='flex-col ml-5 mr-5 md:flex justify-between'>
-            <section className='bg-black p-3 rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 overflow-auto h-screen'>
+            <section className='bg-rgb-preto bg-opacity-20 p-3 rounded-2xl flex-col auto-cols-max text-slate-100 overflow-auto'>
               <h3 className='flex justify-center'>Lista de mensagens:</h3>
               <div className='flex justify-between'>
                 <div>
                   <button
-                    className='ml-4 mt-2 mb-2 rounded bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+                    className='ml-4 mt-2 mb-2 rounded bg-rgb-azul hover:bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
                     type='button'
                     id='ocultar-msn'
                     name='ocultar-msn'
@@ -574,7 +579,7 @@ const Enviar = () => {
                   <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                     <div className='overflow-hidden'>
                       <table className='table-mensages min-w-full text-center text-sm font-light md:text-lg'>
-                        <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                        <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                           <tr>
                             <th scope='col' className='px-6 py-4'>
                               Selecionar
@@ -657,13 +662,13 @@ const Enviar = () => {
         )}
         {mostrarAnexo && (
           <div className='flex-col ml-5 mr-5 md:flex justify-between'>
-            <section className='bg-black rounded-2xl flex-col auto-cols-max bg-opacity-80 text-slate-100 mb-5 overflow-auto h-auto mt-10'>
+            <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto h-auto mt-10'>
               <h3 className='flex justify-center mt-3'>Upload Arquivos:</h3>
               <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='table-mensages min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+                      <thead className='border-b bg-neutral-800 opacity-40 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                         <tr>
                           <th scope='col' className='px-6 py-4'>
                             Selecione um arquivo
