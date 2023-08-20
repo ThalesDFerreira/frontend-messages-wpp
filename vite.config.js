@@ -37,4 +37,5 @@ export default defineConfig({
     include: /\/src\/.*\.js$/,
     exclude: [],
   },
+  base: './',
 });
