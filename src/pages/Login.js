@@ -49,7 +49,7 @@ const Login = () => {
       <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-800 flex-grow'>
         <form className='bg-rgb-azul-claro bg-opacity-50 p-8 rounded-2xl flex-col auto-cols-max'>
           <h1 className='text-4xl mb-6 text-center font-bold'>
-            Área do usuário
+            XXXXX
           </h1>
           <div>
             <div className='flex-col'>
