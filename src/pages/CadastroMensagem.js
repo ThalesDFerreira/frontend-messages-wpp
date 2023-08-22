@@ -257,6 +257,7 @@ const CadastroMensagem = () => {
                           <input
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
+                            maxLength={2000}
                             onChange={({ target: { value } }) =>
                               setMensagem(value)
                             }
