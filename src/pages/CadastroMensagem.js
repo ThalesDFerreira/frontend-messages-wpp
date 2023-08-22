@@ -254,7 +254,7 @@ const CadastroMensagem = () => {
                           />
                         </td>
                         <td className='whitespace-nowrap px-2 py-2'>
-                          <input
+                          <textarea
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             type='text'
                             onChange={({ target: { value } }) =>
