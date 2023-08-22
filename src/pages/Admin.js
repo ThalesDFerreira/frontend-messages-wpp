@@ -723,7 +723,7 @@ const Admin = () => {
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
                   <div className='overflow-hidden'>
                     <table className='min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 opacity-40 font-medium text-slate-100 dark:border-neutral-500 dark:bg-neutral-900'>
+                      <thead className='border-b bg-neutral-800 opacity-40 font-medium'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Id
