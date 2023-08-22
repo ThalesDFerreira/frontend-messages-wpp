@@ -47,8 +47,14 @@ const CadastroMensagem = () => {
     }
   };
 
+  console.log(mensagem);
+
   const btnRequestInsertMessages = async () => {
     try {
+      if (listaMensagens.length === 255) {
+        return toast.error('A mensagem pode conter no máximo 255 caracteres!');
+      }
+
       if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
         return toast.error('Mensagem já existente!');
       }
@@ -257,7 +263,7 @@ const CadastroMensagem = () => {
                           <textarea
                             className='p-1 text-black rounded-md w-28 md:w-full'
                             // type='text'
-                            maxLength={5000}
+                            maxLength={255}
                             onChange={({ target: { value } }) =>
                               setMensagem(value)
                             }
