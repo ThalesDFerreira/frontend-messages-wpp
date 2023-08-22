@@ -613,7 +613,7 @@ const Enviar = () => {
                                     {msn.nome}
                                   </label>
                                 </td>
-                                <td className='whitespace-nowrap  px-6 py-4'>
+                                <td className='whitespace-nowrap  px-6 py-4 flex justify-start'>
                                   <label htmlFor={`radio-${msn.id}`}>
                                     {msn.mensagem}
                                   </label>

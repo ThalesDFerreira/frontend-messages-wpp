@@ -320,6 +320,7 @@ const Admin = () => {
     const imageQrCode = document.getElementById('conatiner-qrcode');
     imageQrCode.innerHTML = '';
     const image = document.createElement('img');
+    image.style.marginTop = '60px';
     image.style.width = '400px';
     image.style.height = '400px';
     image.style.border = '20px solid white';
