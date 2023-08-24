@@ -18,24 +18,24 @@ const App = () => {
       <Toaster position='top-right' reverseOrder={false} />
       <Routes>
         <Route exact path='/' element={<Navigate to='/login' />} />
-        <Route exact path='/login' element={<Login />} />
+        <Route path='/login' element={<Login />} />
         {autenticado && (
           <>
-            {admin && <Route exact path='/admin' element={<Admin />} />}
+            {admin && <Route path='/admin' element={<Admin />} />}
             <Route
-              exact
+            
               path='/cadastro-mensagem'
               element={<CadastroMensagem />}
             />
             <Route
-              exact
+            
               path='/cadastro-telefone'
               element={<CadastroTelefone />}
             />
-            <Route exact path='/enviar' element={<Enviar />} />
+            <Route path='/enviar' element={<Enviar />} />
           </>
         )}
-        <Route exact path='*' element={<ErroLogin />} />
+        <Route path='*' element={<ErroLogin />} />
       </Routes>
     </>
   );
