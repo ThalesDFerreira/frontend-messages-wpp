@@ -173,7 +173,6 @@ const Enviar = () => {
         limparInputsRadio();
         limparInputUpload();
         limparTextArea();
-        console.log(result.mensagem);
         toast.success(result.mensagem);
       } catch (error) {
         setListaTelefonesSelecionados([]);
