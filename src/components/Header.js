@@ -37,21 +37,9 @@ const Header = () => {
   };
 
   return (
-    <div className='flex justify-between bg-gradient-to-l from-sky-500 to-indigo-300 text-slate-100 py-3 p-4 text-xs h-24'>
-      <nav className='mt-2'>
-        <div className='img-header'>
-          <button type='button' onClick={onClickHome}>
-            <img
-              className='w-10 h-10 flex justify-center p-1'
-              src={Home}
-              alt='Home'
-            />
-            <p className='flex justify-center text-black'>Início</p>
-          </button>
-        </div>
-      </nav>
+    <div className='flex justify-between bg-gradient-to-l from-sky-500 to-indigo-300 text-slate-100 py-3 p-4 text-xs'>
       <div className='mt-2'>
-        <h1 className='w-42 h-14 flex items-center ml-52 text-slate-100 text-base font-bold md:text-xl'>
+        <h1 className='w-42 h-14 flex items-center text-center text-slate-100 text-base font-bold md:text-xl'>
           WhatsApp Send
         </h1>
       </div>
@@ -68,6 +56,16 @@ const Header = () => {
             </button>
           </div>
         )}
+        <div className='img-header'>
+          <button type='button' onClick={onClickHome}>
+            <img
+              className='w-10 h-10 flex justify-center p-1'
+              src={Home}
+              alt='Home'
+            />
+            <p className='flex justify-center text-black'>Início</p>
+          </button>
+        </div>
         <div className='img-header'>
           <button type='button' onClick={onClickTelefone}>
             <img
