@@ -287,8 +287,7 @@ const CadastroTelefone = () => {
             </div>
           </div>
         </section>
-        {/* {mostrarListContatos && ( */}
-        {true && (
+        {mostrarListContatos && (
           <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5'>
             <h1 className='py-2 flex justify-center text-xl'>
               Lista de contatos:
