@@ -432,7 +432,7 @@ const Admin = () => {
                       <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
-                            className='p-1 text-black rounded-md w-28 md:w-full'
+                            className='p-1 text-black rounded-md w-full'
                             type='text'
                             onChange={({ target: { value } }) =>
                               setUsuario(value.toLowerCase())
@@ -443,7 +443,7 @@ const Admin = () => {
                         </td>
                         <td className='whitespace-nowrap px-2 py-2'>
                           <input
-                            className='p-1 text-black rounded-md w-28 md:w-full'
+                            className='p-1 text-black rounded-md w-full'
                             type='text'
                             onChange={({ target: { value } }) =>
                               setSenha(value)
@@ -543,6 +543,7 @@ const Admin = () => {
                         {temUsuarios ? (
                           listaUsuarios.map((user) => (
                             <tr
+                              className='border-b border-solid border-rgb-cinza'
                               key={`user-${user.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
@@ -743,6 +744,7 @@ const Admin = () => {
                         {existeTelefoneCadastrado ? (
                           listaTelefonesCadastrados.map((tel) => (
                             <tr
+                              className='border-b border-solid border-rgb-cinza'
                               key={`user-${tel.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>

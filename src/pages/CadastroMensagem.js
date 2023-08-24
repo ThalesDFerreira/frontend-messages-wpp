@@ -248,7 +248,7 @@ const CadastroMensagem = () => {
                       <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
-                            className='p-1 text-black rounded-md w-28 md:w-full'
+                            className='p-1 text-black rounded-md w-full'
                             type='text'
                             onChange={({ target: { value } }) => setNome(value)}
                             value={nome}
@@ -258,7 +258,6 @@ const CadastroMensagem = () => {
                         <td className='whitespace-nowrap px-2 py-2'>
                           <textarea
                             className='p-1 text-black rounded-md w-full'
-                            // type='text'
                             maxLength={'255'}
                             onChange={({ target: { value } }) =>
                               setMensagem(value)
@@ -345,6 +344,7 @@ const CadastroMensagem = () => {
                         {temMensagem ? (
                           listaMensagens.map((msn) => (
                             <tr
+                              className='border-b border-solid border-rgb-cinza'
                               key={`message-${msn.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
