@@ -358,7 +358,7 @@ const Admin = () => {
   return (
     <div className='container-admin flex flex-col min-h-screen'>
       <Header />
-      <main className='container-mensagem p-2 flex-grow bg-rgb-azul-claro'>
+      <main className='container-admin p-2 flex-grow bg-rgb-azul-claro'>
         <section className='flex justify-center items-center mb-2'>
           <nav className='mr-7'>
             <div className='img-admin'>
@@ -403,16 +403,16 @@ const Admin = () => {
             </div>
           </nav>
         </section>
-        <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
+        <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5'>
           <h1 className='py-2 flex justify-center text-xl'>
             Adicionar usuário:
           </h1>
           <div className='flex flex-col text-slate-100'>
-            <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-              <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+            <div className='overflow-x-auto'>
+              <div className='inline-block min-w-full py-2'>
                 <div className='overflow-hidden'>
                   <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                    <thead className='border-b bg-neutral-800 bg-opacity-40 font-medium text-slate-100'>
+                    <thead className='bg-neutral-800 bg-opacity-40 font-medium text-slate-100'>
                       <tr>
                         <th scope='col' className='px-2 py-2'>
                           Usuário
@@ -429,7 +429,7 @@ const Admin = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className='border-b dark:border-neutral-500'>
+                      <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
                             className='p-1 text-black rounded-md w-28 md:w-full'
@@ -480,11 +480,11 @@ const Admin = () => {
           </div>
         </section>
         {mostrarListUsuarios && (
-          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
-            <h1 className='p-2 flex justify-center text-xl'>
+          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5'>
+            <h1 className='py-2 flex justify-center text-xl'>
               Lista de usuários:
             </h1>
-            <div className='flex justify-end'>
+            <div className='flex justify-end mr-5'>
               <div className='flex justify-center items-center'>
                 <div className='flex mr-3'>
                   <div className='mr-1'>
@@ -516,11 +516,11 @@ const Admin = () => {
               </div>
             </div>
             <div className='flex flex-col text-slate-100'>
-              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+              <div className='overflow-x-auto'>
+                <div className='inline-block min-w-full py-2'>
                   <div className='overflow-hidden'>
-                    <table className='table-contats min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 bg-opacity-40 font-medium text-slate-100'>
+                    <table className='table-users min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='bg-neutral-800 bg-opacity-40 font-medium text-slate-100'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Usuário
@@ -543,7 +543,6 @@ const Admin = () => {
                         {temUsuarios ? (
                           listaUsuarios.map((user) => (
                             <tr
-                              className='border-b dark:border-neutral-500'
                               key={`user-${user.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
@@ -684,11 +683,11 @@ const Admin = () => {
           </Modal>
         </div>
         {mostrarListTelefones && (
-          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5 overflow-auto'>
-            <h1 className='p-2 flex justify-center text-xl'>
+          <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5'>
+            <h1 className='py-2 flex justify-center text-xl'>
               Lista de telefones cadastrados:
             </h1>
-            <div className='flex justify-end'>
+            <div className='flex justify-end mr-5'>
               <div className='flex justify-center items-center'>
                 <div className='flex mr-3'>
                   <div className='mr-1'>
@@ -720,11 +719,11 @@ const Admin = () => {
               </div>
             </div>
             <div className='flex flex-col text-slate-100'>
-              <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-                <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+              <div className='overflow-x-auto'>
+                <div className='inline-block min-w-full py-2'>
                   <div className='overflow-hidden'>
-                    <table className='min-w-full text-center text-sm font-light md:text-lg'>
-                      <thead className='border-b bg-neutral-800 opacity-40 font-medium'>
+                    <table className='table-tel min-w-full text-center text-sm font-light md:text-lg'>
+                      <thead className='bg-neutral-800 bg-opacity-40 font-medium text-slate-100'>
                         <tr>
                           <th scope='col' className='px-2 py-2'>
                             Id
@@ -744,7 +743,6 @@ const Admin = () => {
                         {existeTelefoneCadastrado ? (
                           listaTelefonesCadastrados.map((tel) => (
                             <tr
-                              className='border-b dark:border-neutral-500'
                               key={`user-${tel.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
