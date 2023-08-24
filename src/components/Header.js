@@ -39,9 +39,9 @@ const Header = () => {
   return (
     <div className='flex justify-between bg-gradient-to-l from-sky-500 to-indigo-300 text-slate-100 py-3 p-4 text-xs'>
       <div className='mt-2'>
-        <h1 className='w-42 h-14 flex items-center text-center text-slate-100 text-base font-bold md:text-xl'>
+        <button onClick={onClickHome} className='w-42 h-14 flex items-center text-center text-slate-100 text-base font-bold md:text-xl'>
           WhatsApp Send
-        </h1>
+        </button>
       </div>
       <nav className='flex justify-between gap-4 mt-2'>
         {admin && (
