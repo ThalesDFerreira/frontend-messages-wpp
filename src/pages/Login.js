@@ -20,7 +20,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const token = await requestLogin("/login", { usuario, senha });
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", token.token);
       await verifyIsAdmin();
       setAutenticado(true);
       setFalhaAutenticacao(false);
