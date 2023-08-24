@@ -17,8 +17,8 @@ const App = () => {
     <>
       <Toaster position='top-right' reverseOrder={false} />
       <Routes>
-        <Route exact path='/' element={<Navigate to='/login' />} />
         <Route path='/login' element={<Login />} />
+        <Route exact path='/' element={<Navigate to='/login' />} />
         {autenticado && (
           <>
             {admin && <Route path='/admin' element={<Admin />} />}
