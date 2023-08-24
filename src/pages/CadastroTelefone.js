@@ -1,43 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   requestData,
   requestInsert,
   requestEdit,
   requestDelete,
-} from '../services/requests';
-import toast from 'react-hot-toast';
-import '../styles/pages/CadastroTelefone.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Confirmar from '../assets/check.png';
-import Cancelar from '../assets/close.png';
-import Editar from '../assets/edit.png';
-import Deletar from '../assets/delete.png';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import ListContatosPng from '../assets/list_contacts.png';
-import ListContatosPngClick from '../assets/list_contacts_click.png';
+} from "../services/requests";
+import toast from "react-hot-toast";
+import "../styles/pages/CadastroTelefone.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Confirmar from "../assets/check.png";
+import Cancelar from "../assets/close.png";
+import Editar from "../assets/edit.png";
+import Deletar from "../assets/delete.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import ListContatosPng from "../assets/list_contacts.png";
+import ListContatosPngClick from "../assets/list_contacts_click.png";
 
 const CadastroTelefone = () => {
-  const [nome, setNome] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [listaTelefones, setListaTelefones] = useState([]);
   const [temTelefone, setTemTelefone] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [telefoneSelecionadoEditar, setTelefoneSelecionadoEditar] =
-    useState('');
-  const [nomeAtualizado, setNomeAtualizado] = useState('');
-  const [telefoneAtualizado, setTelefoneAtualizado] = useState('');
+    useState("");
+  const [nomeAtualizado, setNomeAtualizado] = useState("");
+  const [telefoneAtualizado, setTelefoneAtualizado] = useState("");
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [telefoneSelecionadoDeletar, setTelefoneSelecionadoDeletar] =
-    useState('');
+    useState("");
   const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
-  const [optionsFindTel, setOptionsFindTel] = useState('nome');
+  const [optionsFindTel, setOptionsFindTel] = useState("nome");
   const [mostrarListContatos, setMostrarListContatos] = useState(false);
 
   const requestDataTelefone = async () => {
-    const result = await requestData('/telefones');
+    const result = await requestData("/telefones");
     if (result.length !== 0) {
       setListaTelefones(result);
       setTemTelefone(true);
@@ -50,27 +50,27 @@ const CadastroTelefone = () => {
   const btnRequestInsertTelefone = async () => {
     try {
       if (listaTelefones.some((tel) => tel.telefone === Number(telefone))) {
-        return toast.error('Contato já existente!');
+        return toast.error("Contato já existente!");
       }
       if (listaTelefones.some((tel) => tel.nome === nome)) {
-        return toast.error('Nome de contato já existente!');
+        return toast.error("Nome de contato já existente!");
       }
-      const result = await requestInsert('/telefones', {
+      const result = await requestInsert("/telefones", {
         nome,
         telefone: Number(telefone),
       });
       await requestDataTelefone();
-      setNome('');
-      setTelefone('');
+      setNome("");
+      setTelefone("");
       toast.success(result.mensagem);
     } catch (error) {
       toast(
-        '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
+        "⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!",
         {
           duration: 3000,
         }
       );
-      toast.error('Contato não inserido!');
+      toast.error("Contato não inserido!");
     }
   };
 
@@ -100,26 +100,26 @@ const CadastroTelefone = () => {
         filterTelefoneId[0].nome === nomeAtualizado &&
         filterTelefoneId[0].telefone === Number(telefoneAtualizado)
       ) {
-        toast.error('Telefone não alterado!');
+        toast.error("Telefone não alterado!");
       } else if (filterListaTelefone) {
-        toast.error('Telefone já existe!');
+        toast.error("Telefone já existe!");
       } else if (filterListaNome) {
-        toast.error('Nome do telefone já existe!');
+        toast.error("Nome do telefone já existe!");
       } else {
-        const result = await requestEdit('/telefones', {
+        const result = await requestEdit("/telefones", {
           id: Number(telefoneSelecionadoEditar),
           nome: nomeAtualizado,
           telefone: telefoneAtualizado,
         });
         await requestDataTelefone();
-        setNomeAtualizado('');
-        setTelefoneAtualizado('');
+        setNomeAtualizado("");
+        setTelefoneAtualizado("");
         toast.success(result.mensagem);
         handleCloseModalEdit();
       }
     } catch (error) {
       toast(
-        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
         {
           duration: 3000,
         }
@@ -147,7 +147,7 @@ const CadastroTelefone = () => {
       handleCloseModalDelete();
     } catch (error) {
       toast(
-        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
         {
           duration: 3000,
         }
@@ -168,7 +168,7 @@ const CadastroTelefone = () => {
     const valueInput = target.value;
     let newArray = [];
     const arraySearch = [...listaTelefonesClone];
-    if (optionsFindTel === 'nome' && valueInput !== '') {
+    if (optionsFindTel === "nome" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
@@ -181,7 +181,7 @@ const CadastroTelefone = () => {
       setListaTelefones(newArray);
     }
 
-    if (optionsFindTel === 'telefone' && valueInput !== '') {
+    if (optionsFindTel === "telefone" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.telefone.toString().includes(valueInput)) {
@@ -191,7 +191,7 @@ const CadastroTelefone = () => {
       setListaTelefones(newArray);
     }
 
-    if (valueInput === '') {
+    if (valueInput === "") {
       setListaTelefones(listaTelefonesClone);
     }
   };
@@ -385,7 +385,7 @@ const CadastroTelefone = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr key={'no-contato'}>
+                          <tr key={"no-contato"}>
                             <td>---</td>
                             <td>Não há contatos</td>
                             <td>---</td>

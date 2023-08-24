@@ -1,26 +1,26 @@
-import { useState, useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { requestLogin, requestData } from '../services/requests';
-import MyContext from '../context/MyContext';
-import toast from 'react-hot-toast';
-import mostrar from '../assets/mostrar.png';
-import ocultar from '../assets/ocultar.png';
-import '../styles/pages/Login.css';
-import Footer from '../components/Footer';
+import { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { requestLogin, requestData } from "../services/requests";
+import MyContext from "../context/MyContext";
+import toast from "react-hot-toast";
+import mostrar from "../assets/mostrar.png";
+import ocultar from "../assets/ocultar.png";
+import "../styles/pages/Login.css";
+import Footer from "../components/Footer";
 
 const Login = () => {
   const { autenticado, setAutenticado } = useContext(MyContext);
 
-  const [usuario, setUsuario] = useState('');
-  const [senha, setSenha] = useState('');
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [falhaAutenticacao, setFalhaAutenticacao] = useState(false);
 
   const login = async (event) => {
     event.preventDefault();
     try {
-      const token = await requestLogin('/login', { usuario, senha });
-      localStorage.setItem('token', token);
+      const token = await requestLogin("/login", { usuario, senha });
+      localStorage.setItem("token", token);
       await verifyIsAdmin();
       setAutenticado(true);
       setFalhaAutenticacao(false);
@@ -28,14 +28,14 @@ const Login = () => {
     } catch (error) {
       setAutenticado(false);
       setFalhaAutenticacao(true);
-      toast.error('Por favor, tente novamente!');
+      toast.error("Por favor, tente novamente!");
     }
   };
 
   const verifyIsAdmin = async () => {
-    const users = await requestData('/usuarios');
+    const users = await requestData("/usuarios");
     const findUserLogin = users.filter((user) => user.usuario === usuario);
-    localStorage.setItem('role', findUserLogin[0].role);
+    localStorage.setItem("role", findUserLogin[0].role);
   };
 
   const handleMostrarSenha = () => {
@@ -68,7 +68,7 @@ const Login = () => {
                 <input
                   className='login__login_input p-1 w-full text-black rounded-md'
                   id='senha-input'
-                  type={mostrarSenha ? 'text' : 'password'}
+                  type={mostrarSenha ? "text" : "password"}
                   onChange={({ target: { value } }) => setSenha(value)}
                   placeholder='Digite sua senha...'
                 />

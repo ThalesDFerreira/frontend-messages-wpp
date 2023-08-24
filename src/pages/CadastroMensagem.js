@@ -1,43 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   requestData,
   requestInsert,
   requestEdit,
   requestDelete,
-} from '../services/requests';
-import toast from 'react-hot-toast';
-import '../styles/pages/CadastroMensagem.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Confirmar from '../assets/check.png';
-import Cancelar from '../assets/close.png';
-import Editar from '../assets/edit.png';
-import Deletar from '../assets/delete.png';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import ListMsnPng from '../assets/list_msn.png';
-import ListMsnPngClick from '../assets/list_msn_click.png';
+} from "../services/requests";
+import toast from "react-hot-toast";
+import "../styles/pages/CadastroMensagem.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Confirmar from "../assets/check.png";
+import Cancelar from "../assets/close.png";
+import Editar from "../assets/edit.png";
+import Deletar from "../assets/delete.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import ListMsnPng from "../assets/list_msn.png";
+import ListMsnPngClick from "../assets/list_msn_click.png";
 
 const CadastroMensagem = () => {
-  const [nome, setNome] = useState('');
-  const [mensagem, setMensagem] = useState('');
+  const [nome, setNome] = useState("");
+  const [mensagem, setMensagem] = useState("");
   const [listaMensagens, setListaMensagens] = useState([]);
   const [temMensagem, setTemMensagem] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [mensagemSelecionadaEditar, setMensagemSelecionadaEditar] =
-    useState('');
-  const [nomeAtualizado, setNomeAtualizado] = useState('');
-  const [mensagemAtualizado, setMensagemAtualizado] = useState('');
+    useState("");
+  const [nomeAtualizado, setNomeAtualizado] = useState("");
+  const [mensagemAtualizado, setMensagemAtualizado] = useState("");
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [mensagemSelecionadaDeletar, setMensagemSelecionadaDeletar] =
-    useState('');
+    useState("");
   const [listaMensagemClone, setListaMensagemClone] = useState([]);
-  const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
+  const [optionsFindMsn, setOptionsFindMsn] = useState("nome");
   const [mostrarListMensagens, setMostrarListMensagens] = useState(false);
 
   const requestDataMessages = async () => {
-    const result = await requestData('/mensagens');
+    const result = await requestData("/mensagens");
     if (result.length !== 0) {
       setListaMensagens(result);
       setTemMensagem(true);
@@ -52,24 +52,24 @@ const CadastroMensagem = () => {
   const btnRequestInsertMessages = async () => {
     try {
       if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
-        return toast.error('Mensagem já existente!');
+        return toast.error("Mensagem já existente!");
       }
       if (listaMensagens.some((msn) => msn.nome === nome)) {
-        return toast.error('Nome de mensagem já existente!');
+        return toast.error("Nome de mensagem já existente!");
       }
-      const result = await requestInsert('/mensagens', { nome, mensagem });
+      const result = await requestInsert("/mensagens", { nome, mensagem });
       requestDataMessages();
-      setNome('');
-      setMensagem('');
+      setNome("");
+      setMensagem("");
       toast.success(result.mensagem);
     } catch (error) {
       toast(
-        '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
+        "⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!",
         {
           duration: 3000,
         }
       );
-      toast.error('Mensagem não inserida!');
+      toast.error("Mensagem não inserida!");
     }
   };
 
@@ -100,26 +100,26 @@ const CadastroMensagem = () => {
         filterMensagemId[0].nome === nomeAtualizado &&
         filterMensagemId[0].mensagem === mensagemAtualizado
       ) {
-        toast.error('Mensagem não alterado!');
+        toast.error("Mensagem não alterado!");
       } else if (filterListaMensagem) {
-        toast.error('Mensagem já existe!');
+        toast.error("Mensagem já existe!");
       } else if (filterListaNome) {
-        toast.error('Nome da mensagem já existe!');
+        toast.error("Nome da mensagem já existe!");
       } else {
-        const result = await requestEdit('/mensagens', {
+        const result = await requestEdit("/mensagens", {
           id: Number(mensagemSelecionadaEditar),
           nome: nomeAtualizado,
           mensagem: mensagemAtualizado,
         });
         requestDataMessages();
-        setNomeAtualizado('');
-        setMensagemAtualizado('');
+        setNomeAtualizado("");
+        setMensagemAtualizado("");
         toast.success(result.mensagem);
         handleCloseModalEdit();
       }
     } catch (error) {
       toast(
-        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
         {
           duration: 3000,
         }
@@ -147,7 +147,7 @@ const CadastroMensagem = () => {
       handleCloseModalDelete();
     } catch (error) {
       toast(
-        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
         {
           duration: 3000,
         }
@@ -168,7 +168,7 @@ const CadastroMensagem = () => {
     const valueInput = target.value;
     let newArray = [];
     const arraySearch = [...listaMensagemClone];
-    if (optionsFindMsn === 'nome' && valueInput !== '') {
+    if (optionsFindMsn === "nome" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
@@ -181,7 +181,7 @@ const CadastroMensagem = () => {
       setListaMensagens(newArray);
     }
 
-    if (optionsFindMsn === 'mensagem' && valueInput !== '') {
+    if (optionsFindMsn === "mensagem" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.mensagem.includes(valueInput)) {
@@ -191,7 +191,7 @@ const CadastroMensagem = () => {
       setListaMensagens(newArray);
     }
 
-    if (valueInput === '') {
+    if (valueInput === "") {
       setListaMensagens(listaMensagemClone);
     }
   };
@@ -258,7 +258,7 @@ const CadastroMensagem = () => {
                         <td className='whitespace-nowrap px-2 py-2'>
                           <textarea
                             className='p-1 text-black rounded-md w-full'
-                            maxLength={'255'}
+                            maxLength={"255"}
                             onChange={({ target: { value } }) =>
                               setMensagem(value)
                             }
@@ -380,7 +380,7 @@ const CadastroMensagem = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr key={'no-message'}>
+                          <tr key={"no-message"}>
                             <td>---</td>
                             <td>Não há mensagens</td>
                             <td>---</td>

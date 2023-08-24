@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-import Alerta from '../assets/alert.png';
-import Home from '../assets/home.png';
-import '../styles/pages/ErroLogin.css';
+import { useNavigate } from "react-router-dom";
+import Alerta from "../assets/alert.png";
+import Home from "../assets/home.png";
+import "../styles/pages/ErroLogin.css";
 
 const ErroLogin = () => {
   const navigate = useNavigate();
 
   const onClickChange = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -18,7 +18,9 @@ const ErroLogin = () => {
             <img className='bg-yellow-300' src={Alerta} alt='Alerta' />
           </div>
           <div className='flex justify-center'>
-            <h2 className='mt-2 text-center text-black'>Ops... Ocorreu algum problema!</h2>
+            <h2 className='mt-2 text-center text-black'>
+              Ops... Ocorreu algum problema!
+            </h2>
           </div>
           <div className='flex justify-center'>
             <h2 className='mt-2 text-center text-black'>

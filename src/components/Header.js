@@ -1,12 +1,12 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import MyContext from '../context/MyContext';
-import '../styles/components/Header.css';
-import Home from '../assets/home.png';
-import Telefone from '../assets/add_contacts.png';
-import Mensagem from '../assets/message.png';
-import Sair from '../assets/logout.png';
-import AdminImg from '../assets/admin.png';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import MyContext from "../context/MyContext";
+import "../styles/components/Header.css";
+import Home from "../assets/home.png";
+import Telefone from "../assets/add_contacts.png";
+import Mensagem from "../assets/message.png";
+import Sair from "../assets/logout.png";
+import AdminImg from "../assets/admin.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,26 +14,26 @@ const Header = () => {
   const { setAutenticado, setAdmin, admin } = useContext(MyContext);
 
   const onClickHome = () => {
-    navigate('/enviar');
+    navigate("/enviar");
   };
 
   const onClickTelefone = () => {
-    navigate('/cadastro-telefone');
+    navigate("/cadastro-telefone");
   };
 
   const onClickMensagem = () => {
-    navigate('/cadastro-mensagem');
+    navigate("/cadastro-mensagem");
   };
 
   const onClickSair = () => {
     setAutenticado(false);
     localStorage.clear();
-    navigate('/login');
+    navigate("/login");
     setAdmin(false);
   };
 
   const onClickAdmin = () => {
-    navigate('/admin');
+    navigate("/admin");
   };
 
   return (
