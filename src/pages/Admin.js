@@ -317,7 +317,6 @@ const Admin = () => {
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`
     );
-    console.log(`${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`);
     const imageQrCode = document.getElementById("conatiner-qrcode");
     imageQrCode.innerHTML = "";
     const image = document.createElement("img");

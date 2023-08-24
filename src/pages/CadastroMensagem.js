@@ -47,8 +47,6 @@ const CadastroMensagem = () => {
     }
   };
 
-  console.log(mensagem);
-
   const btnRequestInsertMessages = async () => {
     try {
       if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
