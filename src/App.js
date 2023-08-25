@@ -1,23 +1,44 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import React from 'react';
-import Cadastro from './pages/Cadastro';
-import Enviar from './pages/Enviar';
-import Login from './pages/Login';
-import { Toaster } from 'react-hot-toast';
-import './styles/App.css';
+import { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import CadastroTelefone from "./pages/CadastroTelefone";
+import CadastroMensagem from "./pages/CadastroMensagem";
+import Enviar from "./pages/Enviar";
+import Login from "./pages/Login";
+import ErroLogin from "./pages/ErroLogin";
+import Admin from "./pages/Admin";
+import MyContext from "./context/MyContext";
+import { Toaster } from "react-hot-toast";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const { autenticado, admin } = useContext(MyContext);
+
   return (
     <>
-      <Toaster position='top-center' reverseOrder={false} />
+      <Toaster position='top-right' reverseOrder={false} />
       <Routes>
-        <Route path="/cadastro" element={ <Cadastro /> } />
-        <Route path="/enviar" element={ <Enviar /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route exact path="/" element={ <Navigate to="/login" /> } />
+        <Route path='/login' element={<Login />} />
+        <Route exact path='/' element={<Navigate to='/login' />} />
+        {autenticado && (
+          <>
+            {admin && <Route path='/admin' element={<Admin />} />}
+            <Route
+            
+              path='/cadastro-mensagem'
+              element={<CadastroMensagem />}
+            />
+            <Route
+            
+              path='/cadastro-telefone'
+              element={<CadastroTelefone />}
+            />
+            <Route path='/enviar' element={<Enviar />} />
+          </>
+        )}
+        <Route path='*' element={<ErroLogin />} />
       </Routes>
     </>
   );
-}
+};
 
 export default App;

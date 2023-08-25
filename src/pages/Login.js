@@ -1,112 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-// requestData,
-import { requestLogin, setToken } from '../services/requests';
-import toast from 'react-hot-toast';
-import mostrar from '../assets/mostrar.png';
-import ocultar from '../assets/ocultar.png';
-import '../styles/pages/Login.css';
+import { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { requestLogin, requestData } from "../services/requests";
+import MyContext from "../context/MyContext";
+import toast from "react-hot-toast";
+import mostrar from "../assets/mostrar.png";
+import ocultar from "../assets/ocultar.png";
+import "../styles/pages/Login.css";
+import Footer from "../components/Footer";
 
 const Login = () => {
-  const [usuario, setUsuario] = useState('');
-  const [senha, setSenha] = useState('');
-  const [isLogged, setIsLogged] = useState(false);
-  const [failedTryLogin, setFailedTryLogin] = useState(false);
-  const [redirecionarCadastro, setRedirecionarCadastro] = useState(false);
+  const { autenticado, setAutenticado } = useContext(MyContext);
+
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [falhaAutenticacao, setFalhaAutenticacao] = useState(false);
 
   const login = async (event) => {
     event.preventDefault();
-
     try {
-      const token = await requestLogin('/login', { usuario, senha });
-      setToken(token);
-      localStorage.setItem('token',  token);
-      setIsLogged(true);
-      toast.success('Usuário Logado com Sucesso!');
-
-      // const { role } = await requestData('/login/validate', { usuario, senha });
-      // localStorage.setItem('role',  role);
-
-      setIsLogged(true);
+      const token = await requestLogin("/login", { usuario, senha });
+      localStorage.setItem("token", token.token);
+      await verifyIsAdmin();
+      setAutenticado(true);
+      setFalhaAutenticacao(false);
+      toast.success(token.mensagem);
     } catch (error) {
-      setFailedTryLogin(true);
-      setIsLogged(false);
-      toast.error('Por favor, tente novamente!');
+      setAutenticado(false);
+      setFalhaAutenticacao(true);
+      toast.error("Por favor, tente novamente!");
     }
   };
 
-  const handleCadastroClick = () => {
-    setRedirecionarCadastro(true);
+  const verifyIsAdmin = async () => {
+    const users = await requestData("/usuarios");
+    const findUserLogin = users.filter((user) => user.usuario === usuario);
+    localStorage.setItem("role", findUserLogin[0].role);
   };
 
   const handleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  useEffect(() => {
-    setFailedTryLogin(false);
-  }, [usuario, senha]);
-
-  if (isLogged) return <Navigate to="/enviar" />;
-  if (redirecionarCadastro) return <Navigate to="/cadastro" />;
+  if (autenticado) return <Navigate to='/enviar' />;
 
   return (
-    <>
-      <section className="user-login-area">
-        <form>
-          <h1>Área do usuário</h1>
-          <label htmlFor="usuario-input">
-            <input
-              id="usuario-input"
-              className="login__login_input"
-              type="text"
-              value={ usuario }
-              onChange={ ({ target: { value } }) => setUsuario(value) }
-              placeholder="Usuário"
-            />
-          </label>
-          <div className="senha-input-wrapper">
-            <label htmlFor="senha-input">
+    <div className='container-login flex flex-col min-h-screen'>
+      <main className='user-login-area w-full h-12 flex justify-center items-center text-slate-800 flex-grow'>
+        <form className='bg-rgb-azul-claro bg-opacity-50 p-8 rounded-2xl flex-col auto-cols-max'>
+          <h1 className='text-4xl mb-6 text-center font-bold'>
+            Área do usuário
+          </h1>
+          <div>
+            <div className='flex-col'>
+              <label htmlFor='usuario-input'>Usuário:</label>
               <input
-                id="senha-input"
-                type={mostrarSenha ? 'text' : 'password'}
-                value={ senha }
-                onChange={({ target: { value } }) => setSenha(value)}
-                placeholder="Senha"
+                id='usuario-input'
+                className='login__login_input p-1 w-full text-black rounded-md'
+                type='text'
+                onChange={({ target: { value } }) => setUsuario(value)}
+                placeholder='Digite seu usuário...'
               />
-            </label>
-            <button type="button" className="mostrar-senha-button" onClick={handleMostrarSenha}>
-              {mostrarSenha ? <img className="mostrar-ocultar-senha" src={mostrar} alt="Mostrar"></img> : <img className="mostrar-ocultar-senha" src={ocultar} alt="Ocultar"></img>}
-            </button>
+            </div>
+            <div className='senha-input-wrapper flex-col mt-3'>
+              <label htmlFor='senha-input'>Senha:</label>
+              <div className='flex'>
+                <input
+                  className='login__login_input p-1 w-full text-black rounded-md'
+                  id='senha-input'
+                  type={mostrarSenha ? "text" : "password"}
+                  onChange={({ target: { value } }) => setSenha(value)}
+                  placeholder='Digite sua senha...'
+                />
+                <div>
+                  <button
+                    type='button'
+                    className='mostrar-senha-button w-6 h-6 ml-2 mt-1 bg-opacity-90'
+                    onClick={handleMostrarSenha}
+                  >
+                    {mostrarSenha ? (
+                      <img
+                        className='mostrar-ocultar-senha w-6 h-6 p-1'
+                        src={mostrar}
+                        alt='Mostrar'
+                      ></img>
+                    ) : (
+                      <img
+                        className='mostrar-ocultar-senha w-6 h-6 p-1'
+                        src={ocultar}
+                        alt='Ocultar'
+                      ></img>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className='flex justify-center mt-3'>
+              <button
+                className='btn-entrar text-center mb-2 bg-blue-500 hover:bg-blue-600 text-slate-800 p-2 w-20 flex justify-center rounded-xl font-bold'
+                type='submit'
+                onClick={(event) => login(event)}
+              >
+                Entrar
+              </button>
+            </div>
           </div>
-          <button
-            className="btn-entrar"
-            type="submit"
-            onClick={ (event) => login(event) }
-          >
-            Entrar
-          </button>
-          <button
-            className="btn-cadastrar"
-            type="submit"
-            onClick={ handleCadastroClick }
-          >
-            Cadastre-se
-          </button>
-          {
-            (failedTryLogin)
-              ? (
-                <>
-                  <p>O nome de Usuário ou a senha não estão corretos.</p>
-                  <p>Por favor, tente novamente.</p>
-                </>
-              )
-              : null
-          }
+          {falhaAutenticacao ? (
+            <>
+              <p className='text-red-600 text-center'>O nome de Usuário ou</p>
+              <p className='text-red-600 text-center'>
+                a senha não estão corretos.
+              </p>
+              <br />
+              <p className='text-red-600 text-center'>
+                Por favor, tente novamente.
+              </p>
+            </>
+          ) : null}
         </form>
-      </section>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

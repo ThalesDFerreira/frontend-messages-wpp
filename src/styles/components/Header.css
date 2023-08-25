@@ -1,0 +1,11 @@
+.img-header:hover {
+    filter: invert(51%) sepia(8%) saturate(259%) hue-rotate(109deg) brightness(94%) contrast(94%);
+}
+
+.img-header-sair {
+    filter: invert(69%) sepia(63%) saturate(6177%) hue-rotate(337deg) brightness(105%) contrast(97%);
+}
+
+.img-header-sair:hover {
+    filter: invert(7%) sepia(77%) saturate(5503%) hue-rotate(12deg) brightness(101%) contrast(117%);
+}
