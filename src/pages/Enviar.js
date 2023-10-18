@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   requestData,
   requestPost,
   requestUplaodFile,
-} from "../services/requests";
-import toast from "react-hot-toast";
-import Header from "../components/Header";
-import "../styles/pages/Enviar.css";
-import Footer from "../components/Footer";
-import ListTelPng from "../assets/list_contacts.png";
-import ListTelPngClick from "../assets/list_contacts_click.png";
-import ListMsnPng from "../assets/list_msn.png";
-import ListMsnPngClick from "../assets/list_msn_click.png";
-import anexoPng from "../assets/anexo.png";
-import anexoPngClick from "../assets/anexo_click.png";
+} from '../services/requests';
+import toast from 'react-hot-toast';
+import Header from '../components/Header';
+import '../styles/pages/Enviar.css';
+import Footer from '../components/Footer';
+import ListTelPng from '../assets/list_contacts.png';
+import ListTelPngClick from '../assets/list_contacts_click.png';
+import ListMsnPng from '../assets/list_msn.png';
+import ListMsnPngClick from '../assets/list_msn_click.png';
+import anexoPng from '../assets/anexo.png';
+import anexoPngClick from '../assets/anexo_click.png';
 
 const Enviar = () => {
   const [modificarTextoBtnSelecTodos, setModificarTextoBtnSelecTodos] =
-    useState("Selecionar Todos");
+    useState('Selecionar Todos');
   const [ocultarMensagensBtn, setOcultarMensagensBtn] =
-    useState("Ocultar Mensagens");
+    useState('Ocultar Mensagens');
   const [listaTelefones, setListaTelefones] = useState([]);
   const [listaTelefonesClone, setListaTelefonesClone] = useState([]);
   const [listaTelefonesSelecionados, setListaTelefonesSelecionados] = useState(
@@ -31,15 +31,15 @@ const Enviar = () => {
   const [mensagem, setMensagem] = useState([]);
   const [mensagemClone, setMensagemClone] = useState([]);
   const [existeMensagem, setExisteMensagem] = useState(false);
-  const [mensagemSelecionada, setMensagemSelecionada] = useState("");
+  const [mensagemSelecionada, setMensagemSelecionada] = useState('');
   const [isCheckedTextArea, setIsCheckedTextArea] = useState(false);
-  const [optionsFindTel, setOptionsFindTel] = useState("nome");
-  const [optionsFindMsn, setOptionsFindMsn] = useState("nome");
+  const [optionsFindTel, setOptionsFindTel] = useState('nome');
+  const [optionsFindMsn, setOptionsFindMsn] = useState('nome');
   const [btnOcultarMostrarMsn, setBtnOcultarMostrarMsn] = useState(true);
   const [
     numeroTelefoneUsuarioSelecionado,
     setNumeroTelefoneUsuarioSelecionado,
-  ] = useState("");
+  ] = useState('');
   const [listaNumerosTelefonesUsuarios, setListaNumerosTelefonesUsuarios] =
     useState([]);
   const [existeNumeroTelefoneCadastrado, setExisteNumeroTelefoneCadastrado] =
@@ -51,7 +51,7 @@ const Enviar = () => {
 
   const contacts = async () => {
     try {
-      const arrayList = await requestData("/telefones");
+      const arrayList = await requestData('/telefones');
       if (arrayList.length !== 0) {
         setCarregandoLista(true);
         setListaTelefones(arrayList);
@@ -61,7 +61,7 @@ const Enviar = () => {
       }
     } catch (error) {
       toast(
-        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 4000,
         }
@@ -71,7 +71,7 @@ const Enviar = () => {
 
   const messages = async () => {
     try {
-      const stringMessage = await requestData("/mensagens");
+      const stringMessage = await requestData('/mensagens');
       if (stringMessage.length !== 0) {
         setExisteMensagem(true);
         setMensagem(stringMessage);
@@ -81,7 +81,7 @@ const Enviar = () => {
       }
     } catch (error) {
       toast(
-        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 4000,
         }
@@ -100,13 +100,13 @@ const Enviar = () => {
       setListaTelefonesSelecionados(listaTelefones);
       setIsCheckedTelefones(true);
       setModificarTextoBtnSelecTodos(
-        isCheckedTelefones ? "Selecionar Todos" : "Desmarcar Todos"
+        isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos'
       );
     } else {
       setListaTelefonesSelecionados([]);
       setIsCheckedTelefones(false);
       setModificarTextoBtnSelecTodos(
-        isCheckedTelefones ? "Selecionar Todos" : "Desmarcar Todos"
+        isCheckedTelefones ? 'Selecionar Todos' : 'Desmarcar Todos'
       );
     }
   };
@@ -128,23 +128,23 @@ const Enviar = () => {
   };
 
   const handleChangeRadio = ({ target }) => {
-    if (target.value.length !== 0 || target.value !== "on") {
+    if (target.value.length !== 0 || target.value !== 'on') {
       setMensagemSelecionada(target.value);
     }
     if (
       target.attributes.id &&
-      target.attributes.id.value.startsWith("radio")
+      target.attributes.id.value.startsWith('radio')
     ) {
-      const textArea = document.querySelector("TEXTAREA");
-      textArea.value = "";
+      const textArea = document.querySelector('TEXTAREA');
+      textArea.value = '';
     }
-    if (target.value.length > 0 && target.tagName === "TEXTAREA") {
+    if (target.value.length > 0 && target.tagName === 'TEXTAREA') {
       setIsCheckedTextArea(true);
       setMensagemSelecionada(target.value);
     } else {
       setIsCheckedTextArea(false);
-      const textArea = document.querySelector("TEXTAREA");
-      textArea.value = "";
+      const textArea = document.querySelector('TEXTAREA');
+      textArea.value = '';
     }
   };
 
@@ -161,14 +161,14 @@ const Enviar = () => {
       try {
         if (selectedFile !== null) {
           const formData = new FormData();
-          formData.append("file", selectedFile);
-          await requestUplaodFile("/upload", formData);
+          formData.append('file', selectedFile);
+          await requestUplaodFile('/upload', formData);
           setSelectedFile(null);
         }
-        const result = await requestPost("/envio-mensagem", body);
+        const result = await requestPost('/envio-mensagem', body);
         setListaTelefonesSelecionados([]);
         setIsCheckedTelefones(false);
-        setMensagemSelecionada("");
+        setMensagemSelecionada('');
         setIsCheckedTextArea(false);
         limparInputsRadio();
         limparInputUpload();
@@ -177,7 +177,7 @@ const Enviar = () => {
       } catch (error) {
         setListaTelefonesSelecionados([]);
         setIsCheckedTelefones(false);
-        setMensagemSelecionada("");
+        setMensagemSelecionada('');
         setIsCheckedTextArea(false);
         limparInputsRadio();
         limparInputUpload();
@@ -190,7 +190,7 @@ const Enviar = () => {
         );
       }
     } else {
-      toast.error("Por favor, insira um telefone e uma mensagem para enviar!");
+      toast.error('Por favor, insira um telefone e uma mensagem para enviar!');
     }
   };
 
@@ -206,16 +206,16 @@ const Enviar = () => {
   };
 
   const limparInputUpload = () => {
-    const fileInput = document.getElementById("fileInput");
+    const fileInput = document.getElementById('fileInput');
     if (fileInput) {
-      fileInput.value = "";
+      fileInput.value = '';
     }
   };
 
   const limparTextArea = () => {
-    const textArea = document.querySelector("TEXTAREA");
+    const textArea = document.querySelector('TEXTAREA');
     if (textArea) {
-      textArea.value = "";
+      textArea.value = '';
     }
   };
 
@@ -223,7 +223,7 @@ const Enviar = () => {
     const valueInput = target.value;
     let newArray = [];
     const arraySearch = [...listaTelefonesClone];
-    if (optionsFindTel === "nome" && valueInput !== "") {
+    if (optionsFindTel === 'nome' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
@@ -236,7 +236,7 @@ const Enviar = () => {
       setListaTelefones(newArray);
     }
 
-    if (optionsFindTel === "telefone" && valueInput !== "") {
+    if (optionsFindTel === 'telefone' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.telefone.toString().includes(valueInput)) {
@@ -246,7 +246,7 @@ const Enviar = () => {
       setListaTelefones(newArray);
     }
 
-    if (valueInput === "") {
+    if (valueInput === '') {
       setListaTelefones(listaTelefonesClone);
     }
   };
@@ -255,7 +255,7 @@ const Enviar = () => {
     const valueInput = target.value;
     let newArray = [];
     const arraySearch = [...mensagemClone];
-    if (optionsFindMsn === "nome" && valueInput !== "") {
+    if (optionsFindMsn === 'nome' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
@@ -268,7 +268,7 @@ const Enviar = () => {
       setMensagem(newArray);
     }
 
-    if (optionsFindMsn === "mensagem" && valueInput !== "") {
+    if (optionsFindMsn === 'mensagem' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.mensagem.includes(valueInput)) {
@@ -278,25 +278,25 @@ const Enviar = () => {
       setMensagem(newArray);
     }
 
-    if (valueInput === "") {
+    if (valueInput === '') {
       setMensagem(mensagemClone);
     }
   };
 
   const ocultarMensagens = () => {
     if (btnOcultarMostrarMsn) {
-      setOcultarMensagensBtn("Mostrar Mensagens");
+      setOcultarMensagensBtn('Mostrar Mensagens');
       setMensagem([]);
       setBtnOcultarMostrarMsn(false);
     } else {
-      setOcultarMensagensBtn("Ocultar Mensagens");
+      setOcultarMensagensBtn('Ocultar Mensagens');
       setMensagem(mensagemClone);
       setBtnOcultarMostrarMsn(true);
     }
   };
 
   const requestDataTelCadastrado = async () => {
-    const result = await requestData("/logged");
+    const result = await requestData('/logged');
     if (result.length === 0) {
       setExisteNumeroTelefoneCadastrado(false);
     } else {

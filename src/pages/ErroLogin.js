@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import Alerta from "../assets/alert.png";
-import Home from "../assets/home.png";
-import "../styles/pages/ErroLogin.css";
+import { useNavigate } from 'react-router-dom';
+import Alerta from '../assets/alert.png';
+import Home from '../assets/home.png';
+import '../styles/pages/ErroLogin.css';
 
 const ErroLogin = () => {
   const navigate = useNavigate();
 
   const onClickChange = () => {
-    navigate("/login");
+    navigate('/login');
   };
 
   return (

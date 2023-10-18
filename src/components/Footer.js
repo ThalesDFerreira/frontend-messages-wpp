@@ -1,12 +1,12 @@
-import "../styles/components/Footer.css";
-import Email from "../assets/gmail.png";
-import WhatsApp from "../assets/whatsapp.png";
+import '../styles/components/Footer.css';
+import Email from '../assets/gmail.png';
+import WhatsApp from '../assets/whatsapp.png';
 
 const Footer = () => {
   const empresa = {
-    nome: "Ferreira Empreendimentos",
-    email: "ufrepresentacoes.org@gmail.com",
-    telefone: "(16) 992746725",
+    nome: 'Ferreira Empreendimentos',
+    email: 'ufrepresentacoes.org@gmail.com',
+    telefone: '(16) 992746725',
   };
 
   return (

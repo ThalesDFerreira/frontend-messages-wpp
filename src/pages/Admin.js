@@ -1,45 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   requestData,
   requestInsert,
   requestEdit,
   requestDelete,
-} from "../services/requests";
-import toast from "react-hot-toast";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Confirmar from "../assets/check.png";
-import Cancelar from "../assets/close.png";
-import Editar from "../assets/edit.png";
-import Deletar from "../assets/delete.png";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import "../styles/pages/Admin.css";
-import ListUserPng from "../assets/users.png";
-import ListUserPngClick from "../assets/users_click.png";
-import ListTelPng from "../assets/list_contacts.png";
-import ListTelPngClick from "../assets/list_contacts_click.png";
-import WppPng from "../assets/whatsapp.png";
-import WppPngClick from "../assets/instanciar_whatsapp_click.png";
+} from '../services/requests';
+import toast from 'react-hot-toast';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Confirmar from '../assets/check.png';
+import Cancelar from '../assets/close.png';
+import Editar from '../assets/edit.png';
+import Deletar from '../assets/delete.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import '../styles/pages/Admin.css';
+import ListUserPng from '../assets/users.png';
+import ListUserPngClick from '../assets/users_click.png';
+import ListTelPng from '../assets/list_contacts.png';
+import ListTelPngClick from '../assets/list_contacts_click.png';
+import WppPng from '../assets/whatsapp.png';
+import WppPngClick from '../assets/instanciar_whatsapp_click.png';
 
 const Admin = () => {
-  const [usuario, setUsuario] = useState("");
-  const [senha, setSenha] = useState("");
-  const [role, setRole] = useState("user");
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
+  const [role, setRole] = useState('user');
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [temUsuarios, setTemUsuarios] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [usuarioSelecionadoEditar, setUsuarioSelecionadoEditar] = useState("");
-  const [usuarioAtualizado, setUsuarioAtualizado] = useState("");
-  const [senhaAtualizada, setSenhaAtualizada] = useState("");
-  const [roleAtualizada, setRoleAtualizada] = useState("");
+  const [usuarioSelecionadoEditar, setUsuarioSelecionadoEditar] = useState('');
+  const [usuarioAtualizado, setUsuarioAtualizado] = useState('');
+  const [senhaAtualizada, setSenhaAtualizada] = useState('');
+  const [roleAtualizada, setRoleAtualizada] = useState('');
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [usuarioSelecionadoDeletar, setUsuarioSelecionadoDeletar] =
-    useState("");
+    useState('');
   const [listaUsuariosClone, setListaUsuariosClone] = useState([]);
-  const [optionsFindUser, setOptionsFindUser] = useState("usuario");
-  const [numeroInstancia, setNumeroInstancia] = useState("");
+  const [optionsFindUser, setOptionsFindUser] = useState('usuario');
+  const [numeroInstancia, setNumeroInstancia] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [listaTelefonesCadastrados, setListaTelefonesCadastrados] = useState(
     []
@@ -55,15 +55,15 @@ const Admin = () => {
   const [
     telefoneCadastradoSelecionadoDeletar,
     setTelefoneCadastradoSelecionadoDeletar,
-  ] = useState("");
+  ] = useState('');
   const [optionsFindTelCadastrado, setOptionsFindTelCadastrado] =
-    useState("telefone");
+    useState('telefone');
   const [mostrarListUsuarios, setMostrarListUsuarios] = useState(false);
   const [mostrarListTelefones, setMostrarListTelefones] = useState(false);
   const [mostrarInstanciarWpp, setMostrarInstanciarWpp] = useState(false);
 
   const requestDataUsers = async () => {
-    const result = await requestData("/usuarios");
+    const result = await requestData('/usuarios');
     if (result.length !== 0) {
       setListaUsuarios(result);
       setTemUsuarios(true);
@@ -74,7 +74,7 @@ const Admin = () => {
   };
 
   const requestDataTelCadastrado = async () => {
-    const result = await requestData("/logged");
+    const result = await requestData('/logged');
     if (result.length !== 0) {
       setListaTelefonesCadastrados(result);
       setListaTelefonesCadastradosClone(result);
@@ -87,27 +87,27 @@ const Admin = () => {
   const btnRequestInsertUser = async () => {
     try {
       if (listaUsuarios.some((user) => user.usuario === usuario)) {
-        return toast.error("Usuário já existente!");
+        return toast.error('Usuário já existente!');
       } else {
-        const result = await requestInsert("/usuarios", {
+        const result = await requestInsert('/usuarios', {
           usuario,
           senha,
           role,
         });
         await requestDataUsers();
-        setUsuario("");
-        setSenha("");
-        setRole("user");
+        setUsuario('');
+        setSenha('');
+        setRole('user');
         toast.success(result.mensagem);
       }
     } catch (error) {
       toast(
-        "⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!",
+        '⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!',
         {
           duration: 3000,
         }
       );
-      toast.error("Usuário não inserido!");
+      toast.error('Usuário não inserido!');
     }
   };
 
@@ -166,26 +166,26 @@ const Admin = () => {
         filterUserId[0].senha === senhaAtualizada &&
         filterUserId[0].role === roleAtualizada
       ) {
-        toast.error("Usuário não alterado!");
+        toast.error('Usuário não alterado!');
       } else if (filterListaUsuario) {
-        toast.error("Usuário já existe!");
+        toast.error('Usuário já existe!');
       } else {
-        const result = await requestEdit("/usuarios", {
+        const result = await requestEdit('/usuarios', {
           id: Number(usuarioSelecionadoEditar),
           usuario: usuarioAtualizado,
           senha: senhaAtualizada,
           role: roleAtualizada,
         });
         await requestDataUsers();
-        setUsuarioAtualizado("");
-        setSenhaAtualizada("");
-        setRoleAtualizada("");
+        setUsuarioAtualizado('');
+        setSenhaAtualizada('');
+        setRoleAtualizada('');
         toast.success(result.mensagem);
         handleCloseModalEdit();
       }
     } catch (error) {
       toast(
-        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 3000,
         }
@@ -202,7 +202,7 @@ const Admin = () => {
       handleCloseModalDelete();
     } catch (error) {
       toast(
-        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 3000,
         }
@@ -219,7 +219,7 @@ const Admin = () => {
       handleCloseModalDeleteTelCadastrado();
     } catch (error) {
       toast(
-        "🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.",
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
         {
           duration: 3000,
         }
@@ -232,7 +232,7 @@ const Admin = () => {
     let newArray = [];
     const arraySearch = [...listaTelefonesCadastradosClone];
 
-    if (optionsFindUser === "telefone" && valueInput !== "") {
+    if (optionsFindUser === 'telefone' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.numero_telefone.includes(valueInput)) {
@@ -242,7 +242,7 @@ const Admin = () => {
       setListaTelefonesCadastrados(newArray);
     }
 
-    if (optionsFindUser === "conectado" && valueInput !== "") {
+    if (optionsFindUser === 'conectado' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.conectado.includes(valueInput)) {
@@ -252,7 +252,7 @@ const Admin = () => {
       setListaTelefonesCadastrados(newArray);
     }
 
-    if (valueInput === "") {
+    if (valueInput === '') {
       setListaTelefonesCadastrados(listaTelefonesCadastradosClone);
     }
   };
@@ -262,7 +262,7 @@ const Admin = () => {
     let newArray = [];
     const arraySearch = [...listaUsuariosClone];
 
-    if (optionsFindUser === "usuario" && valueInput !== "") {
+    if (optionsFindUser === 'usuario' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.usuario.includes(valueInput)) {
@@ -272,7 +272,7 @@ const Admin = () => {
       setListaUsuarios(newArray);
     }
 
-    if (optionsFindUser === "permissão" && valueInput !== "") {
+    if (optionsFindUser === 'permissão' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (element.role.includes(valueInput)) {
@@ -282,7 +282,7 @@ const Admin = () => {
       setListaUsuarios(newArray);
     }
 
-    if (valueInput === "") {
+    if (valueInput === '') {
       setListaUsuarios(listaUsuariosClone);
     }
   };
@@ -303,7 +303,7 @@ const Admin = () => {
   const btnRequestInstanciartUser = async () => {
     try {
       fetchImages();
-      const result = await requestInsert("/cadastrar-whatsapp", {
+      const result = await requestInsert('/cadastrar-whatsapp', {
         numero: numeroInstancia,
       });
       await requestDataTelCadastrado();
@@ -317,13 +317,13 @@ const Admin = () => {
     const response = await fetch(
       `${import.meta.env.VITE_REACT_APP_API_PORT}/qr-code`
     );
-    const imageQrCode = document.getElementById("conatiner-qrcode");
-    imageQrCode.innerHTML = "";
-    const image = document.createElement("img");
-    image.style.marginTop = "60px";
-    image.style.width = "400px";
-    image.style.height = "400px";
-    image.style.border = "20px solid white";
+    const imageQrCode = document.getElementById('conatiner-qrcode');
+    imageQrCode.innerHTML = '';
+    const image = document.createElement('img');
+    image.style.marginTop = '60px';
+    image.style.width = '400px';
+    image.style.height = '400px';
+    image.style.border = '20px solid white';
     image.src = response.url;
     imageQrCode.appendChild(image);
 
@@ -583,7 +583,7 @@ const Admin = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr key={"no-message"}>
+                          <tr key={'no-message'}>
                             <td>---</td>
                             <td>Não há usuários</td>
                             <td>---</td>
@@ -754,7 +754,7 @@ const Admin = () => {
                                 {tel.numero_telefone}
                               </td>
                               <td className='text-slate-100 whitespace-nowrap px-2 py-2'>
-                                {tel.conectado ? "Sim" : "Não"}
+                                {tel.conectado ? 'Sim' : 'Não'}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 <button
@@ -770,7 +770,7 @@ const Admin = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr key={"no-tel-cadastrado"}>
+                          <tr key={'no-tel-cadastrado'}>
                             <td>---</td>
                             <td>Não há telefones cadastrados</td>
                             <td>---</td>
@@ -832,8 +832,8 @@ const Admin = () => {
                 <button
                   className={
                     isDisabled
-                      ? "bg-red-400 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold"
-                      : "btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold"
+                      ? 'bg-red-400 text-center mb-2 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
+                      : 'btn-entrar text-center mb-2 bg-blue-400 hover:bg-blue-600 text-slate-100 p-3 w-28 flex justify-center rounded-xl font-bold'
                   }
                   type='button'
                   disabled={isDisabled}
