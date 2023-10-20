@@ -256,7 +256,6 @@ const CadastroMensagem = () => {
                         <td className='whitespace-nowrap px-2 py-2'>
                           <textarea
                             className='p-1 text-black rounded-md w-full'
-                            maxLength={"255"}
                             onChange={({ target: { value } }) =>
                               setMensagem(value)
                             }
