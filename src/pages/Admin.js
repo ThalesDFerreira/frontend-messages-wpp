@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import {
-  requestData,
-  requestInsert,
-  requestEdit,
+  requestGet,
+  requestPost,
+  requestPut,
   requestDelete,
 } from "../services/requests";
 import toast from "react-hot-toast";
@@ -63,7 +63,7 @@ const Admin = () => {
   const [mostrarInstanciarWpp, setMostrarInstanciarWpp] = useState(false);
 
   const requestDataUsers = async () => {
-    const result = await requestData("/usuarios");
+    const result = await requestGet("/usuarios");
     if (result.length !== 0) {
       setListaUsuarios(result);
       setTemUsuarios(true);
@@ -74,7 +74,7 @@ const Admin = () => {
   };
 
   const requestDataTelCadastrado = async () => {
-    const result = await requestData("/logged");
+    const result = await requestGet("/logged");
     if (result.length !== 0) {
       setListaTelefonesCadastrados(result);
       setListaTelefonesCadastradosClone(result);
@@ -86,19 +86,19 @@ const Admin = () => {
 
   const btnRequestInsertUser = async () => {
     try {
-      if (listaUsuarios.some((user) => user.usuario === usuario)) {
+      if (listaUsuarios.some((user) => user.user === usuario)) {
         return toast.error("Usuário já existente!");
       } else {
-        const result = await requestInsert("/usuarios", {
-          usuario,
-          senha,
+        const result = await requestPost("/usuarios", {
+          user: usuario,
+          password: senha,
           role,
         });
         await requestDataUsers();
         setUsuario("");
         setSenha("");
         setRole("user");
-        toast.success(result.mensagem);
+        toast.success(result.message);
       }
     } catch (error) {
       toast(
@@ -158,29 +158,29 @@ const Admin = () => {
       );
 
       const filterListaUsuario = filterRemoverIdList.some(
-        (user) => user.usuario === usuarioAtualizado
+        (user) => user.user === usuarioAtualizado
       );
 
       if (
-        filterUserId[0].usuario === usuarioAtualizado &&
-        filterUserId[0].senha === senhaAtualizada &&
+        filterUserId[0].user === usuarioAtualizado &&
+        filterUserId[0].password === senhaAtualizada &&
         filterUserId[0].role === roleAtualizada
       ) {
         toast.error("Usuário não alterado!");
       } else if (filterListaUsuario) {
         toast.error("Usuário já existe!");
       } else {
-        const result = await requestEdit("/usuarios", {
+        const result = await requestPut("/usuarios", {
           id: Number(usuarioSelecionadoEditar),
-          usuario: usuarioAtualizado,
-          senha: senhaAtualizada,
+          user: usuarioAtualizado,
+          password: senhaAtualizada,
           role: roleAtualizada,
         });
         await requestDataUsers();
         setUsuarioAtualizado("");
         setSenhaAtualizada("");
         setRoleAtualizada("");
-        toast.success(result.mensagem);
+        toast.success(result.message);
         handleCloseModalEdit();
       }
     } catch (error) {
@@ -198,7 +198,7 @@ const Admin = () => {
       const idUser = usuarioSelecionadoDeletar;
       const result = await requestDelete(`/usuarios?id=${idUser}`);
       await requestDataUsers();
-      toast.success(result.mensagem);
+      toast.success(result.message);
       handleCloseModalDelete();
     } catch (error) {
       toast(
@@ -215,7 +215,7 @@ const Admin = () => {
       const idTel = telefoneCadastradoSelecionadoDeletar;
       const result = await requestDelete(`/logged?id=${idTel}`);
       await requestDataTelCadastrado();
-      toast.success(result.mensagem);
+      toast.success(result.message);
       handleCloseModalDeleteTelCadastrado();
     } catch (error) {
       toast(
@@ -235,7 +235,7 @@ const Admin = () => {
     if (optionsFindUser === "telefone" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.numero_telefone.includes(valueInput)) {
+        if (element.number_phone.includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -245,7 +245,7 @@ const Admin = () => {
     if (optionsFindUser === "conectado" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.conectado.includes(valueInput)) {
+        if (element.connected.includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -265,7 +265,7 @@ const Admin = () => {
     if (optionsFindUser === "usuario" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.usuario.includes(valueInput)) {
+        if (element.user.includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -303,11 +303,11 @@ const Admin = () => {
   const btnRequestInstanciartUser = async () => {
     try {
       fetchImages();
-      const result = await requestInsert("/cadastrar-whatsapp", {
-        numero: numeroInstancia,
+      const result = await requestPost("/cadastrar-whatsapp", {
+        number: numeroInstancia,
       });
       await requestDataTelCadastrado();
-      toast.success(result.mensagem);
+      toast.success(result.message);
     } catch (error) {
       toast.error(`⚠️${error}`);
     }
@@ -428,7 +428,7 @@ const Admin = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='break-all'>
                       <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
@@ -539,7 +539,7 @@ const Admin = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         {temUsuarios ? (
                           listaUsuarios.map((user) => (
                             <tr
@@ -547,10 +547,10 @@ const Admin = () => {
                               key={`user-${user.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                                {user.usuario}
+                                {user.user}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
-                                {user.senha}
+                                {user.password}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 {user.role}
@@ -562,8 +562,8 @@ const Admin = () => {
                                   onClick={() =>
                                     handleOpenModalEdit(
                                       user.id,
-                                      user.usuario,
-                                      user.senha,
+                                      user.user,
+                                      user.password,
                                       user.role
                                     )
                                   }
@@ -610,7 +610,7 @@ const Admin = () => {
                     <th>Permissão</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='break-all'>
                   <tr>
                     <td>
                       <input
@@ -740,7 +740,7 @@ const Admin = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         {existeTelefoneCadastrado ? (
                           listaTelefonesCadastrados.map((tel) => (
                             <tr
@@ -751,10 +751,10 @@ const Admin = () => {
                                 {tel.id}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
-                                {tel.numero_telefone}
+                                {tel.number_phone}
                               </td>
                               <td className='text-slate-100 whitespace-nowrap px-2 py-2'>
-                                {tel.conectado ? "Sim" : "Não"}
+                                {tel.connected ? "Sim" : "Não"}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 <button

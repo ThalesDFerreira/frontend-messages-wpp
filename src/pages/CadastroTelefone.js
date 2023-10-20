@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
-  requestData,
-  requestInsert,
-  requestEdit,
+  requestGet,
+  requestPost,
+  requestPut,
   requestDelete,
 } from '../services/requests';
 import toast from 'react-hot-toast';
@@ -37,7 +37,7 @@ const CadastroTelefone = () => {
   const [mostrarListContatos, setMostrarListContatos] = useState(false);
 
   const requestDataTelefone = async () => {
-    const result = await requestData('/telefones');
+    const result = await requestGet('/telefones');
     if (result.length !== 0) {
       setListaTelefones(result);
       setTemTelefone(true);
@@ -49,10 +49,10 @@ const CadastroTelefone = () => {
 
   const btnRequestInsertTelefone = async () => {
     try {
-      if (listaTelefones.some((tel) => tel.telefone === Number(telefone))) {
+      if (listaTelefones.some((tel) => tel.phone === Number(telefone))) {
         return toast.error('Contato já existente!');
       }
-      if (listaTelefones.some((tel) => tel.nome === nome)) {
+      if (listaTelefones.some((tel) => tel.name === nome)) {
         return toast.error('Nome de contato já existente!');
       }
 
@@ -63,23 +63,23 @@ const CadastroTelefone = () => {
         const novaString =
           telefone.slice(0, indexAdd) + numberAdd + telefone.slice(indexAdd);
         console.log();
-        const result = await requestInsert('/telefones', {
-          nome,
-          telefone: Number(novaString),
+        const result = await requestPost('/telefones', {
+          name: nome,
+          phone: Number(novaString),
         });
         await requestDataTelefone();
         setNome('');
         setTelefone('');
-        toast.success(result.mensagem);
+        toast.success(result.message);
       } else {
-        const result = await requestInsert('/telefones', {
-          nome,
-          telefone: Number(telefone),
+        const result = await requestPost('/telefones', {
+          name: nome,
+          phone: Number(telefone),
         });
         await requestDataTelefone();
         setNome('');
         setTelefone('');
-        toast.success(result.mensagem);
+        toast.success(result.message);
       }
     } catch (error) {
       toast(
@@ -107,16 +107,16 @@ const CadastroTelefone = () => {
       );
 
       const filterListaTelefone = filterRemoverIdList.some(
-        (tel) => tel.telefone === Number(telefoneAtualizado)
+        (tel) => tel.phone === Number(telefoneAtualizado)
       );
 
       const filterListaNome = filterRemoverIdList.some(
-        (tel) => tel.nome === nomeAtualizado
+        (tel) => tel.name === nomeAtualizado
       );
 
       if (
-        filterTelefoneId[0].nome === nomeAtualizado &&
-        filterTelefoneId[0].telefone === Number(telefoneAtualizado)
+        filterTelefoneId[0].name === nomeAtualizado &&
+        filterTelefoneId[0].phone === Number(telefoneAtualizado)
       ) {
         toast.error('Telefone não alterado!');
       } else if (filterListaTelefone) {
@@ -124,15 +124,15 @@ const CadastroTelefone = () => {
       } else if (filterListaNome) {
         toast.error('Nome do telefone já existe!');
       } else {
-        const result = await requestEdit('/telefones', {
+        const result = await requestPut('/telefones', {
           id: Number(telefoneSelecionadoEditar),
-          nome: nomeAtualizado,
-          telefone: telefoneAtualizado,
+          name: nomeAtualizado,
+          phone: telefoneAtualizado,
         });
         await requestDataTelefone();
         setNomeAtualizado('');
         setTelefoneAtualizado('');
-        toast.success(result.mensagem);
+        toast.success(result.message);
         handleCloseModalEdit();
       }
     } catch (error) {
@@ -161,7 +161,7 @@ const CadastroTelefone = () => {
       const idTelefone = Number(telefoneSelecionadoDeletar);
       const result = await requestDelete(`/telefones?id=${idTelefone}`);
       await requestDataTelefone();
-      toast.success(result.mensagem);
+      toast.success(result.message);
       handleCloseModalDelete();
     } catch (error) {
       toast(
@@ -190,8 +190,8 @@ const CadastroTelefone = () => {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
-          element.nome &&
-          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+          element.name &&
+          element.name.toLowerCase().includes(valueInput.toLowerCase())
         ) {
           newArray.push(element);
         }
@@ -202,7 +202,7 @@ const CadastroTelefone = () => {
     if (optionsFindTel === 'telefone' && valueInput !== '') {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.telefone.toString().includes(valueInput)) {
+        if (element.phone.toString().includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -266,7 +266,7 @@ const CadastroTelefone = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='break-all'>
                       <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
@@ -362,7 +362,7 @@ const CadastroTelefone = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         {temTelefone ? (
                           listaTelefones.map((tel) => (
                             <tr
@@ -370,10 +370,10 @@ const CadastroTelefone = () => {
                               key={`contato-${tel.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                                {tel.nome}
+                                {tel.name}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
-                                {tel.telefone}
+                                {tel.phone}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 <button
@@ -382,8 +382,8 @@ const CadastroTelefone = () => {
                                   onClick={() =>
                                     handleOpenModalEdit(
                                       tel.id,
-                                      tel.nome,
-                                      tel.telefone
+                                      tel.name,
+                                      tel.phone
                                     )
                                   }
                                 >
@@ -427,7 +427,7 @@ const CadastroTelefone = () => {
                     <th>Contato</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='break-all'>
                   <tr>
                     <td>
                       <input

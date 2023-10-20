@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import {
-  requestData,
+  requestGet,
   requestPost,
   requestUplaodFile,
 } from "../services/requests";
@@ -51,7 +51,7 @@ const Enviar = () => {
 
   const contacts = async () => {
     try {
-      const arrayList = await requestData("/telefones");
+      const arrayList = await requestGet("/telefones");
       if (arrayList.length !== 0) {
         setCarregandoLista(true);
         setListaTelefones(arrayList);
@@ -71,7 +71,7 @@ const Enviar = () => {
 
   const messages = async () => {
     try {
-      const stringMessage = await requestData("/mensagens");
+      const stringMessage = await requestGet("/mensagens");
       if (stringMessage.length !== 0) {
         setExisteMensagem(true);
         setMensagem(stringMessage);
@@ -155,8 +155,8 @@ const Enviar = () => {
       const listaBody = listaTelefonesSelecionados.map((tel) => tel.telefone);
       const body = {
         instancia: numeroTelefoneUsuarioSelecionado,
-        mensagem: mensagemSelecionada,
-        numeros: listaBody,
+        message: mensagemSelecionada,
+        numbers: listaBody,
       };
       try {
         if (selectedFile !== null) {
@@ -173,7 +173,7 @@ const Enviar = () => {
         limparInputsRadio();
         limparInputUpload();
         limparTextArea();
-        toast.success(result.mensagem);
+        toast.success(result.message);
       } catch (error) {
         setListaTelefonesSelecionados([]);
         setIsCheckedTelefones(false);
@@ -227,8 +227,8 @@ const Enviar = () => {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
-          element.nome &&
-          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+          element.name &&
+          element.name.toLowerCase().includes(valueInput.toLowerCase())
         ) {
           newArray.push(element);
         }
@@ -239,7 +239,7 @@ const Enviar = () => {
     if (optionsFindTel === "telefone" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.telefone.toString().includes(valueInput)) {
+        if (element.phone.toString().includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -259,8 +259,8 @@ const Enviar = () => {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
-          element.nome &&
-          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+          element.name &&
+          element.name.toLowerCase().includes(valueInput.toLowerCase())
         ) {
           newArray.push(element);
         }
@@ -271,7 +271,7 @@ const Enviar = () => {
     if (optionsFindMsn === "mensagem" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.mensagem.includes(valueInput)) {
+        if (element.message.includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -296,11 +296,11 @@ const Enviar = () => {
   };
 
   const requestDataTelCadastrado = async () => {
-    const result = await requestData("/logged");
+    const result = await requestGet("/logged");
     if (result.length === 0) {
       setExisteNumeroTelefoneCadastrado(false);
     } else {
-      setNumeroTelefoneUsuarioSelecionado(result[0].numero_telefone); // setando número padrão
+      setNumeroTelefoneUsuarioSelecionado(result[0].number_phone); // setando número padrão
       setListaNumerosTelefonesUsuarios(result);
       setExisteNumeroTelefoneCadastrado(true);
     }
@@ -355,10 +355,10 @@ const Enviar = () => {
               >
                 {listaNumerosTelefonesUsuarios.map((tel) => (
                   <option
-                    value={tel.numero_telefone}
-                    key={`${tel.numero_telefone}`}
+                    value={tel.number_phone}
+                    key={`${tel.number_phone}`}
                   >
-                    {tel.numero_telefone}
+                    {tel.number_phone}
                   </option>
                 ))}
               </select>
@@ -483,7 +483,7 @@ const Enviar = () => {
                               </th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody className='break-all'>
                             {listaTelefones.map((contact) => (
                               <tr
                                 className='border-b border-solid border-rgb-cinza'
@@ -494,7 +494,7 @@ const Enviar = () => {
                                     id={`check-${contact.id}`}
                                     name={`checkbox-${contact.id}`}
                                     type='checkbox'
-                                    value={contact.telefone}
+                                    value={contact.phone}
                                     checked={handleChangeCheckbox(contact.id)}
                                     onChange={() =>
                                       handleChangeInput(contact.id)
@@ -503,12 +503,12 @@ const Enviar = () => {
                                 </td>
                                 <td className='whitespace-nowrap px-2 py-2'>
                                   <label htmlFor={`check-${contact.id}`}>
-                                    {contact.nome}
+                                    {contact.name}
                                   </label>
                                 </td>
                                 <td className='whitespace-nowrap px-2 py-2'>
                                   <label htmlFor={`check-${contact.id}`}>
-                                    {contact.telefone}
+                                    {contact.phone}
                                   </label>
                                 </td>
                               </tr>
@@ -592,7 +592,7 @@ const Enviar = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         {existeMensagem ? (
                           mensagem.map((msn) => (
                             <tr
@@ -604,18 +604,18 @@ const Enviar = () => {
                                   id={`radio-${msn.id}`}
                                   type='radio'
                                   name='radioGroup'
-                                  value={msn.mensagem}
+                                  value={msn.message}
                                   onChange={(e) => handleChangeRadio(e)}
                                 />
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 <label htmlFor={`radio-${msn.id}`}>
-                                  {msn.nome}
+                                  {msn.name}
                                 </label>
                               </td>
                               <td className='whitespace-normal px-2 py-2'>
                                 <label htmlFor={`radio-${msn.id}`}>
-                                  {msn.mensagem}
+                                  {msn.message}
                                 </label>
                               </td>
                             </tr>
@@ -674,7 +674,7 @@ const Enviar = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         <tr>
                           <td
                             className='whitespace-nowrap px-2 py-2 font-medium'

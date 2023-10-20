@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import {
-  requestData,
-  requestInsert,
-  requestEdit,
+  requestGet,
+  requestPost,
+  requestPut,
   requestDelete,
 } from "../services/requests";
 import toast from "react-hot-toast";
@@ -37,7 +37,7 @@ const CadastroMensagem = () => {
   const [mostrarListMensagens, setMostrarListMensagens] = useState(false);
 
   const requestDataMessages = async () => {
-    const result = await requestData("/mensagens");
+    const result = await requestGet("/mensagens");
     if (result.length !== 0) {
       setListaMensagens(result);
       setTemMensagem(true);
@@ -49,17 +49,17 @@ const CadastroMensagem = () => {
 
   const btnRequestInsertMessages = async () => {
     try {
-      if (listaMensagens.some((msn) => msn.mensagem === mensagem)) {
+      if (listaMensagens.some((msn) => msn.message === mensagem)) {
         return toast.error("Mensagem já existente!");
       }
-      if (listaMensagens.some((msn) => msn.nome === nome)) {
+      if (listaMensagens.some((msn) => msn.name === nome)) {
         return toast.error("Nome de mensagem já existente!");
       }
-      const result = await requestInsert("/mensagens", { nome, mensagem });
+      const result = await requestPost("/mensagens", { name: nome, message: mensagem });
       requestDataMessages();
       setNome("");
       setMensagem("");
-      toast.success(result.mensagem);
+      toast.success(result.message);
     } catch (error) {
       toast(
         "⚠️ Verifique se os campos estão preenchidos corretamente e tente novamente!",
@@ -87,16 +87,16 @@ const CadastroMensagem = () => {
       );
 
       const filterListaMensagem = filterRemoverIdList.some(
-        (msn) => msn.mensagem === mensagemAtualizado
+        (msn) => msn.message === mensagemAtualizado
       );
 
       const filterListaNome = filterRemoverIdList.some(
-        (msn) => msn.nome === nomeAtualizado
+        (msn) => msn.name === nomeAtualizado
       );
 
       if (
-        filterMensagemId[0].nome === nomeAtualizado &&
-        filterMensagemId[0].mensagem === mensagemAtualizado
+        filterMensagemId[0].name === nomeAtualizado &&
+        filterMensagemId[0].message === mensagemAtualizado
       ) {
         toast.error("Mensagem não alterado!");
       } else if (filterListaMensagem) {
@@ -104,15 +104,15 @@ const CadastroMensagem = () => {
       } else if (filterListaNome) {
         toast.error("Nome da mensagem já existe!");
       } else {
-        const result = await requestEdit("/mensagens", {
+        const result = await requestPut("/mensagens", {
           id: Number(mensagemSelecionadaEditar),
-          nome: nomeAtualizado,
-          mensagem: mensagemAtualizado,
+          name: nomeAtualizado,
+          message: mensagemAtualizado,
         });
         requestDataMessages();
         setNomeAtualizado("");
         setMensagemAtualizado("");
-        toast.success(result.mensagem);
+        toast.success(result.message);
         handleCloseModalEdit();
       }
     } catch (error) {
@@ -141,7 +141,7 @@ const CadastroMensagem = () => {
       const idMensagem = Number(mensagemSelecionadaDeletar);
       const result = await requestDelete(`/mensagens?id=${idMensagem}`);
       requestDataMessages();
-      toast.success(result.mensagem);
+      toast.success(result.message);
       handleCloseModalDelete();
     } catch (error) {
       toast(
@@ -170,8 +170,8 @@ const CadastroMensagem = () => {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
         if (
-          element.nome &&
-          element.nome.toLowerCase().includes(valueInput.toLowerCase())
+          element.name &&
+          element.name.toLowerCase().includes(valueInput.toLowerCase())
         ) {
           newArray.push(element);
         }
@@ -182,7 +182,7 @@ const CadastroMensagem = () => {
     if (optionsFindMsn === "mensagem" && valueInput !== "") {
       for (let index = 0; index < arraySearch.length; index += 1) {
         const element = arraySearch[index];
-        if (element.mensagem.includes(valueInput)) {
+        if (element.message.includes(valueInput)) {
           newArray.push(element);
         }
       }
@@ -242,7 +242,7 @@ const CadastroMensagem = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='break-all'>
                       <tr>
                         <td className='whitespace-nowrap px-2 py-2 font-medium'>
                           <input
@@ -338,7 +338,7 @@ const CadastroMensagem = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className='break-all'>
                         {temMensagem ? (
                           listaMensagens.map((msn) => (
                             <tr
@@ -346,10 +346,10 @@ const CadastroMensagem = () => {
                               key={`message-${msn.id}`}
                             >
                               <td className='whitespace-nowrap px-2 py-2 font-medium'>
-                                {msn.nome}
+                                {msn.name}
                               </td>
                               <td className='whitespace-normal px-2 py-2'>
-                                {msn.mensagem}
+                                {msn.message}
                               </td>
                               <td className='whitespace-nowrap px-2 py-2'>
                                 <button
@@ -358,8 +358,8 @@ const CadastroMensagem = () => {
                                   onClick={() =>
                                     handleOpenModalEdit(
                                       msn.id,
-                                      msn.nome,
-                                      msn.mensagem
+                                      msn.name,
+                                      msn.massage
                                     )
                                   }
                                 >
@@ -403,7 +403,7 @@ const CadastroMensagem = () => {
                     <th>Mensagem</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='break-all'>
                   <tr>
                     <td>
                       <input

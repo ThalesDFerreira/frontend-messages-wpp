@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { requestLogin, requestData } from "../services/requests";
+import { requestLogin, requestGet } from "../services/requests";
 import MyContext from "../context/MyContext";
 import toast from "react-hot-toast";
 import mostrar from "../assets/mostrar.png";
@@ -10,7 +10,6 @@ import Footer from "../components/Footer";
 
 const Login = () => {
   const { autenticado, setAutenticado } = useContext(MyContext);
-
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -19,12 +18,12 @@ const Login = () => {
   const login = async (event) => {
     event.preventDefault();
     try {
-      const token = await requestLogin("/login", { usuario, senha });
-      localStorage.setItem("token", token.token);
+      const token = await requestLogin("/login", { user: usuario, password: senha });
+      localStorage.setItem("token", token.message);
       await verifyIsAdmin();
       setAutenticado(true);
       setFalhaAutenticacao(false);
-      toast.success(token.mensagem);
+      toast.success('Usuário logado com sucesso!');
     } catch (error) {
       setAutenticado(false);
       setFalhaAutenticacao(true);
@@ -33,8 +32,8 @@ const Login = () => {
   };
 
   const verifyIsAdmin = async () => {
-    const users = await requestData("/usuarios");
-    const findUserLogin = users.filter((user) => user.usuario === usuario);
+    const users = await requestGet("/usuarios");
+    const findUserLogin = users.filter((user) => user.user === usuario);
     localStorage.setItem("role", findUserLogin[0].role);
   };
 
