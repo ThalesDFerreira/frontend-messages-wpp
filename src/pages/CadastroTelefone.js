@@ -4,6 +4,7 @@ import {
   requestPost,
   requestPut,
   requestDelete,
+  requestUplaodFile,
 } from '../services/requests';
 import toast from 'react-hot-toast';
 import '../styles/pages/CadastroTelefone.css';
@@ -25,6 +26,8 @@ const CadastroTelefone = () => {
   const [listaTelefones, setListaTelefones] = useState([]);
   const [temTelefone, setTemTelefone] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalCsvImport, setOpenModalCsvImport] = useState(false);
+  const [selectedFileCsv, setSelectedFileCsv] = useState(null);
   const [telefoneSelecionadoEditar, setTelefoneSelecionadoEditar] =
     useState('');
   const [nomeAtualizado, setNomeAtualizado] = useState('');
@@ -156,6 +159,38 @@ const CadastroTelefone = () => {
     setOpenModalEdit(false);
   };
 
+  const handleCloseModalCsvImport = () => {
+    setOpenModalCsvImport(false);
+  };
+
+  const handleOpenModalCsvImport = () => {
+    setOpenModalCsvImport(true);
+  };
+
+  const handleFileChangeCsv = (event) => {
+    setSelectedFileCsv(event.target.files[0]);
+  };
+
+  const btnRequestSendCsv = async () => {
+    try {
+      if (selectedFileCsv !== null) {
+        const formData = new FormData();
+        formData.append('file', selectedFileCsv);
+        const result = await requestUplaodFile('/envia-contatos', formData);
+        toast.success(result.message);
+        setSelectedFileCsv(null);
+        handleCloseModalCsvImport();
+      }
+    } catch (error) {
+      toast(
+        '🛑 Desculpe! Estamos enfrentando problemas técnicos.\n\nTente realizar a operação novamente \n\n ou entre em contato com nosso suporte técnico.',
+        {
+          duration: 3000,
+        }
+      );
+    }
+  };
+
   const btnRequestDeleteTelefone = async () => {
     try {
       const idTelefone = Number(telefoneSelecionadoDeletar);
@@ -245,9 +280,19 @@ const CadastroTelefone = () => {
           </nav>
         </section>
         <section className='bg-rgb-preto bg-opacity-20 rounded-2xl flex-col auto-cols-max text-slate-100 mb-5'>
-          <h1 className='py-2 flex justify-center text-xl'>
-            Adicionar contato:
-          </h1>
+          <div className='flex justify-between'>
+            <div>
+              <button
+                className='ml-4 mt-2 mb-2 rounded bg-rgb-azul hover:bg-sky-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-slate-100 shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]'
+                type='button'
+                id='import-csv'
+                name='import-csv'
+                onClick={handleOpenModalCsvImport}
+              >
+                Importar contatos Google
+              </button>
+            </div>
+          </div>
           <div className='flex flex-col text-slate-100'>
             <div className='overflow-x-auto'>
               <div className='inline-block min-w-full py-2'>
@@ -484,6 +529,28 @@ const CadastroTelefone = () => {
                 onClick={btnRequestDeleteTelefone}
               >
                 Sim
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+        <div>
+          <Modal show={openModalCsvImport} onHide={handleCloseModalCsvImport}>
+            <Modal.Body className='flex justify-center'>
+              <div>
+                <input
+                  type='file'
+                  id='fileInputCsv'
+                  onChange={handleFileChangeCsv}
+                />
+                <p className='font-bold mt-3 text-center'>Insira o arquivo CSV do Google Contatos</p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={handleCloseModalCsvImport}>
+                <img className='w-7 h-7' src={Cancelar} alt='Cancelar' />
+              </Button>
+              <Button onClick={btnRequestSendCsv}>
+                <img className='w-7 h-7' src={Confirmar} alt='Confirmar' />
               </Button>
             </Modal.Footer>
           </Modal>
