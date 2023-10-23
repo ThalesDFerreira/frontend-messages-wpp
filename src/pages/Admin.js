@@ -302,7 +302,7 @@ const Admin = () => {
 
   const btnRequestInstanciartUser = async () => {
     try {
-      fetchImages();
+      await fetchImages();
       const result = await requestPost("/cadastrar-whatsapp", {
         number: numeroInstancia,
       });
@@ -327,7 +327,7 @@ const Admin = () => {
     image.src = response.url;
     imageQrCode.appendChild(image);
 
-    const interval = 15000; // 15 segundos
+    const interval = 3000; // 3 segundos
     setTimeout(fetchImages, interval);
   };
 
